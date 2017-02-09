@@ -31,3 +31,7 @@ export const setDisplay = filter => ({
   type: types.SET_DISPLAY,
   filter
 });
+
+export const runGameOver = () => ({type: types.OVER_GAME});
+
+export const runGameStart = () => ({type: types.START_GAME});
