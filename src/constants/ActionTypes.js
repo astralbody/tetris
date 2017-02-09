@@ -1,0 +1,10 @@
+export const SET_DISPLAY = 'SET_DISPLAY';
+export const SET_WORLD = 'SET_WORLD';
+export const START_GAME = 'START_GAME';
+export const TRANSFORM_BLOCK = 'TRANSFORM_BLOCK';
+export const NEXT_DETAIL = 'NEXT_DETAIL';
+export const DOWN_BLOCK = 'DOWN_BLOCK';
+export const MOVE_DETAIL = 'MOVE_DETAIL';
+export const ROTATE_DETAIL = 'ROTATE_DETAIL';
+export const COMPLETE_ROW = 'COMPLETE_ROW';
+export const OVER_GAME = 'OVER_GAME';

@@ -1,0 +1,3 @@
+export const SHOW_BEFOR_GAME = 'SHOW_BEFOR_GAME';
+export const SHOW_AFTER_GAME = 'SHOW_AFTER_GAME';
+export const SHOW_PLAY_GAME = 'SHOW_PLAY_GAME';
