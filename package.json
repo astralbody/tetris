@@ -4,7 +4,7 @@
   "description": "DHTML game. React + Redux.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "dev": "./node_modules/.bin/webpack-dev-server -d"
   },
   "repository": {
@@ -28,8 +28,10 @@
   },
   "devDependencies": {
     "babel-core": "^6.22.1",
+    "babel-jest": "^18.0.0",
     "babel-loader": "^6.2.10",
     "babel-plugin-react": "^1.0.0",
+    "babel-polyfill": "^6.22.0",
     "babel-preset-es2015": "^6.22.0",
     "babel-preset-react": "^6.22.0",
     "css-loader": "^0.26.1",
@@ -40,6 +42,7 @@
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-react": "^6.9.0",
     "file-loader": "^0.10.0",
+    "jest": "^18.1.0",
     "react-hot-loader": "^3.0.0-beta.6",
     "style-loader": "^0.13.1",
     "url-loader": "^0.5.7",
