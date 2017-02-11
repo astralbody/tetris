@@ -1,6 +1,21 @@
 import React from 'react';
+import {list} from 'react-immutable-proptypes';
 import Row from './Row';
+import './Game.css';
 
-const Game = () => <Row />;
+const Game = ({world}) => (
+  <div className="game">
+    {world.map(row =>
+      <Row
+        blocks={row.get('blocks')}
+        key={row.get('id')}
+      />
+    )}
+  </div>
+);
+
+Game.propTypes = {
+  world: list.isRequired
+};
 
 export default Game;
