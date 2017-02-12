@@ -3,7 +3,7 @@
   no-unused-vars: 0
 */
 import React from 'react';
-import {render, shallow, mount} from 'enzyme';
+import {shallow} from 'enzyme';
 import Game from './Game';
 import Row from './Row';
 import initialWorld from '../library/initialWorld';
