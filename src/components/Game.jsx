@@ -5,7 +5,7 @@ import './Game.css';
 
 const Game = ({world}) => (
   <div className="game">
-    {world.filter((row, z) => z >= 0).map(row =>
+    {world.filter((row, z) => row.get('id') >= 0).map(row =>
       <Row
         blocks={row.get('blocks')}
         key={row.get('id')}
