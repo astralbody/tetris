@@ -20,7 +20,9 @@ export const moveDetail = side => ({
   side
 });
 
-export const rotateDetail = () => ({type: types.ROTATE_DETAIL});
+export const rotateDetail = () => ({
+  type: types.ROTATE_DETAIL
+});
 
 export const completeRow = z => ({
   type: types.COMPLETE_ROW,
@@ -32,6 +34,10 @@ export const setDisplay = filter => ({
   filter
 });
 
-export const runGameOver = () => ({type: types.OVER_GAME});
+export const runGameOver = () => ({
+  type: types.OVER_GAME
+});
 
-export const runGameStart = () => ({type: types.START_GAME});
+export const runGameStart = () => ({
+  type: types.START_GAME
+});
