@@ -1,4 +1,4 @@
-import {SPEED} from '../constants/config';
+import {SPEED} from '../constants/Config';
 
 const speed = () => SPEED;
 
