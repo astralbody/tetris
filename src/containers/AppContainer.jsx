@@ -5,7 +5,7 @@ import {list} from 'react-immutable-proptypes';
 import App from '../components/App';
 import * as TetrisActions from '../actions/index';
 import * as sides from '../constants/MoveSide';
-import getRandomOfDetailsList from '../library/getDetail';
+import {getRandomDetails} from '../library/getRandomDetails';
 
 
 class AppContainer extends Component {
@@ -44,8 +44,8 @@ class AppContainer extends Component {
 
   handleStartGame(e) {
     this.props.actions.runGameStart();
-    console.log(getRandomOfDetailsList());
-    this.props.actions.nextDetail(getRandomOfDetailsList());
+
+    this.props.actions.nextDetail(getRandomDetails());
     // this.playGame = setInterval(this.handleCycle, this.props.speed);
   }
 
