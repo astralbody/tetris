@@ -2,11 +2,13 @@ import {List} from 'immutable';
 import getRandomInt from './getRandomInt';
 import * as details from '../constants/ShapeDetail';
 
-const detailsList = List.of(Object.keys(details).map(kind => details[kind]));
+export const getOfObjectToList = object =>
+  List(Object.keys(object).map(kind => object[kind]));
 
-const getOfList = list => list.get(getRandomInt(0, list.length));
-const getRandomOfDetailsList = getOfList.bind(null, detailsList);
-const callRepeat = (n, f, a) =>
-  new Array(n).fill(null).reduce(res => f(res), a);
+export const getRandomItemOfList = list => list.get(getRandomInt(0, list.size - 1));
 
-export default getRandomOfDetailsList;
+export const getRandomDetails =
+  getRandomItemOfList.bind(null, getOfObjectToList(details));
+
+/* export const callRepeat = (n, f, a) =>
+  new Array(n).fill(null).reduce(res => f(res), a);*/
