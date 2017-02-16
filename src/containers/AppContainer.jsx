@@ -39,14 +39,31 @@ class AppContainer extends Component {
   }
 
   handleCycle(e) {
-    return this.props.world;
+    const nextStep = {};
+    nextStep.nextDetail = true;
+    nextStep.moveDown = false;
+
+    this.props.world.forEach((row, y) => {
+      // const idRow = row.get('id');
+
+      row.get('blocks').forEach((block, x) => {
+        const valBlock = block.get('value');
+/*        if (nextStep.nextDetail && idRow > -1 && valBlock === 2) {
+          nextStep.nextDetail = false;
+        }*/
+
+        if (valBlock === 2) nextStep.moveDown = true;
+      });
+    });
+
+    if (nextStep.moveDown) this.props.actions.downBlock([2]);
+    // if (nextStep.nextDetail) this.props.actions.nextDetail(getRandomDetails());
   }
 
   handleStartGame(e) {
-    this.props.actions.runGameStart();
-
+    this.props.actions.runStartGame();
     this.props.actions.nextDetail(getRandomDetails());
-    // this.playGame = setInterval(this.handleCycle, this.props.speed);
+    this.playGame = setInterval(this.handleCycle, this.props.speed);
   }
 
   render() {
