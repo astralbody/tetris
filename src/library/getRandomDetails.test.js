@@ -1,5 +1,5 @@
 import {List, is} from 'immutable';
-import * as test from './getDetail';
+import * as test from './getRandomDetails';
 import * as details from '../constants/ShapeDetail';
 /* eslint no-undef: 0 */
 
