@@ -34,10 +34,10 @@ export const setDisplay = filter => ({
   filter
 });
 
-export const runGameOver = () => ({
+export const runOverGame = () => ({
   type: types.OVER_GAME
 });
 
-export const runGameStart = () => ({
+export const runStartGame = () => ({
   type: types.START_GAME
 });
