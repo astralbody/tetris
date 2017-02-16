@@ -6,7 +6,6 @@ import initialWorld from '../library/initialWorld';
 const getStateWithNextDetail = (state, action) => {
   /* eslint indent: 0 */
   const getInfoDetail = (detail) => {
-    console.log(detail.get(0).size, 'SIIIIIIIIZE');
     switch (detail.get(0).size) {
     case 2:
         return {
@@ -38,7 +37,6 @@ const getStateWithNextDetail = (state, action) => {
   );
 
   const shadow = state.filter((row, y) => row.get('id') < 0);
-  console.dir(action.detail.toString());
   const shadowWithDetail = shadow.map((row, y) => {
     let nextSizeDetail = 0; // detail x
     if (y >= infoDetail.SIZE) return row;
@@ -59,17 +57,21 @@ const getStateWithNextDetail = (state, action) => {
 const shiftDownBlock = (state, action) => {
   const flags = new Array(10).fill(false);
 
-  return state.map((row, y) => row.get('blocks').map((block, x) => {
-    if (action.options.some(val => val === block.get('value'))
-      && state.has(y + 1)) {
-      flags[x] = true;
-      return block.set('value', 0);
-    }
-    if (!flags[x]) return block;
+  return state.map((row, y) => row.set(
+    'blocks',
+    row.get('blocks').map((block, x) => {
+      if (action.options.some(val => val === block.get('value'))
+        && state.has(y + 1)) {
+        const newBlock = block.set('value', flags[x] ? 2 : 0);
+        flags[x] = true;
+        return newBlock;
+      }
 
-    flags[x] = !flags[x];
-    return block.set('value', 2);
-  }));
+      const newBlock = flags[x] ? block.set('value', 2) : block;
+      flags[x] = false;
+      return newBlock;
+    })
+  ));
 };
 
 
