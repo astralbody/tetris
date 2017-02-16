@@ -5,63 +5,61 @@ import initialWorld from '../library/initialWorld';
 
 const getStateWithNextDetail = (state, action) => {
   /* eslint indent: 0 */
-  const getInfoDetail = (detail) => {
-    switch (detail.get(0).size) {
-    case 2:
-        return {
-          START_POINT: 4,
-          SIZE: 2
-        };
-    case 3:
-        return {
-          START_POINT: 3,
-          SIZE: 3
-        };
-    case 4:
-        return {
-          START_POINT: 3,
-          SIZE: 4
-        };
-    default:
-        return {};
-    }
-  };
-
-  const infoDetail = getInfoDetail(action.detail);
-
   const rangeFilter = (start, size) => x => !(start <= x && x < start + size);
 
   const rangeFilterDetail = rangeFilter(
-    infoDetail.START_POINT,
-    infoDetail.SIZE
+    action.detail.get('POINT_X'),
+    action.detail.get('SIZE')
   );
 
-  const shadow = state.filter((row, y) => row.get('id') < 0);
+  const shadow = state.get('map').filter((row, y) => row.get('id') < 0);
   const shadowWithDetail = shadow.map((row, y) => {
     let nextSizeDetail = 0; // detail x
-    if (y >= infoDetail.SIZE) return row;
+    if (y >= action.detail.get('SIZE')) return row;
 
     return Map({
       id: row.get('id'),
       blocks: row.get('blocks').map((block, x) => {
+        console.log('test1');
         if (rangeFilterDetail(x)) return block;
-
-        return block.set('value', action.detail.get(y).get(nextSizeDetail++));
+        console.log('test2');
+        return block.set(
+          'value',
+          action.detail
+            .get('BODY')
+            .get(y)
+            .get(nextSizeDetail++)
+        );
       })
     });
   });
 
-  return state.merge(shadowWithDetail);
+
+  const newStore = Map({
+    map: state.get('map').merge(shadowWithDetail),
+    information: Map({
+      nextDetail: Map({
+        kind: action.detail.KIND,
+        pointX: action.detail.POINT_X,
+        pointY: action.detail.POINT_Y,
+        size: action.detail.SIZE
+      }),
+      currentDetail: state.get('information').get('currentDetail')
+    })
+  });
+
+  console.log(newStore.toString());
+
+  return newStore;
 };
 
 const shiftDownBlock = (state, action) => {
   const flags = new Array(10).fill(false);
 
-  return state.map((row, y) => row.set(
+  const newState = state.set('map', state.get('map').map((row, y) => row.set(
     'blocks',
     row.get('blocks').map((block, x) => {
-      if (action.options.some(val => val === block.get('value'))
-        && state.has(y + 1)) {
+      if (action.options.some(val => val === block.get('value'))) {
         const newBlock = block.set('value', flags[x] ? 2 : 0);
         flags[x] = true;
         return newBlock;
@@ -71,7 +69,9 @@ const shiftDownBlock = (state, action) => {
       flags[x] = false;
       return newBlock;
     })
-  ));
+  )));
+
+  return newState;
 };
 
 
