@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {list} from 'react-immutable-proptypes';
+import {map} from 'react-immutable-proptypes';
 import App from '../components/App';
 import * as TetrisActions from '../actions/index';
 import * as sides from '../constants/MoveSide';
@@ -43,20 +43,20 @@ class AppContainer extends Component {
     nextStep.nextDetail = true;
     nextStep.moveDown = false;
 
-    this.props.world.forEach((row, y) => {
-      // const idRow = row.get('id');
+    this.props.world.get('map').forEach((row, y) => {
+      const idRow = row.get('id');
 
       row.get('blocks').forEach((block, x) => {
         const valBlock = block.get('value');
-/*        if (nextStep.nextDetail && idRow > -1 && valBlock === 2) {
+        if (nextStep.nextDetail && idRow > -1 && valBlock === 2) {
           nextStep.nextDetail = false;
-        }*/
+        }
 
         if (valBlock === 2) nextStep.moveDown = true;
       });
     });
 
-    if (nextStep.moveDown) this.props.actions.downBlock([2]);
+    // if (nextStep.moveDown) this.props.actions.downBlock([2]);
     // if (nextStep.nextDetail) this.props.actions.nextDetail(getRandomDetails());
   }
 
@@ -67,13 +67,13 @@ class AppContainer extends Component {
   }
 
   render() {
-    return <App world={this.props.world} />;
+    return <App world={this.props.world.get('map')} />;
   }
 }
 
 AppContainer.propTypes = {
   actions: PropTypes.objectOf(PropTypes.func.isRequired).isRequired,
-  world: list.isRequired,
+  world: map.isRequired,
   speed: PropTypes.number.isRequired
 };
 
