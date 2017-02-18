@@ -3,7 +3,7 @@ import {fromJS} from 'immutable';
 export const I = fromJS({
   KIND: 'I',
   POINT_X: 3,
-  POINT_Z: 0,
+  POINT_Y: 0,
   SIZE: 4,
   BODY: [
     [0, 0, 0, 0],
@@ -16,7 +16,7 @@ export const I = fromJS({
 export const T = fromJS({
   KIND: 'T',
   POINT_X: 3,
-  POINT_Z: 0,
+  POINT_Y: 0,
   SIZE: 3,
   BODY: [
     [0, 0, 0],
@@ -28,7 +28,7 @@ export const T = fromJS({
 export const L = fromJS({
   KIND: 'L',
   POINT_X: 3,
-  POINT_Z: 0,
+  POINT_Y: 0,
   SIZE: 3,
   BODY: [
     [0, 0, 0],
@@ -40,7 +40,7 @@ export const L = fromJS({
 export const J = fromJS({
   KIND: 'J',
   POINT_X: 3,
-  POINT_Z: 0,
+  POINT_Y: 0,
   SIZE: 3,
   BODY: [
     [0, 0, 0],
@@ -52,7 +52,7 @@ export const J = fromJS({
 export const S = fromJS({
   KIND: 'S',
   POINT_X: 3,
-  POINT_Z: 0,
+  POINT_Y: 0,
   SIZE: 3,
   BODY: [
     [0, 0, 0],
@@ -64,7 +64,7 @@ export const S = fromJS({
 export const Z = fromJS({
   KIND: 'Z',
   POINT_X: 3,
-  POINT_Z: 0,
+  POINT_Y: 0,
   SIZE: 3,
   BODY: [
     [0, 0, 0],
@@ -76,7 +76,7 @@ export const Z = fromJS({
 export const O = fromJS({
   KIND: 'O',
   POINT_X: 4,
-  POINT_Z: 0,
+  POINT_Y: 0,
   SIZE: 2,
   BODY: [
     [2, 2],

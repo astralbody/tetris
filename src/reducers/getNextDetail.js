@@ -32,10 +32,10 @@ const getNextDetail = (state, action) => {
     map: state.get('map').merge(shadowWithDetail),
     information: Map({
       nextDetail: Map({
-        kind: action.detail.KIND,
-        pointX: action.detail.POINT_X,
-        pointY: action.detail.POINT_Y,
-        size: action.detail.SIZE
+        kind: action.detail.get('KIND'),
+        pointX: action.detail.get('POINT_X'),
+        pointY: action.detail.get('POINT_Y'),
+        size: action.detail.get('SIZE')
       }),
       currentDetail: state.get('information').get('currentDetail')
     })
