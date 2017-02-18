@@ -6,7 +6,7 @@ import App from '../components/App';
 import * as TetrisActions from '../actions/index';
 import * as sides from '../constants/MoveSide';
 import {getRandomDetails} from '../library/getRandomDetails';
-
+import checkAroundDetail from '../library/checkAroundDetail';
 
 class AppContainer extends Component {
   constructor(props) {
@@ -41,7 +41,7 @@ class AppContainer extends Component {
   handleCycle(e) {
     const nextStep = {};
     nextStep.nextDetail = true;
-    nextStep.moveDown = false;
+    nextStep.moveDown = true;
 
     this.props.world.get('map').forEach((row, y) => {
       const idRow = row.get('id');
@@ -52,11 +52,22 @@ class AppContainer extends Component {
           nextStep.nextDetail = false;
         }
 
-        if (valBlock === 2) nextStep.moveDown = true;
+        if (valBlock === 2 && nextStep.moveDown) {
+          nextStep.moveDown = checkAroundDetail(this.props.world, x, y);
+        }
       });
     });
 
-    // if (nextStep.moveDown) this.props.actions.downBlock([2]);
+    if (nextStep.moveDown) {
+      console.log('down');
+      this.props.actions.downBlock([2]);
+    } else {
+      console.log('transform');
+      this.props.actions.transformBlock({
+        from: 2,
+        to: 1
+      });
+    }
     // if (nextStep.nextDetail) this.props.actions.nextDetail(getRandomDetails());
   }
 
