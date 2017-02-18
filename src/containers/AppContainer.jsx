@@ -41,34 +41,35 @@ class AppContainer extends Component {
   handleCycle(e) {
     const nextStep = {};
     nextStep.nextDetail = true;
-    nextStep.moveDown = true;
+    nextStep.moveDown = -1;
 
     this.props.world.get('map').forEach((row, y) => {
       const idRow = row.get('id');
 
       row.get('blocks').forEach((block, x) => {
         const valBlock = block.get('value');
-        if (nextStep.nextDetail && idRow > -1 && valBlock === 2) {
+        if (nextStep.nextDetail && valBlock === 2) {
           nextStep.nextDetail = false;
         }
 
-        if (valBlock === 2 && nextStep.moveDown) {
+        if (valBlock === 2 && nextStep.moveDown !== 1) {
           nextStep.moveDown = checkAroundDetail(this.props.world, x, y);
         }
       });
     });
 
-    if (nextStep.moveDown) {
+    if (nextStep.moveDown === 0) {
       console.log('down');
       this.props.actions.downBlock([2]);
-    } else {
+    } else if (nextStep.moveDown === 1 || nextStep.moveDown === 2) {
       console.log('transform');
       this.props.actions.transformBlock({
         from: 2,
         to: 1
       });
     }
-    // if (nextStep.nextDetail) this.props.actions.nextDetail(getRandomDetails());
+
+    if (nextStep.nextDetail) this.props.actions.nextDetail(getRandomDetails());
   }
 
   handleStartGame(e) {
