@@ -63,13 +63,13 @@ describe('actions', () => {
   });
 
   it('runGameOver should create OVER_GAME', () => {
-    expect(actions.runGameOver()).toEqual({
+    expect(actions.runOverGame()).toEqual({
       type: types.OVER_GAME
     });
   });
 
   it('runGameStart should create GAME_START', () => {
-    expect(actions.runGameStart()).toEqual({
+    expect(actions.runStartGame()).toEqual({
       type: types.START_GAME
     });
   });

@@ -12,13 +12,13 @@ describe('<Game />', () => {
   const x = 10;
   const z = 24;
   const world = initialWorld(z, x);
-  const wrapper = shallow(<Game world={world} />);
+  const wrapper = shallow(<Game world={world.get('map')} />);
 
   it('render without throwing an error', () => {
     expect(wrapper.contains(
       <Row
-        blocks={world.get(5).get('blocks')}
-        key={world.get(5).get('id')}
+        blocks={world.get('map').get(5).get('blocks')}
+        key={world.get('map').get(5).get('id')}
       />
     )).toBe(true);
   });

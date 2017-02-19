@@ -12,7 +12,7 @@ const world = initialWorld(10, 24);
 
 test('<App />', () =>
   expect(
-    shallow(<App world={world} />)
-      .contains(<Game world={world} />)
+    shallow(<App world={world.get('map')} />)
+      .contains(<Game world={world.get('map')} />)
   ).toBe(true)
 );

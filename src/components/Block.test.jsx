@@ -8,7 +8,11 @@ import Block from './Block';
 import initialWorld from '../library/initialWorld';
 
 describe('<Block />', () => {
-  const propBlock = initialWorld(1, 1).get(0).get('blocks').get(0);
+  const propBlock = initialWorld(1, 1)
+    .get('map')
+    .get(0)
+    .get('blocks')
+    .get(0);
   const wrapper = shallow(
     <Block
       key={propBlock.get('id')}

@@ -1,4 +1,4 @@
-import {List, is} from 'immutable';
+import {List, Map, is} from 'immutable';
 import * as test from './getRandomDetails';
 import * as details from '../constants/ShapeDetail';
 /* eslint no-undef: 0 */
@@ -17,13 +17,13 @@ describe('getDetail()', () => {
   it('getRandomItemOfList(), return random item of list', () => {
     const list = test.getOfObjectToList(details);
 
-    expect(test.getRandomItemOfList(list) instanceof List).toBe(true);
+    expect(test.getRandomItemOfList(list) instanceof Map).toBe(true);
   });
 
   it('getRandomDetails(), return random detail', () => {
     const randomDetail = test.getRandomDetails();
 
-    expect(test.getRandomDetails() instanceof List)
+    expect(test.getRandomDetails() instanceof Map)
       .toBe(true);
     expect(Object.keys(details).some(kind => is(details[kind], randomDetail)))
       .toBe(true);

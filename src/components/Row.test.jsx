@@ -10,7 +10,7 @@ import initialWorld from '../library/initialWorld';
 
 describe('<Row />', () => {
   const x = 10;
-  const propRow = initialWorld(1, 10).get(0);
+  const propRow = initialWorld(1, 10).get('map').get(0);
   const block = propRow.get('blocks').get(0);
   const wrapper = shallow(
     <Row
