@@ -41,7 +41,7 @@ class AppContainer extends Component {
   handleCycle(e) {
     const nextStep = {};
     nextStep.nextDetail = true;
-    nextStep.moveDown = -1;
+    nextStep.moveDown = null;
 
     this.props.world.get('map').forEach((row, y) => {
       const idRow = row.get('id');
@@ -52,17 +52,15 @@ class AppContainer extends Component {
           nextStep.nextDetail = false;
         }
 
-        if (valBlock === 2 && nextStep.moveDown !== 1) {
+        if (valBlock === 2 && nextStep.moveDown !== false) {
           nextStep.moveDown = checkAroundDetail(this.props.world, x, y);
         }
       });
     });
 
-    if (nextStep.moveDown === 0) {
-      console.log('down');
+    if (nextStep.moveDown === true) {
       this.props.actions.downBlock([2]);
-    } else if (nextStep.moveDown === 1 || nextStep.moveDown === 2) {
-      console.log('transform');
+    } else if (nextStep.moveDown === false) {
       this.props.actions.transformBlock({
         from: 2,
         to: 1

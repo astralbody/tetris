@@ -1,5 +1,5 @@
 const checkAroundDetail = (world, x, y) => {
-  if (!world.get('map').has(y)) return 2;
+  if (!world.get('map').has(y)) return false;
 
   switch (world
     .get('map')
@@ -8,13 +8,13 @@ const checkAroundDetail = (world, x, y) => {
     .get(x)
     .get('value')) {
   case 0:
-    return 0;
+    return true;
   case 1:
-    return 1;
+    return false;
   case 2:
     return checkAroundDetail(world, x, y + 1);
   default:
-    return 2;
+    return false;
   }
 };
 
