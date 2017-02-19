@@ -1,8 +1,11 @@
-const checkAroundDetail = (world, x, y) => {
-  if (!world.get('map').has(y)) return false;
+export const inc = n => n + 1;
+export const dec = n => n - 1;
+export const echo = n => n;
 
-  switch (world
-    .get('map')
+export const checkAroundDetail = (worldMap, x, y, fx, fy) => {
+  if (!worldMap.has(y)) return false;
+
+  switch (worldMap
     .get(y)
     .get('blocks')
     .get(x)
@@ -12,10 +15,8 @@ const checkAroundDetail = (world, x, y) => {
   case 1:
     return false;
   case 2:
-    return checkAroundDetail(world, x, y + 1);
+    return checkAroundDetail(worldMap, fx(x), fy(y), fx, fy);
   default:
     return false;
   }
 };
-
-export default checkAroundDetail;

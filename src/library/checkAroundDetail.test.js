@@ -1,5 +1,5 @@
 import {fromJS} from 'immutable';
-import checkAroundDetail from './checkAroundDetail';
+import {checkAroundDetail, inc, dec, echo} from './checkAroundDetail';
 /* eslint no-undef: 0 */
 
 describe('checkAroundDetail', () => {
@@ -11,12 +11,30 @@ describe('checkAroundDetail', () => {
     ]
   });
 
+  it('echo(n), return n', () => {
+    const n = 10;
+
+    expect(echo(10)).toBe(n);
+  });
+
+  it('inc(n), return n + 1', () => {
+    const n = 10;
+
+    expect(inc(10)).toBe(n + 1);
+  });
+
+  it('dec(n), return n - 1', () => {
+    const n = 10;
+
+    expect(dec(10)).toBe(n - 1);
+  });
+
   it('return false', () => {
-    expect(checkAroundDetail(world, 0, 3)).toBe(false);
-    expect(checkAroundDetail(world, 1, 0)).toBe(false);
+    expect(checkAroundDetail(world.get('map'), 0, 3, echo, inc)).toBe(false);
+    expect(checkAroundDetail(world.get('map'), 1, 0, echo, inc)).toBe(false);
   });
 
   it('return true', () => {
-    expect(checkAroundDetail(world, 0, 0)).toBe(true);
+    expect(checkAroundDetail(world.get('map'), 0, 0, echo, inc)).toBe(true);
   });
 });
