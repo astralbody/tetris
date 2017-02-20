@@ -14,7 +14,10 @@ const shiftDownBlock = (state, action) => {
       flags[x] = false;
       return newBlock;
     })
-  )));
+  ))).setIn(
+    ['information', 'nextDetail', 'pointY'],
+    state.getIn(['information', 'nextDetail', 'pointY']) + 1
+  );
 
   return newState;
 };

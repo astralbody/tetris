@@ -12,16 +12,12 @@ export const echo = n => n;
  * @param {number} y Axis y.
  * @param {Function} fx Use to param x.
  * @param {Function} fy Use to param y.
- * @return {boolean} Free place lowwer blocks.
+ * @return {boolean} Around the empty blocks.
  */
 export const checkAroundDetail = (worldMap, x, y, fx, fy) => {
-  if (!worldMap.has(y)) return false;
+  if (!(worldMap.has(y) || worldMap.has(x))) return false;
 
-  switch (worldMap
-    .get(y)
-    .get('blocks')
-    .get(x)
-    .get('value')) {
+  switch (worldMap.getIn([y, 'blocks', x, 'value'])) {
   case 0:
     return true;
   case 1:
