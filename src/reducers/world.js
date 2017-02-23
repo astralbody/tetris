@@ -3,7 +3,7 @@ import initialWorld from '../library/initialWorld';
 import getNextDetail from './getNextDetail';
 import shiftDownBlock from './shiftDownBlock';
 import transformBlock from './transformBlock';
-
+import moveDetail from './moveDetail';
 
 const world = (state = initialWorld(24, 10), action) => {
   switch (action.type) {
@@ -12,7 +12,7 @@ const world = (state = initialWorld(24, 10), action) => {
   case types.TRANSFORM_BLOCK:
     return transformBlock(state, action);
   case types.MOVE_DETAIL:
-    return state;
+    return moveDetail(state, action);
   case types.NEXT_DETAIL:
     return getNextDetail(state, action);
   case types.ROTATE_DETAIL:
