@@ -1,8 +1,8 @@
 import * as types from '../constants/ActionTypes';
-import initialWorld from '../library/initialWorld';
-import getNextDetail from './getNextDetail';
-import shiftDownBlock from './shiftDownBlock';
-import transformBlock from './transformBlock';
+import initialWorld from '../core/initialWorld';
+import getNextDetail from '../core/getNextDetail';
+import shiftDownBlock from '../core/shiftDownBlock';
+import transformBlock from '../core/transformBlock';
 import moveDetail from './moveDetail';
 
 const world = (state = initialWorld(24, 10), action) => {

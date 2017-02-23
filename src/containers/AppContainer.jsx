@@ -5,8 +5,8 @@ import {map} from 'react-immutable-proptypes';
 import App from '../components/App';
 import * as TetrisActions from '../actions/index';
 import * as sides from '../constants/MoveSide';
-import {getRandomDetails} from '../library/getRandomDetails';
-import {checkAroundDetail, inc, echo} from '../library/checkAroundDetail';
+import {getRandomDetails} from '../core/getRandomDetails';
+import {checkAroundDetail, inc, echo} from '../core/checkAroundDetail';
 
 class AppContainer extends Component {
   constructor(props) {

@@ -1,5 +1,8 @@
 import * as MoveSide from '../constants/MoveSide';
-import {getStateMoveLeftDetail, getStateMoveRightDetail} from './getStateMoveDetail';
+import {
+  getStateMoveLeftDetail,
+  getStateMoveRightDetail
+} from '../core/getStateMoveDetail';
 
 const moveDetail = (state, {side}) => {
   switch (side) {

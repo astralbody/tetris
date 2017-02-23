@@ -1,4 +1,4 @@
-import {checkAroundDetail, echo, inc, dec} from '../library/checkAroundDetail';
+import {checkAroundDetail, echo, inc, dec} from '../core/checkAroundDetail';
 
 const ternaryUnary = (condition, onTrue, onFalse = null) =>
   arg => condition(arg) ? onTrue(arg) : onFalse ? onFalse(arg) : null;
