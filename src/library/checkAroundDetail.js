@@ -15,7 +15,10 @@ export const echo = n => n;
  * @return {boolean} Around the empty blocks.
  */
 export const checkAroundDetail = (worldMap, x, y, fx, fy) => {
-  if (!(worldMap.has(y) || worldMap.has(x))) return false;
+  if (!worldMap.has(y)
+    || !worldMap.getIn([y, 'blocks']).has(x)
+    || !(x >= 0)
+    || !(y >= 0)) return false;
 
   switch (worldMap.getIn([y, 'blocks', x, 'value'])) {
   case 0:
