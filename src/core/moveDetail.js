@@ -1,6 +1,6 @@
 import {checkAroundDetail, echo, inc, dec} from '../core/checkAroundDetail';
 
-const ternaryUnary = (condition, onTrue, onFalse = null) =>
+const decoratorTernaryUnary = (condition, onTrue, onFalse) =>
   arg => condition(arg) ? onTrue(arg) : onFalse ? onFalse(arg) : null;
 
 const hasFreeSpace = (fx, fy, rows) => rows.reduce((result, row, y) =>
@@ -17,40 +17,31 @@ const hasFreeSpace = (fx, fy, rows) => rows.reduce((result, row, y) =>
 const hasLeftFreeSpace = hasFreeSpace.bind(null, dec, echo);
 const hasRightFreeSpace = hasFreeSpace.bind(null, inc, echo);
 
-const moveRight = rows => rows.reduceRight((newRows, row, y) =>
-  row.get('blocks').reduceRight((newRow, block, x) =>
+
+const move = (method, crement) => rows => rows[method]((newRows, row, y) =>
+  row.get('blocks')[method]((_newRows, block, x) =>
     block.get('value') === 2
-      ? newRow
-        .setIn([y, 'blocks', inc(x), 'value'], 2)
+      ? _newRows
+        .setIn([y, 'blocks', crement(x), 'value'], 2)
         .setIn([y, 'blocks', x, 'value'], 0)
-      : newRow,
+      : _newRows,
     newRows
   ),
   rows
 );
 
-const moveLeft = rows => rows.reduce((newRows, row, y) =>
-  row.get('blocks').reduce((newRow, block, x) =>
-    block.get('value') === 2
-      ? newRow
-        .setIn([y, 'blocks', dec(x), 'value'], 2)
-        .setIn([y, 'blocks', x, 'value'], 0)
-      : newRow,
-    newRows
-  ),
-  rows
-);
-
-const moveLeftDetail = ternaryUnary(hasLeftFreeSpace, moveLeft);
-const moveRightDetail = ternaryUnary(hasRightFreeSpace, moveRight);
+const moveRight = move('reduceRight', inc);
+const moveLeft = move('reduce', dec);
+const moveLeftDetail = decoratorTernaryUnary(hasLeftFreeSpace, moveLeft);
+const moveRightDetail = decoratorTernaryUnary(hasRightFreeSpace, moveRight);
 
 
-const getStateMoveDetail = (move, state) => {
+const getStateMoveDetail = (moveDetail, state) => {
   const p = state.getIn(['information', 'nextDetail', 'pointY']);
   const r = p + state.getIn(['information', 'nextDetail', 'size']);
   const rowsDetail = state.get('map').filter((row, y) => y >= p && r > y);
 
-  const nextRowsDetail = move(rowsDetail);
+  const nextRowsDetail = moveDetail(rowsDetail);
 
   if (!nextRowsDetail) return state;
 
@@ -73,6 +64,7 @@ const getStateMoveDetail = (move, state) => {
 
 const getStateMoveLeftDetail = getStateMoveDetail.bind(null, moveLeftDetail);
 const getStateMoveRightDetail = getStateMoveDetail.bind(null, moveRightDetail);
+
 
 export {
   getStateMoveLeftDetail,
