@@ -1,9 +1,10 @@
 import * as types from '../constants/ActionTypes';
-import initialWorld from '../core/initialWorld';
+import {initialWorld} from '../core/initialWorld';
 import getNextDetail from '../core/getNextDetail';
 import shiftDownBlock from '../core/shiftDownBlock';
 import transformBlock from '../core/transformBlock';
 import moveDetail from './moveDetail';
+import completeRow from '../core/completeRow';
 
 const world = (state = initialWorld(24, 10), action) => {
   switch (action.type) {
@@ -18,7 +19,7 @@ const world = (state = initialWorld(24, 10), action) => {
   case types.ROTATE_DETAIL:
     return state;
   case types.COMPLETE_ROW:
-    return state;
+    return state.set('map', completeRow(state.get('map'), action));
   case types.OVER_GAME:
     return state;
   case types.START_GAME:

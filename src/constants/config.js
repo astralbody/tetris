@@ -1,3 +1,3 @@
 /* eslint import/prefer-default-export: 0 */
 
-export const SPEED = 500;
+export const SPEED = 200;

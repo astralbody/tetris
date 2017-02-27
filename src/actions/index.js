@@ -24,9 +24,9 @@ export const rotateDetail = () => ({
   type: types.ROTATE_DETAIL
 });
 
-export const completeRow = z => ({
+export const completeRow = y => ({
   type: types.COMPLETE_ROW,
-  z
+  y
 });
 
 export const setDisplay = filter => ({

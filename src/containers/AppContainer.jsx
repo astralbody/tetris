@@ -2,10 +2,11 @@ import React, {Component, PropTypes} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {map} from 'react-immutable-proptypes';
+import {Map} from 'immutable';
 import App from '../components/App';
 import * as TetrisActions from '../actions/index';
 import * as sides from '../constants/MoveSide';
-import {getRandomDetails} from '../core/getRandomDetails';
+import {getRandomDetails, getDetail} from '../core/getRandomDetails';
 import {checkAroundDetail, inc, echo} from '../core/checkAroundDetail';
 
 class AppContainer extends Component {
@@ -44,17 +45,24 @@ class AppContainer extends Component {
     nextStep.moveDown = null;
 
     this.props.world.get('map').forEach((row, y) => {
+      let completeRow = true;
+
       row.get('blocks').forEach((block, x) => {
         const valBlock = block.get('value');
+
         if (nextStep.nextDetail && valBlock === 2) {
           nextStep.nextDetail = false;
         }
+
+        if (valBlock !== 1) completeRow = false;
 
         if (valBlock === 2 && nextStep.moveDown !== false) {
           nextStep.moveDown =
             checkAroundDetail(this.props.world.get('map'), x, y, echo, inc);
         }
       });
+
+      if (completeRow) this.props.actions.completeRow(y);
     });
 
     switch (nextStep.moveDown) {
@@ -71,12 +79,12 @@ class AppContainer extends Component {
       break;
     }
 
-    if (nextStep.nextDetail) this.props.actions.nextDetail(getRandomDetails());
+    if (nextStep.nextDetail) this.props.actions.nextDetail(getDetail('O'));
   }
 
   handleStartGame(e) {
     this.props.actions.runStartGame();
-    this.props.actions.nextDetail(getRandomDetails());
+    this.props.actions.nextDetail(getDetail('O'));
     this.playGame = setInterval(this.handleCycle, this.props.speed);
   }
 
