@@ -10,5 +10,7 @@ export const getRandomItemOfList = list => list.get(getRandomInt(0, list.size - 
 export const getRandomDetails =
   getRandomItemOfList.bind(null, getOfObjectToList(details));
 
+export const getDetail = kind => details[kind];
+
 /* export const callRepeat = (n, f, a) =>
   new Array(n).fill(null).reduce(res => f(res), a);*/
