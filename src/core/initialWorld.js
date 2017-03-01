@@ -1,7 +1,7 @@
 import {fromJS} from 'immutable';
 import counter from './counter';
 
-const initialRow = (x, fRowID = Math.random, fBlockID = Math.random) => ({
+export const initialRow = (x, fRowID = Math.random, fBlockID = Math.random) => ({
   blocks: Array.from({length: x}, block => ({
     id: fBlockID(),
     value: 0
@@ -9,7 +9,7 @@ const initialRow = (x, fRowID = Math.random, fBlockID = Math.random) => ({
   id: fRowID()
 });
 
-const initialWorld = (y, x) => {
+export const initialWorld = (y, x) => {
   const counterRow = counter(-4);
   const counterBlock = counter(0);
 
@@ -33,9 +33,4 @@ const initialWorld = (y, x) => {
       }
     }
   });
-};
-
-export {
-  initialWorld,
-  initialRow
 };
