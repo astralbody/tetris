@@ -79,12 +79,12 @@ class AppContainer extends Component {
       break;
     }
 
-    if (nextStep.nextDetail) this.props.actions.nextDetail(getDetail('O'));
+    if (nextStep.nextDetail) this.props.actions.nextDetail(getRandomDetails());
   }
 
   handleStartGame(e) {
     this.props.actions.runStartGame();
-    this.props.actions.nextDetail(getDetail('O'));
+    this.props.actions.nextDetail(getRandomDetails());
     this.playGame = setInterval(this.handleCycle, this.props.speed);
   }
 
