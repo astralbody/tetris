@@ -1,5 +1,6 @@
 .game {
   width: 100px;
-  display: inline-block;
+  display: block;
   height: 200px;
+  margin: auto;
 }

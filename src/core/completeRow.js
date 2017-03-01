@@ -13,7 +13,7 @@ const completeRow = (worldMap, action) => {
   };
 
   const nextWorldMap = clearWorldMap.reduce((next, row, y) => {
-    if (y < 4 && y > action.y) return next;
+    if (y < 4 || y > action.y) return next;
 
     const nextRow = typeof next.row[0] === 'boolean' ? [...next.row] : null;
 
