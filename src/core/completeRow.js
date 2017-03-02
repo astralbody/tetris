@@ -12,10 +12,10 @@ const completeRow = (worldMap, action) => {
     worldMap: clearWorldMap
   };
 
-  const nextWorldMap = clearWorldMap.reduce((next, row, y) => {
-    if (y < 4 || y > action.y) return next;
+  const nextWorldMap = clearWorldMap.reduce((_next, row, y) => {
+    if (y < 4 || y > action.y) return _next;
 
-    const nextRow = typeof next.row[0] === 'boolean' ? [...next.row] : null;
+    const nextRow = typeof _next.row[0] === 'boolean' ? [..._next.row] : null;
 
     return {
       row: row
@@ -23,12 +23,12 @@ const completeRow = (worldMap, action) => {
         .map((block, x) => block.get('value') === 1)
         .toJS(),
       worldMap: nextRow
-        ? next.worldMap.setIn(
+        ? _next.worldMap.setIn(
           [y, 'blocks'],
-          next.worldMap.getIn([y, 'blocks']).map((block, x) =>
+          _next.worldMap.getIn([y, 'blocks']).map((block, x) =>
             block.set('value', +nextRow[x]))
         )
-        : next.worldMap
+        : _next.worldMap
     };
   }, next);
 

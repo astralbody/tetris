@@ -2,11 +2,10 @@ import React, {Component, PropTypes} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {map} from 'react-immutable-proptypes';
-import {Map} from 'immutable';
 import App from '../components/App';
 import * as TetrisActions from '../actions/index';
 import * as sides from '../constants/MoveSide';
-import {getRandomDetails, getDetail} from '../core/getRandomDetails';
+import {getRandomDetails} from '../core/getRandomDetails';
 import {checkAroundDetail, inc, echo} from '../core/checkAroundDetail';
 
 class AppContainer extends Component {
@@ -15,6 +14,7 @@ class AppContainer extends Component {
     this.handleKeyDown = this.handleKeyDown.bind(this);
     this.handleStartGame = this.handleStartGame.bind(this);
     this.handleCycle = this.handleCycle.bind(this);
+    this.handleOverGame = this.handleOverGame.bind(this);
   }
 
   componentDidMount() {
@@ -34,6 +34,8 @@ class AppContainer extends Component {
     case 13:
     case 32:
         return this.props.actions.rotateDetail();
+    case 80:
+        return this.handleStartGame();
     default:
         return null;
     }
@@ -43,6 +45,7 @@ class AppContainer extends Component {
     const nextStep = {};
     nextStep.nextDetail = true;
     nextStep.moveDown = null;
+    nextStep.gameOver = false;
 
     this.props.world.get('map').forEach((row, y) => {
       let completeRow = true;
@@ -53,6 +56,8 @@ class AppContainer extends Component {
         if (nextStep.nextDetail && valBlock === 2) {
           nextStep.nextDetail = false;
         }
+
+        if (valBlock === 1 && y < 4) nextStep.gameOver = true;
 
         if (valBlock !== 1) completeRow = false;
 
@@ -80,12 +85,18 @@ class AppContainer extends Component {
     }
 
     if (nextStep.nextDetail) this.props.actions.nextDetail(getRandomDetails());
+    if (nextStep.gameOver) this.handleOverGame();
   }
 
   handleStartGame(e) {
     this.props.actions.runStartGame();
     this.props.actions.nextDetail(getRandomDetails());
     this.playGame = setInterval(this.handleCycle, this.props.speed);
+  }
+
+  handleOverGame(e) {
+    this.props.actions.runOverGame();
+    clearInterval(this.playGame);
   }
 
   render() {

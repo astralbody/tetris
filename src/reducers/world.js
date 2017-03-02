@@ -6,6 +6,7 @@ import transformBlock from '../core/transformBlock';
 import moveDetail from './moveDetail';
 import completeRow from '../core/completeRow';
 import {rotateDetail} from '../core/rotateDetail';
+import fillWorldMap from '../core/fillWorldMap';
 
 const world = (state = initialWorld(24, 10), action) => {
   switch (action.type) {
@@ -22,7 +23,7 @@ const world = (state = initialWorld(24, 10), action) => {
   case types.COMPLETE_ROW:
     return state.set('map', completeRow(state.get('map'), action));
   case types.OVER_GAME:
-    return state;
+    return state.set('map', fillWorldMap(state.get('map'), 0));
   case types.START_GAME:
     return state;
   default:
