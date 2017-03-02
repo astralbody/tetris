@@ -16,4 +16,3 @@ const moveDetail = (state, {side}) => {
 };
 
 export default moveDetail;
-

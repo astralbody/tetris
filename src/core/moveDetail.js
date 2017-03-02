@@ -35,6 +35,17 @@ const moveLeft = move('reduce', dec);
 const moveLeftDetail = decoratorTernaryUnary(hasLeftFreeSpace, moveLeft);
 const moveRightDetail = decoratorTernaryUnary(hasRightFreeSpace, moveRight);
 
+const updateX = (lastX, moveDetail) => {
+  switch (moveDetail) {
+  case moveLeftDetail:
+    return dec(lastX);
+  case moveRightDetail:
+    return inc(lastX);
+  default:
+    return lastX;
+  }
+};
+
 
 const getStateMoveDetail = (moveDetail, state) => {
   const p = state.getIn(['information', 'nextDetail', 'pointY']);
@@ -59,7 +70,10 @@ const getStateMoveDetail = (moveDetail, state) => {
     optionsMerge
   );
 
-  return state.set('map', nextState.nextMap);
+  return state.set('map', nextState.nextMap).setIn(
+    ['information', 'nextDetail', 'pointX'],
+    updateX(state.getIn(['information', 'nextDetail', 'pointX']), moveDetail)
+  );
 };
 
 const getStateMoveLeftDetail = getStateMoveDetail.bind(null, moveLeftDetail);
