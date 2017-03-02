@@ -27,16 +27,20 @@ export const rotateDetail = (world) => {
 
   if (kind === 'O') return world;
 
+  const extracted = extractDetail(world.get('map'), pointX, pointY, size);
+
+  if (!extracted.every(row => row.every(value => value === 2 || value === 0))
+    || extracted[0].length < size) {
+    return world;
+  }
+
   return world.set('map',
     insertDetail(
       world.get('map'),
       pointX,
       pointY,
       size,
-      destructArr(
-        zip(extractDetail(world.get('map'), pointX, pointY, size)).map(row =>
-          row.reverse())
-      )
+      destructArr(zip(extracted).map(row => row.reverse()))
     )
   );
 };
