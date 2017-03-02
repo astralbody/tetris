@@ -18,7 +18,7 @@ export const initialWorld = (y, x) => {
       {length: y},
       row => initialRow(x, counterRow, counterBlock)
     ),
-    information: {
+    info: {
       currentDetail: {
         kind: 'T',
         pointX: 0,

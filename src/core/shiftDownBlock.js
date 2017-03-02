@@ -15,8 +15,8 @@ const shiftDownBlock = (state, action) => {
       return newBlock;
     })
   ))).setIn(
-    ['information', 'nextDetail', 'pointY'],
-    state.getIn(['information', 'nextDetail', 'pointY']) + 1
+    ['info', 'nextDetail', 'pointY'],
+    state.getIn(['info', 'nextDetail', 'pointY']) + 1
   );
 
   return newState;
