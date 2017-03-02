@@ -5,7 +5,7 @@ import shiftDownBlock from '../core/shiftDownBlock';
 import transformBlock from '../core/transformBlock';
 import moveDetail from './moveDetail';
 import completeRow from '../core/completeRow';
-import rotateDetail from '../core/rotateDetail';
+import {rotateDetail} from '../core/rotateDetail';
 
 const world = (state = initialWorld(24, 10), action) => {
   switch (action.type) {
