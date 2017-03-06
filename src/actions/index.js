@@ -10,9 +10,8 @@ export const nextDetail = detail => ({
   detail
 });
 
-export const downBlock = options => ({
-  type: types.DOWN_BLOCK,
-  options
+export const downBlock = () => ({
+  type: types.DOWN_BLOCK
 });
 
 export const moveDetail = side => ({

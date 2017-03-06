@@ -72,7 +72,7 @@ class AppContainer extends Component {
 
     switch (nextStep.moveDown) {
     case true:
-      this.props.actions.downBlock([2]);
+      this.props.actions.downBlock();
       break;
     case false:
       this.props.actions.transformBlock({
