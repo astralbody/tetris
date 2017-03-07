@@ -5,7 +5,7 @@
 import React from 'react';
 import {shallow} from 'enzyme';
 import Block from './Block';
-import initialWorld from '../library/initialWorld';
+import {initialWorld} from '../core/initialWorld';
 
 describe('<Block />', () => {
   const propBlock = initialWorld(1, 1)

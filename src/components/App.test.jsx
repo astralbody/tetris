@@ -6,7 +6,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import App from './App';
 import Game from './Game';
-import initialWorld from '../library/initialWorld';
+import {initialWorld} from '../core/initialWorld';
 
 const world = initialWorld(10, 24);
 

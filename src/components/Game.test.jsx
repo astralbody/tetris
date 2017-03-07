@@ -6,7 +6,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import Game from './Game';
 import Row from './Row';
-import initialWorld from '../library/initialWorld';
+import {initialWorld} from '../core/initialWorld';
 
 describe('<Game />', () => {
   const x = 10;

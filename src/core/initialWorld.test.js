@@ -1,4 +1,4 @@
-import initialWorld from './initialWorld';
+import {initialWorld} from './initialWorld';
 /* eslint no-undef: 0 */
 
 describe('initialWorld()', () => {

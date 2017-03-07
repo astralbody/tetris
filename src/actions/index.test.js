@@ -26,14 +26,11 @@ describe('actions', () => {
     });
   });
 
-  it('downBlock should create DOWN_BLOCK', () => {
-    const options = [1, 2, 3];
-
-    expect(actions.downBlock(options)).toEqual({
-      type: types.DOWN_BLOCK,
-      options
-    });
-  });
+  it('downBlock should create DOWN_BLOCK', () =>
+    expect(actions.downBlock()).toEqual({
+      type: types.DOWN_BLOCK
+    })
+  );
 
   it('moveDetail should create MOVE_DETAIL', () => {
     expect(actions.moveDetail(sides.MOVE_LEFT)).toEqual({
@@ -51,7 +48,7 @@ describe('actions', () => {
   it('completeRow should create COMPLETE_ROW', () => {
     expect(actions.completeRow(3)).toEqual({
       type: types.COMPLETE_ROW,
-      z: 3
+      y: 3
     });
   });
 
