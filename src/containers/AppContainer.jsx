@@ -27,17 +27,24 @@ class AppContainer extends Component {
     switch (e.keyCode) {
     case 37:
     case 65:
-        return this.props.actions.moveDetail(sides.MOVE_LEFT);
+        this.props.actions.moveDetail(sides.MOVE_LEFT);
+        break;
     case 39:
     case 68:
-        return this.props.actions.moveDetail(sides.MOVE_RIGHT);
+        this.props.actions.moveDetail(sides.MOVE_RIGHT);
+        break;
     case 13:
     case 32:
-        return this.props.actions.rotateDetail();
+        this.props.actions.rotateDetail();
+        break;
     case 80:
-        return this.handleStartGame();
+        this.handleStartGame();
+        break;
+    case 27:
+        this.handleOverGame();
+        break;
     default:
-        return null;
+        break;
     }
   }
 
