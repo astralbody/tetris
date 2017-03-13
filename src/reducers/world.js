@@ -8,7 +8,7 @@ import completeRow from '../core/completeRow';
 import {rotateDetail} from '../core/rotateDetail';
 import fillWorldMap from '../core/fillWorldMap';
 
-const world = (state = initialWorld(24, 10), action) => {
+const world = (state = initialWorld(), action) => {
   switch (action.type) {
   case types.DOWN_BLOCK:
     return shiftDownBlock(state, action);

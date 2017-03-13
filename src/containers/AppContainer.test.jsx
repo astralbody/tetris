@@ -10,7 +10,7 @@ import {initialWorld} from '../core/initialWorld';
 import App from '../components/App';
 import store from '../store/index';
 
-const world = initialWorld(10, 24);
+const world = initialWorld();
 
 test('render <AppContainer />', () => expect(shallow(
   <Provider store={store}>

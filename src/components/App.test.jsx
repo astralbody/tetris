@@ -8,7 +8,7 @@ import App from './App';
 import Game from './Game';
 import {initialWorld} from '../core/initialWorld';
 
-const world = initialWorld(10, 24);
+const world = initialWorld();
 
 test('<App />', () =>
   expect(

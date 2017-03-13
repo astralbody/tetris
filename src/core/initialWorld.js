@@ -9,7 +9,7 @@ export const initialRow = (x, fRowID = Math.random, fBlockID = Math.random) => (
   id: fRowID()
 });
 
-export const initialWorld = (y, x) => {
+export const initialWorld = (y = 24, x = 10) => {
   const counterRow = counter(-4);
   const counterBlock = counter(0);
 
