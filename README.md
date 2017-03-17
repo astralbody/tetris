@@ -1,6 +1,8 @@
 # Tetris
 DHTML game. React + Redux.
 
+![alt text](./screenshot.png "Game")
+
 ### Install
 0. `$ git clone https://github.com/magicwantabstract/tetris.git`
 1. `$ cd tetris`
