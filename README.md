@@ -11,8 +11,8 @@ DHTML game. React + Redux.
 4. open `http://localhost:9000`
 
 ### Control
-Exit — Escape 
-Play — P
-Move right — Arrow Right, D
-Move left — Arrow Left, A
-Rotate — Enter, Space
+Exit — Escape\n
+Play — P\n
+Move right — Arrow Right, D\n
+Move left — Arrow Left, A\n
+Rotate — Enter, Space\n
