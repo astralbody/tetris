@@ -11,15 +11,15 @@ import fillWorldMap from '../core/fillWorldMap';
 const world = (state = initialWorld(), action) => {
   switch (action.type) {
   case types.DOWN_BLOCK:
-    return shiftDownBlock(state, action);
+    return shiftDownBlock(state, action); // fix
   case types.TRANSFORM_BLOCK:
-    return transformBlock(state, action);
+    return transformBlock(state, action); // fix
   case types.MOVE_DETAIL:
-    return moveDetail(state, action);
+    return moveDetail(state, action);     // fix
   case types.NEXT_DETAIL:
-    return getNextDetail(state, action);
+    return getNextDetail(state, action);  // fix
   case types.ROTATE_DETAIL:
-    return rotateDetail(state);
+    return rotateDetail(state);           // fix
   case types.COMPLETE_ROW:
     return state.set('map', completeRow(state.get('map'), action));
   case types.OVER_GAME:

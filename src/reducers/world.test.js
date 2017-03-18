@@ -1,7 +1,7 @@
 import {fromJS} from 'immutable';
 import world from './world';
 import {initialWorld} from '../core/initialWorld';
-import {runStartGame, runOverGame, completeRow, nextDetail} from '../actions/index';
+import {runStartGame, runOverGame, completeRow, nextDetail, rotateDetail} from '../actions/index';
 import {I} from '../constants/ShapeDetail';
 
 /* eslint no-undef: 0 */
@@ -87,5 +87,155 @@ describe('reducer world()', () => {
       }));
 
     expect(returnWorld.equals(correctWorld)).toEqual(true);
+  });
+
+  it('world() handle ROTATE_DETAIL', () => {
+    const setRowsInState = (worldMap, startIdx, nextRows) =>
+      nextRows.reduce((worldMap, row, idx) => worldMap.update(
+        startIdx++,
+        val => val.set('blocks', row.get('blocks'))
+      ), worldMap);
+
+    const state = initialWorld();
+    const rowsDetail = fromJS([{
+      id: 0,
+      blocks: [
+        {value: 0, id: 40},
+        {value: 0, id: 41},
+        {value: 0, id: 42},
+        {value: 0, id: 43},
+        {value: 0, id: 44},
+        {value: 0, id: 45},
+        {value: 0, id: 46},
+        {value: 0, id: 47},
+        {value: 0, id: 48},
+        {value: 0, id: 49}
+      ]
+    }, {
+      id: 1,
+      blocks: [
+        {value: 0, id: 50},
+        {value: 0, id: 51},
+        {value: 0, id: 52},
+        {value: 2, id: 53},
+        {value: 2, id: 54},
+        {value: 2, id: 55},
+        {value: 2, id: 56},
+        {value: 0, id: 57},
+        {value: 0, id: 58},
+        {value: 0, id: 59}
+      ]
+    }, {
+      id: 2,
+      blocks: [
+        {value: 0, id: 60},
+        {value: 0, id: 61},
+        {value: 0, id: 62},
+        {value: 0, id: 63},
+        {value: 0, id: 64},
+        {value: 0, id: 65},
+        {value: 0, id: 66},
+        {value: 0, id: 67},
+        {value: 0, id: 68},
+        {value: 0, id: 69}
+      ]
+    }, {
+      id: 3,
+      blocks: [
+        {value: 0, id: 60},
+        {value: 0, id: 61},
+        {value: 0, id: 62},
+        {value: 0, id: 63},
+        {value: 0, id: 64},
+        {value: 0, id: 65},
+        {value: 0, id: 66},
+        {value: 0, id: 67},
+        {value: 0, id: 68},
+        {value: 0, id: 69}
+      ]
+    }]);
+
+    const rowsRotateDetail = fromJS([{
+      id: 0,
+      blocks: [
+        {value: 0, id: 40},
+        {value: 0, id: 41},
+        {value: 0, id: 42},
+        {value: 0, id: 43},
+        {value: 0, id: 44},
+        {value: 2, id: 45},
+        {value: 0, id: 46},
+        {value: 0, id: 47},
+        {value: 0, id: 48},
+        {value: 0, id: 49}
+      ]
+    }, {
+      id: 1,
+      blocks: [
+        {value: 0, id: 50},
+        {value: 0, id: 51},
+        {value: 0, id: 52},
+        {value: 0, id: 53},
+        {value: 0, id: 54},
+        {value: 2, id: 55},
+        {value: 0, id: 56},
+        {value: 0, id: 57},
+        {value: 0, id: 58},
+        {value: 0, id: 59}
+      ]
+    }, {
+      id: 2,
+      blocks: [
+        {value: 0, id: 60},
+        {value: 0, id: 61},
+        {value: 0, id: 62},
+        {value: 0, id: 63},
+        {value: 0, id: 64},
+        {value: 2, id: 65},
+        {value: 0, id: 66},
+        {value: 0, id: 67},
+        {value: 0, id: 68},
+        {value: 0, id: 69}
+      ]
+    }, {
+      id: 3,
+      blocks: [
+        {value: 0, id: 60},
+        {value: 0, id: 61},
+        {value: 0, id: 62},
+        {value: 0, id: 63},
+        {value: 0, id: 64},
+        {value: 2, id: 65},
+        {value: 0, id: 66},
+        {value: 0, id: 67},
+        {value: 0, id: 68},
+        {value: 0, id: 69}
+      ]
+    }]);
+
+    const returnWorld = world(
+      state.set('map', setRowsInState(state.get('map'), 4, rowsDetail))
+        .setIn(['info', 'nextDetail'], fromJS({
+          kind: I.get('KIND'),
+          pointX: I.get('POINT_X'),
+          pointY: 4,
+          size: I.get('SIZE')
+        })),
+      rotateDetail()
+    );
+
+    const correctWorld = state
+      .set(
+        'map',
+        setRowsInState(state.get('map'), 4, rowsRotateDetail)
+      )
+      .setIn(['info', 'nextDetail'], fromJS({
+        kind: I.get('KIND'),
+        pointX: I.get('POINT_X'),
+        pointY: 4,
+        size: I.get('SIZE')
+      }));
+
+    expect(returnWorld).toEqual(correctWorld);
   });
 });
