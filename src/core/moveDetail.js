@@ -66,9 +66,7 @@ const getStateMoveDetail = (moveDetail, state) => {
     opt.nextMap = opt.nextMap.set(y, opt.nextRows.first());
     opt.nextRows = opt.nextRows.shift();
     return opt;
-  },
-    optionsMerge
-  );
+  }, optionsMerge);
 
   return state.set('map', nextState.nextMap).setIn(
     ['info', 'nextDetail', 'pointX'],
