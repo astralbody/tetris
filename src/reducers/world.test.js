@@ -14,8 +14,10 @@ import {
 import {MOVE_LEFT, MOVE_RIGHT} from '../constants/MoveSide';
 import {I} from '../constants/ShapeDetail';
 
-const setRowsInState = (worldMap, startIdx, nextRows) => // test support-function
-  nextRows.reduce((worldMap, row, idx) => worldMap.update(
+/* eslint no-undef: 0 */
+
+const setRowsInState = (worldMap, startIdx, nextRows) =>
+  nextRows.reduce((_worldMap, row, idx) => _worldMap.update(
     startIdx++,
     val => val.set('blocks', row.get('blocks'))
   ), worldMap);
@@ -40,50 +42,46 @@ test('setRowsInState() test support function', () => {
 
   const returnWorldMap = setRowsInState(worldMap, 6, row);
 
-  expect(returnWorldMap.equals(worldMap)).toBe(true);
+  return expect(returnWorldMap.equals(worldMap)).toBe(true);
 });
 
-/* eslint no-undef: 0 */
 describe('reducer world()', () => {
   it('world() create and return state', () => {
     const state = initialWorld();
-    const returnWorld = world(undefined, {});
-
-    expect(returnWorld).toEqual(state);
+    const returnState = world(undefined, {});
+    expect(returnState).toEqual(state);
   });
 
   it('world() handle START_GAME', () => {
     const state = initialWorld();
-    const returnWorld = world(undefined, runStartGame());
-
-    expect(returnWorld).toEqual(state);
+    const returnStateGameStart = world(state, runStartGame());
+    expect(returnStateGameStart).toEqual(state);
   });
 
-  it('world() handle OVER_GAME', () => {
+  it('world() and fillWorldMap() handle OVER_GAME', () => {
     const state = initialWorld();
-    const returnWorld = world(undefined, runOverGame());
-
-    expect(returnWorld).toEqual(state);
+    const returnStateGameOver = world(state, runOverGame());
+    expect(returnStateGameOver).toEqual(state);
   });
 
-  it('world() handle COMPLETE_ROW', () => {
+  it('world() and completeRow() handle COMPLETE_ROW', () => {
     const state = initialWorld();
-    const completeRowY = 23;
-    const stateCompleteRow = state.setIn(
+    const numCompleteRow = 23;
+
+    const stateComplete = state.setIn(
       ['map', completeRowY, 'blocks'],
-      state.getIn(['map', completeRowY, 'blocks'])
+      state.getIn(['map', numCompleteRow, 'blocks'])
         .map(block => block.set('value', 1))
     );
-    const returnWorld = world(stateCompleteRow, completeRow(completeRowY));
+    const returnStateComplete = world(stateComplete, completeRow(completeRowY));
 
-    expect(returnWorld).toEqual(state);
+    expect(returnStateComplete).toEqual(stateComplete);
   });
 
-  it('world() handle NEXT_DETAIL', () => {
+  it('world() and getNextDetail() handle NEXT_DETAIL', () => {
     const state = initialWorld();
-    const returnWorld = world(state, nextDetail(I));
 
-    const correctShadowRows = fromJS([{
+    const rows = fromJS([{
       id: -4,
       blocks: [
         {value: 0, id: 0},
@@ -113,10 +111,10 @@ describe('reducer world()', () => {
       ]
     }]);
 
-    const correctWorld = state
+    const stateNextDetail = state
       .set(
         'map',
-        state.get('map').merge(correctShadowRows)
+        state.get('map').merge(rows)
       )
       .setIn(['info', 'nextDetail'], fromJS({
         kind: I.get('KIND'),
@@ -124,12 +122,14 @@ describe('reducer world()', () => {
         pointY: I.get('POINT_Y'),
         size: I.get('SIZE')
       }));
+    const returnStateNextDetail = world(state, nextDetail(I));
 
-    expect(returnWorld.equals(correctWorld)).toBe(true);
+    expect(returnStateNextDetail.equals(stateNextDetail)).toBe(true);
   });
 
-  it('world() handle ROTATE_DETAIL', () => {
+  it('world() and rotateDetail() handle ROTATE_DETAIL', () => {
     const state = initialWorld();
+
     const rowsDetail = fromJS([{
       id: 0,
       blocks: [
@@ -187,7 +187,6 @@ describe('reducer world()', () => {
         {value: 0, id: 69}
       ]
     }]);
-
     const rowsRotateDetail = fromJS([{
       id: 0,
       blocks: [
@@ -246,168 +245,118 @@ describe('reducer world()', () => {
       ]
     }]);
 
-    const returnWorld = world(
-      state.set('map', setRowsInState(state.get('map'), 4, rowsDetail))
+    const stateDetail = state
+      .set('map', setRowsInState(state.get('map'), 4, rowsDetail))
+      .setIn(['info', 'nextDetail'], fromJS({
+        kind: I.get('KIND'),
+        pointX: I.get('POINT_X'),
+        pointY: 4,
+        size: I.get('SIZE')
+      }));
+    const stateRotate = state
+      .set('map', setRowsInState(state.get('map'), 4, rowsRotateDetail))
+      .setIn(['info', 'nextDetail'], fromJS({
+        kind: I.get('KIND'),
+        pointX: I.get('POINT_X'),
+        pointY: 4,
+        size: I.get('SIZE')
+      }));
+
+    const returnStateRotate = world(stateDetail, rotateDetail());
+    expect(returnStateRotate).toEqual(stateRotate);
+  });
+
+  it(
+    'world() and moveDetail(), getStateMoveLeftDetail(), getStateMoveRightDetail() handle MOVE_DETAIL',
+    () => {
+      const state = initialWorld();
+
+      const rowDetail = fromJS([{
+        id: 1,
+        blocks: [
+          {value: 0, id: 50},
+          {value: 0, id: 51},
+          {value: 0, id: 52},
+          {value: 2, id: 53},
+          {value: 2, id: 54},
+          {value: 2, id: 55},
+          {value: 2, id: 56},
+          {value: 0, id: 57},
+          {value: 0, id: 58},
+          {value: 0, id: 59}
+        ]
+      }]);
+      const rowMoveRight = fromJS([{
+        id: 1,
+        blocks: [
+          {value: 0, id: 50},
+          {value: 0, id: 51},
+          {value: 0, id: 52},
+          {value: 0, id: 53},
+          {value: 2, id: 54},
+          {value: 2, id: 55},
+          {value: 2, id: 56},
+          {value: 2, id: 57},
+          {value: 0, id: 58},
+          {value: 0, id: 59}
+        ]
+      }]);
+      const rowMoveLeft = fromJS([{
+        id: 1,
+        blocks: [
+          {value: 0, id: 50},
+          {value: 0, id: 51},
+          {value: 2, id: 52},
+          {value: 2, id: 53},
+          {value: 2, id: 54},
+          {value: 2, id: 55},
+          {value: 0, id: 56},
+          {value: 0, id: 57},
+          {value: 0, id: 58},
+          {value: 0, id: 59}
+        ]
+      }]);
+
+      const stateDetail = state
+        .set('map', setRowsInState(state.get('map'), 5, rowDetail))
         .setIn(['info', 'nextDetail'], fromJS({
           kind: I.get('KIND'),
           pointX: I.get('POINT_X'),
           pointY: 4,
           size: I.get('SIZE')
-        })),
-      rotateDetail()
-    );
+        }));
+      const stateMoveLeft = state
+        .set('map', setRowsInState(state.get('map'), 5, rowMoveLeft))
+        .setIn(['info', 'nextDetail'], fromJS({
+          kind: I.get('KIND'),
+          pointX: I.get('POINT_X') - 1,
+          pointY: 4,
+          size: I.get('SIZE')
+        }));
+      const stateMoveRight = state
+        .set('map', setRowsInState(state.get('map'), 5, rowMoveRight))
+        .setIn(['info', 'nextDetail'], fromJS({
+          kind: I.get('KIND'),
+          pointX: I.get('POINT_X') + 1,
+          pointY: 4,
+          size: I.get('SIZE')
+        }));
 
-    const correctWorld = state
-      .set(
-        'map',
-        setRowsInState(state.get('map'), 4, rowsRotateDetail)
-      )
-      .setIn(['info', 'nextDetail'], fromJS({
-        kind: I.get('KIND'),
-        pointX: I.get('POINT_X'),
-        pointY: 4,
-        size: I.get('SIZE')
-      }));
+      const returnStateMoveLeft = world(
+        stateDetail,
+        moveDetail(MOVE_LEFT)
+      );
+      const returnStateMoveRight = world(
+        stateDetail,
+        moveDetail(MOVE_RIGHT)
+      );
 
-    expect(returnWorld).toEqual(correctWorld);
-  });
+      expect(returnStateMoveLeft).toEqual(stateMoveLeft);
+      expect(returnStateMoveRight).toEqual(stateMoveRight);
+    }
+  );
 
-  it('world() handle MOVE_DETAIL', () => {
-    const state = initialWorld();
-
-    const rowsDetail = fromJS([{
-      id: 1,
-      blocks: [
-        {value: 0, id: 50},
-        {value: 0, id: 51},
-        {value: 0, id: 52},
-        {value: 2, id: 53},
-        {value: 2, id: 54},
-        {value: 2, id: 55},
-        {value: 2, id: 56},
-        {value: 0, id: 57},
-        {value: 0, id: 58},
-        {value: 0, id: 59}
-      ]
-    }]);
-    const rowsMoveRightDetail = fromJS([{
-      id: 1,
-      blocks: [
-        {value: 0, id: 50},
-        {value: 0, id: 51},
-        {value: 0, id: 52},
-        {value: 0, id: 53},
-        {value: 2, id: 54},
-        {value: 2, id: 55},
-        {value: 2, id: 56},
-        {value: 2, id: 57},
-        {value: 0, id: 58},
-        {value: 0, id: 59}
-      ]
-    }]);
-    const rowsMoveLeftDetail = fromJS([{
-      id: 1,
-      blocks: [
-        {value: 0, id: 50},
-        {value: 0, id: 51},
-        {value: 2, id: 52},
-        {value: 2, id: 53},
-        {value: 2, id: 54},
-        {value: 2, id: 55},
-        {value: 0, id: 56},
-        {value: 0, id: 57},
-        {value: 0, id: 58},
-        {value: 0, id: 59}
-      ]
-    }]);
-
-    const stateDetail = state
-      .set('map', setRowsInState(state.get('map'), 5, rowsDetail))
-      .setIn(['info', 'nextDetail'], fromJS({
-        kind: I.get('KIND'),
-        pointX: I.get('POINT_X'),
-        pointY: 4,
-        size: I.get('SIZE')
-      }));
-    const stateMoveLeftDetail = state
-      .set('map', setRowsInState(state.get('map'), 5, rowsMoveLeftDetail))
-      .setIn(['info', 'nextDetail'], fromJS({
-        kind: I.get('KIND'),
-        pointX: I.get('POINT_X') - 1,
-        pointY: 4,
-        size: I.get('SIZE')
-      }));
-    const stateMoveRightDetail = state
-      .set('map', setRowsInState(state.get('map'), 5, rowsMoveRightDetail))
-      .setIn(['info', 'nextDetail'], fromJS({
-        kind: I.get('KIND'),
-        pointX: I.get('POINT_X') + 1,
-        pointY: 4,
-        size: I.get('SIZE')
-      }));
-
-    const returnStateDetailMoveLeft = world(
-      stateDetail,
-      moveDetail(MOVE_LEFT)
-    );
-    const returnStateDetailMoveRight = world(
-      stateDetail,
-      moveDetail(MOVE_RIGHT)
-    );
-
-    expect(returnStateDetailMoveLeft).toEqual(stateMoveLeftDetail);
-    expect(returnStateDetailMoveRight).toEqual(stateMoveRightDetail);
-  });
-
-  it('world() handle TRANSFORM_BLOCK', () => {
-    const state = initialWorld();
-
-    const rowsDetail = fromJS([{
-      id: 1,
-      blocks: [
-        {value: 0, id: 50},
-        {value: 0, id: 51},
-        {value: 0, id: 52},
-        {value: 2, id: 53},
-        {value: 2, id: 54},
-        {value: 2, id: 55},
-        {value: 2, id: 56},
-        {value: 0, id: 57},
-        {value: 0, id: 58},
-        {value: 0, id: 59}
-      ]
-    }]);
-    const rowsTransform = fromJS([{
-      id: 1,
-      blocks: [
-        {value: 0, id: 50},
-        {value: 0, id: 51},
-        {value: 0, id: 52},
-        {value: 1, id: 53},
-        {value: 1, id: 54},
-        {value: 1, id: 55},
-        {value: 1, id: 56},
-        {value: 0, id: 57},
-        {value: 0, id: 58},
-        {value: 0, id: 59}
-      ]
-    }]);
-
-    const stateDetail = state.set(
-      'map',
-      setRowsInState(state.get('map'), 5, rowsDetail)
-    );
-    const stateTransform = state.set(
-      'map',
-      setRowsInState(state.get('map'), 5, rowsTransform)
-    );
-
-    const returnState = world(stateDetail, transformBlock({from: 2, to: 1}));
-
-    expect(returnState).toEqual(stateTransform);
-  });
-
-  it('world() handle DOWN_BLOCK', () => {
+  it('world() and transformBlock() handle TRANSFORM_BLOCK', () => {
     const state = initialWorld();
 
     const rowDetail = fromJS([{
@@ -425,7 +374,55 @@ describe('reducer world()', () => {
         {value: 0, id: 59}
       ]
     }]);
-    const rowsDownDetail = fromJS([{
+    const rowTransform = fromJS([{
+      id: 1,
+      blocks: [
+        {value: 0, id: 50},
+        {value: 0, id: 51},
+        {value: 0, id: 52},
+        {value: 1, id: 53},
+        {value: 1, id: 54},
+        {value: 1, id: 55},
+        {value: 1, id: 56},
+        {value: 0, id: 57},
+        {value: 0, id: 58},
+        {value: 0, id: 59}
+      ]
+    }]);
+
+    const stateDetail = state.set(
+      'map',
+      setRowsInState(state.get('map'), 5, rowDetail)
+    );
+    const stateTransform = state.set(
+      'map',
+      setRowsInState(state.get('map'), 5, rowTransform)
+    );
+
+    const returnState = world(stateDetail, transformBlock({from: 2, to: 1}));
+
+    expect(returnState).toEqual(stateTransform);
+  });
+
+  it('world() and shiftDownBlock() handle DOWN_BLOCK', () => {
+    const state = initialWorld();
+
+    const rowDetail = fromJS([{
+      id: 1,
+      blocks: [
+        {value: 0, id: 50},
+        {value: 0, id: 51},
+        {value: 0, id: 52},
+        {value: 2, id: 53},
+        {value: 2, id: 54},
+        {value: 2, id: 55},
+        {value: 2, id: 56},
+        {value: 0, id: 57},
+        {value: 0, id: 58},
+        {value: 0, id: 59}
+      ]
+    }]);
+    const rowDownDetail = fromJS([{
       id: 2,
       blocks: [
         {value: 0, id: 60},
@@ -450,7 +447,7 @@ describe('reducer world()', () => {
         size: I.get('SIZE')
       }));
     const stateDownDetail = state
-      .set('map', setRowsInState(state.get('map'), 6, rowsDownDetail))
+      .set('map', setRowsInState(state.get('map'), 6, rowDownDetail))
       .setIn(['info', 'nextDetail'], fromJS({
         kind: I.get('KIND'),
         pointX: I.get('POINT_X') - 1,
