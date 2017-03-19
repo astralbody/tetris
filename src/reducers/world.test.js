@@ -8,7 +8,8 @@ import {
   nextDetail,
   rotateDetail,
   moveDetail,
-  transformBlock
+  transformBlock,
+  downBlock
 } from '../actions/index';
 import {MOVE_LEFT, MOVE_RIGHT} from '../constants/MoveSide';
 import {I} from '../constants/ShapeDetail';
@@ -18,6 +19,10 @@ const setRowsInState = (worldMap, startIdx, nextRows) => // test support-functio
     startIdx++,
     val => val.set('blocks', row.get('blocks'))
   ), worldMap);
+
+describe('setRowsInState() test support function', () => {
+
+});
 
 /* eslint no-undef: 0 */
 describe('reducer world()', () => {
@@ -381,5 +386,61 @@ describe('reducer world()', () => {
     const returnState = world(stateDetail, transformBlock({from: 2, to: 1}));
 
     expect(returnState).toEqual(stateTransform);
+  });
+
+  it('world() handle DOWN_BLOCK', () => {
+    const state = initialWorld();
+
+    const rowDetail = fromJS([{
+      id: 1,
+      blocks: [
+        {value: 0, id: 50},
+        {value: 0, id: 51},
+        {value: 0, id: 52},
+        {value: 2, id: 53},
+        {value: 2, id: 54},
+        {value: 2, id: 55},
+        {value: 2, id: 56},
+        {value: 0, id: 57},
+        {value: 0, id: 58},
+        {value: 0, id: 59}
+      ]
+    }]);
+    const rowsDownDetail = fromJS([{
+      id: 2,
+      blocks: [
+        {value: 0, id: 60},
+        {value: 0, id: 61},
+        {value: 0, id: 62},
+        {value: 2, id: 63},
+        {value: 2, id: 64},
+        {value: 2, id: 65},
+        {value: 2, id: 66},
+        {value: 0, id: 67},
+        {value: 0, id: 68},
+        {value: 0, id: 69}
+      ]
+    }]);
+
+    const stateDetail = state
+      .set('map', setRowsInState(state.get('map'), 5, rowDetail))
+      .setIn(['info', 'nextDetail'], fromJS({
+        kind: I.get('KIND'),
+        pointX: I.get('POINT_X') - 1,
+        pointY: 4,
+        size: I.get('SIZE')
+      }));
+    const stateDownDetail = state
+      .set('map', setRowsInState(state.get('map'), 6, rowsDownDetail))
+      .setIn(['info', 'nextDetail'], fromJS({
+        kind: I.get('KIND'),
+        pointX: I.get('POINT_X') - 1,
+        pointY: 5,
+        size: I.get('SIZE')
+      }));
+
+    const returnState = world(stateDetail, downBlock());
+
+    expect(stateDownDetail.equals(returnState)).toEqual(true);
   });
 });
