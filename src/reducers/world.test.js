@@ -20,8 +20,27 @@ const setRowsInState = (worldMap, startIdx, nextRows) => // test support-functio
     val => val.set('blocks', row.get('blocks'))
   ), worldMap);
 
-describe('setRowsInState() test support function', () => {
+test('setRowsInState() test support function', () => {
+  const worldMap = initialWorld().get('map');
+  const row = fromJS([{
+    id: 2,
+    blocks: [
+      {value: 0, id: 60},
+      {value: 0, id: 61},
+      {value: 0, id: 62},
+      {value: 0, id: 63},
+      {value: 0, id: 64},
+      {value: 0, id: 65},
+      {value: 0, id: 66},
+      {value: 0, id: 67},
+      {value: 0, id: 68},
+      {value: 0, id: 69}
+    ]
+  }]);
 
+  const returnWorldMap = setRowsInState(worldMap, 6, row);
+
+  expect(returnWorldMap.equals(worldMap)).toBe(true);
 });
 
 /* eslint no-undef: 0 */
@@ -106,7 +125,7 @@ describe('reducer world()', () => {
         size: I.get('SIZE')
       }));
 
-    expect(returnWorld.equals(correctWorld)).toEqual(true);
+    expect(returnWorld.equals(correctWorld)).toBe(true);
   });
 
   it('world() handle ROTATE_DETAIL', () => {
@@ -441,6 +460,6 @@ describe('reducer world()', () => {
 
     const returnState = world(stateDetail, downBlock());
 
-    expect(stateDownDetail.equals(returnState)).toEqual(true);
+    expect(stateDownDetail.equals(returnState)).toBe(true);
   });
 });
