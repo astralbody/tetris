@@ -114,7 +114,7 @@ describe('reducer world()', () => {
         'map',
         state.get('map').merge(rows)
       )
-      .setIn(['info', 'nextDetail'], fromJS({
+      .setIn(['info', 'currentDetail'], fromJS({
         kind: I.get('KIND'),
         pointX: I.get('POINT_X'),
         pointY: I.get('POINT_Y'),
@@ -245,7 +245,7 @@ describe('reducer world()', () => {
 
     const stateDetail = state
       .set('map', setRowsInWorldMap(state.get('map'), 4, rowsDetail))
-      .setIn(['info', 'nextDetail'], fromJS({
+      .setIn(['info', 'currentDetail'], fromJS({
         kind: I.get('KIND'),
         pointX: I.get('POINT_X'),
         pointY: 4,
@@ -253,7 +253,7 @@ describe('reducer world()', () => {
       }));
     const stateRotate = state
       .set('map', setRowsInWorldMap(state.get('map'), 4, rowsRotateDetail))
-      .setIn(['info', 'nextDetail'], fromJS({
+      .setIn(['info', 'currentDetail'], fromJS({
         kind: I.get('KIND'),
         pointX: I.get('POINT_X'),
         pointY: 4,
@@ -317,7 +317,7 @@ describe('reducer world()', () => {
 
       const stateDetail = state
         .set('map', setRowsInWorldMap(state.get('map'), 5, rowDetail))
-        .setIn(['info', 'nextDetail'], fromJS({
+        .setIn(['info', 'currentDetail'], fromJS({
           kind: I.get('KIND'),
           pointX: I.get('POINT_X'),
           pointY: 4,
@@ -325,7 +325,7 @@ describe('reducer world()', () => {
         }));
       const stateMoveLeft = state
         .set('map', setRowsInWorldMap(state.get('map'), 5, rowMoveLeft))
-        .setIn(['info', 'nextDetail'], fromJS({
+        .setIn(['info', 'currentDetail'], fromJS({
           kind: I.get('KIND'),
           pointX: I.get('POINT_X') - 1,
           pointY: 4,
@@ -333,7 +333,7 @@ describe('reducer world()', () => {
         }));
       const stateMoveRight = state
         .set('map', setRowsInWorldMap(state.get('map'), 5, rowMoveRight))
-        .setIn(['info', 'nextDetail'], fromJS({
+        .setIn(['info', 'currentDetail'], fromJS({
           kind: I.get('KIND'),
           pointX: I.get('POINT_X') + 1,
           pointY: 4,
@@ -438,7 +438,7 @@ describe('reducer world()', () => {
 
     const stateDetail = state
       .set('map', setRowsInWorldMap(state.get('map'), 5, rowDetail))
-      .setIn(['info', 'nextDetail'], fromJS({
+      .setIn(['info', 'currentDetail'], fromJS({
         kind: I.get('KIND'),
         pointX: I.get('POINT_X') - 1,
         pointY: 4,
@@ -446,7 +446,7 @@ describe('reducer world()', () => {
       }));
     const stateDownDetail = state
       .set('map', setRowsInWorldMap(state.get('map'), 6, rowDownDetail))
-      .setIn(['info', 'nextDetail'], fromJS({
+      .setIn(['info', 'currentDetail'], fromJS({
         kind: I.get('KIND'),
         pointX: I.get('POINT_X') - 1,
         pointY: 5,

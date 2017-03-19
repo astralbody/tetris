@@ -22,7 +22,7 @@ export const destructArr = rows => rows.reduce((dest, row) => {
 
 export const rotateDetail = (world) => {
   const {pointX, pointY, size, kind} = world
-    .getIn(['info', 'nextDetail'])
+    .getIn(['info', 'currentDetail'])
     .toJS();
 
   if (kind === 'O') return world;

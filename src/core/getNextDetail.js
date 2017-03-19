@@ -29,16 +29,12 @@ const getNextDetail = (state, action) => {
 
   return state
     .set('map', state.get('map').merge(shadowWithDetail))
-    .setIn(['info', 'nextDetail'], Map({
+    .setIn(['info', 'currentDetail'], Map({
       kind: action.detail.get('KIND'),
       pointX: action.detail.get('POINT_X'),
       pointY: action.detail.get('POINT_Y'),
       size: action.detail.get('SIZE')
-    }))
-    .setIn(
-      ['info', 'currentDetail'],
-      state.get('info').get('currentDetail')
-    );
+    }));
 };
 
 export default getNextDetail;

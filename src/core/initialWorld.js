@@ -20,13 +20,13 @@ export const initialWorld = (y = 24, x = 10) => {
     ),
     info: {
       currentDetail: {
-        kind: 'T',
+        kind: 'kind',
         pointX: 0,
         pointY: 0,
         size: 0
       },
       nextDetail: {
-        kind: 'T',
+        kind: 'kind',
         pointX: 0,
         pointY: 0,
         size: 0

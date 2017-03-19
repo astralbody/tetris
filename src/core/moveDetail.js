@@ -48,8 +48,8 @@ const updateX = (lastX, moveDetail) => {
 
 
 const getStateMoveDetail = (moveDetail, state) => {
-  const p = state.getIn(['info', 'nextDetail', 'pointY']);
-  const r = p + state.getIn(['info', 'nextDetail', 'size']);
+  const p = state.getIn(['info', 'currentDetail', 'pointY']);
+  const r = p + state.getIn(['info', 'currentDetail', 'size']);
   const rowsDetail = state.get('map').filter((row, y) => y >= p && r > y);
 
   const nextRowsDetail = moveDetail(rowsDetail);
@@ -69,8 +69,8 @@ const getStateMoveDetail = (moveDetail, state) => {
   }, optionsMerge);
 
   return state.set('map', nextState.nextMap).setIn(
-    ['info', 'nextDetail', 'pointX'],
-    updateX(state.getIn(['info', 'nextDetail', 'pointX']), moveDetail)
+    ['info', 'currentDetail', 'pointX'],
+    updateX(state.getIn(['info', 'currentDetail', 'pointX']), moveDetail)
   );
 };
 
