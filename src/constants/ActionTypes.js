@@ -7,3 +7,5 @@ export const MOVE_DETAIL = 'MOVE_DETAIL';
 export const ROTATE_DETAIL = 'ROTATE_DETAIL';
 export const COMPLETE_ROW = 'COMPLETE_ROW';
 export const OVER_GAME = 'OVER_GAME';
+export const UP_SPEED = 'UP_SPEED';
+export const LOW_SPEED = 'LOW_SPEED';

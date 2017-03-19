@@ -12,14 +12,29 @@ class AppContainer extends Component {
   constructor(props) {
     super();
     this.handleKeyDown = this.handleKeyDown.bind(this);
+    this.handleKeyUp = this.handleKeyUp.bind(this);
     this.handleStartGame = this.handleStartGame.bind(this);
     this.handleCycle = this.handleCycle.bind(this);
     this.handleOverGame = this.handleOverGame.bind(this);
+    this.handleRestore = this.handleRestore.bind(this);
   }
 
   componentDidMount() {
     window.addEventListener('keydown', this.handleKeyDown);
+    window.addEventListener('keyup', this.handleKeyUp);
     this.handleStartGame();
+  }
+
+  handleKeyUp(e) {
+    switch (e.keyCode) {
+    case 83:
+    case 40:
+        this.props.actions.lowSpeed();
+        this.handleRestore();
+        break;
+    default:
+        break;
+    }
   }
 
   handleKeyDown(e) {
@@ -43,16 +58,23 @@ class AppContainer extends Component {
     case 27:
         this.handleOverGame();
         break;
+    case 83:
+    case 40:
+        this.props.actions.upSpeed();
+        this.handleRestore();
+        break;
     default:
         break;
     }
   }
 
   handleCycle(e) {
-    const nextStep = {};
-    nextStep.nextDetail = true;
-    nextStep.moveDown = null;
-    nextStep.gameOver = false;
+    const nextStep = {
+      nextDetail: true,
+      moveDown: null,
+      gameOver: false
+    };
+
 
     this.props.world.get('map').forEach((row, y) => {
       let completeRow = true;
@@ -82,10 +104,7 @@ class AppContainer extends Component {
       this.props.actions.downBlock();
       break;
     case false:
-      this.props.actions.transformBlock({
-        from: 2,
-        to: 1
-      });
+      this.props.actions.transformBlock({from: 2, to: 1});
       break;
     default:
       break;
@@ -98,6 +117,11 @@ class AppContainer extends Component {
   handleStartGame(e) {
     this.props.actions.runStartGame();
     this.props.actions.nextDetail(getRandomDetails());
+    this.playGame = setInterval(this.handleCycle, this.props.speed);
+  }
+
+  handleRestore(e) {
+    clearInterval(this.playGame);
     this.playGame = setInterval(this.handleCycle, this.props.speed);
   }
 

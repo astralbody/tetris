@@ -40,3 +40,11 @@ export const runOverGame = () => ({
 export const runStartGame = () => ({
   type: types.START_GAME
 });
+
+export const upSpeed = () => ({
+  type: types.UP_SPEED
+});
+
+export const lowSpeed = () => ({
+  type: types.LOW_SPEED
+});

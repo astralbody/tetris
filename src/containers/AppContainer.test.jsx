@@ -15,5 +15,6 @@ const world = initialWorld();
 test('render <AppContainer />', () => expect(shallow(
   <Provider store={store}>
     <AppContainer />
-  </Provider>
-).contains(<AppContainer />)).toBe(true));
+  </Provider>)
+  .contains(<AppContainer />))
+  .toBe(true));
