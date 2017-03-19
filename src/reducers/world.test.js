@@ -7,7 +7,8 @@ import {
   completeRow,
   nextDetail,
   rotateDetail,
-  moveDetail
+  moveDetail,
+  transformBlock
 } from '../actions/index';
 import {MOVE_LEFT, MOVE_RIGHT} from '../constants/MoveSide';
 import {I} from '../constants/ShapeDetail';
@@ -332,5 +333,53 @@ describe('reducer world()', () => {
 
     expect(returnStateDetailMoveLeft).toEqual(stateMoveLeftDetail);
     expect(returnStateDetailMoveRight).toEqual(stateMoveRightDetail);
+  });
+
+  it('world() handle TRANSFORM_BLOCK', () => {
+    const state = initialWorld();
+
+    const rowsDetail = fromJS([{
+      id: 1,
+      blocks: [
+        {value: 0, id: 50},
+        {value: 0, id: 51},
+        {value: 0, id: 52},
+        {value: 2, id: 53},
+        {value: 2, id: 54},
+        {value: 2, id: 55},
+        {value: 2, id: 56},
+        {value: 0, id: 57},
+        {value: 0, id: 58},
+        {value: 0, id: 59}
+      ]
+    }]);
+    const rowsTransform = fromJS([{
+      id: 1,
+      blocks: [
+        {value: 0, id: 50},
+        {value: 0, id: 51},
+        {value: 0, id: 52},
+        {value: 1, id: 53},
+        {value: 1, id: 54},
+        {value: 1, id: 55},
+        {value: 1, id: 56},
+        {value: 0, id: 57},
+        {value: 0, id: 58},
+        {value: 0, id: 59}
+      ]
+    }]);
+
+    const stateDetail = state.set(
+      'map',
+      setRowsInState(state.get('map'), 5, rowsDetail)
+    );
+    const stateTransform = state.set(
+      'map',
+      setRowsInState(state.get('map'), 5, rowsTransform)
+    );
+
+    const returnState = world(stateDetail, transformBlock({from: 2, to: 1}));
+
+    expect(returnState).toEqual(stateTransform);
   });
 });
