@@ -1,8 +1,22 @@
 import {fromJS} from 'immutable';
 import world from './world';
 import {initialWorld} from '../core/initialWorld';
-import {runStartGame, runOverGame, completeRow, nextDetail, rotateDetail} from '../actions/index';
+import {
+  runStartGame,
+  runOverGame,
+  completeRow,
+  nextDetail,
+  rotateDetail,
+  moveDetail
+} from '../actions/index';
+import {MOVE_LEFT, MOVE_RIGHT} from '../constants/MoveSide';
 import {I} from '../constants/ShapeDetail';
+
+const setRowsInState = (worldMap, startIdx, nextRows) => // test support-function
+  nextRows.reduce((worldMap, row, idx) => worldMap.update(
+    startIdx++,
+    val => val.set('blocks', row.get('blocks'))
+  ), worldMap);
 
 /* eslint no-undef: 0 */
 describe('reducer world()', () => {
@@ -90,12 +104,6 @@ describe('reducer world()', () => {
   });
 
   it('world() handle ROTATE_DETAIL', () => {
-    const setRowsInState = (worldMap, startIdx, nextRows) =>
-      nextRows.reduce((worldMap, row, idx) => worldMap.update(
-        startIdx++,
-        val => val.set('blocks', row.get('blocks'))
-      ), worldMap);
-
     const state = initialWorld();
     const rowsDetail = fromJS([{
       id: 0,
@@ -237,5 +245,92 @@ describe('reducer world()', () => {
       }));
 
     expect(returnWorld).toEqual(correctWorld);
+  });
+
+  it('world() handle MOVE_DETAIL', () => {
+    const state = initialWorld();
+
+    const rowsDetail = fromJS([{
+      id: 1,
+      blocks: [
+        {value: 0, id: 50},
+        {value: 0, id: 51},
+        {value: 0, id: 52},
+        {value: 2, id: 53},
+        {value: 2, id: 54},
+        {value: 2, id: 55},
+        {value: 2, id: 56},
+        {value: 0, id: 57},
+        {value: 0, id: 58},
+        {value: 0, id: 59}
+      ]
+    }]);
+    const rowsMoveRightDetail = fromJS([{
+      id: 1,
+      blocks: [
+        {value: 0, id: 50},
+        {value: 0, id: 51},
+        {value: 0, id: 52},
+        {value: 0, id: 53},
+        {value: 2, id: 54},
+        {value: 2, id: 55},
+        {value: 2, id: 56},
+        {value: 2, id: 57},
+        {value: 0, id: 58},
+        {value: 0, id: 59}
+      ]
+    }]);
+    const rowsMoveLeftDetail = fromJS([{
+      id: 1,
+      blocks: [
+        {value: 0, id: 50},
+        {value: 0, id: 51},
+        {value: 2, id: 52},
+        {value: 2, id: 53},
+        {value: 2, id: 54},
+        {value: 2, id: 55},
+        {value: 0, id: 56},
+        {value: 0, id: 57},
+        {value: 0, id: 58},
+        {value: 0, id: 59}
+      ]
+    }]);
+
+    const stateDetail = state
+      .set('map', setRowsInState(state.get('map'), 5, rowsDetail))
+      .setIn(['info', 'nextDetail'], fromJS({
+        kind: I.get('KIND'),
+        pointX: I.get('POINT_X'),
+        pointY: 4,
+        size: I.get('SIZE')
+      }));
+    const stateMoveLeftDetail = state
+      .set('map', setRowsInState(state.get('map'), 5, rowsMoveLeftDetail))
+      .setIn(['info', 'nextDetail'], fromJS({
+        kind: I.get('KIND'),
+        pointX: I.get('POINT_X') - 1,
+        pointY: 4,
+        size: I.get('SIZE')
+      }));
+    const stateMoveRightDetail = state
+      .set('map', setRowsInState(state.get('map'), 5, rowsMoveRightDetail))
+      .setIn(['info', 'nextDetail'], fromJS({
+        kind: I.get('KIND'),
+        pointX: I.get('POINT_X') + 1,
+        pointY: 4,
+        size: I.get('SIZE')
+      }));
+
+    const returnStateDetailMoveLeft = world(
+      stateDetail,
+      moveDetail(MOVE_LEFT)
+    );
+    const returnStateDetailMoveRight = world(
+      stateDetail,
+      moveDetail(MOVE_RIGHT)
+    );
+
+    expect(returnStateDetailMoveLeft).toEqual(stateMoveLeftDetail);
+    expect(returnStateDetailMoveRight).toEqual(stateMoveRightDetail);
   });
 });
