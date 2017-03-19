@@ -44,7 +44,11 @@ describe('reducer world()', () => {
   it('world() create and return state', () => {
     const state = initialWorld();
     const returnState = world(undefined, {});
-    expect(returnState).toEqual(state);
+
+    expect(returnState.setIn(
+      ['info', 'nextDetail'],
+      state.getIn(['info', 'nextDetail'])
+    )).toEqual(state);
   });
 
   it('world() handle START_GAME', () => {
@@ -79,50 +83,22 @@ describe('reducer world()', () => {
   it('world() and getNextDetail() handle NEXT_DETAIL', () => {
     const state = initialWorld();
 
-    const rows = fromJS([{
-      id: -4,
-      blocks: [
-        {value: 0, id: 0},
-        {value: 0, id: 1},
-        {value: 0, id: 2},
-        {value: 0, id: 3},
-        {value: 0, id: 4},
-        {value: 0, id: 5},
-        {value: 0, id: 6},
-        {value: 0, id: 7},
-        {value: 0, id: 8},
-        {value: 0, id: 9}
-      ]
-    }, {
-      id: -3,
-      blocks: [
-        {value: 0, id: 10},
-        {value: 0, id: 11},
-        {value: 0, id: 12},
-        {value: 2, id: 13},
-        {value: 2, id: 14},
-        {value: 2, id: 15},
-        {value: 2, id: 16},
-        {value: 0, id: 17},
-        {value: 0, id: 18},
-        {value: 0, id: 19}
-      ]
-    }]);
+    const nextDetailOfState = state.getIn(['info', 'nextDetail']);
 
-    const stateNextDetail = state
-      .set(
-        'map',
-        state.get('map').merge(rows)
-      )
-      .setIn(['info', 'currentDetail'], fromJS({
-        kind: I.get('KIND'),
-        pointX: I.get('POINT_X'),
-        pointY: I.get('POINT_Y'),
-        size: I.get('SIZE')
-      }));
+    const stateNextDetail = state.set('info', fromJS({
+      nextDetail: I,
+      currentDetail: fromJS({
+        kind: nextDetailOfState.get('KIND'),
+        pointX: nextDetailOfState.get('POINT_X'),
+        pointY: nextDetailOfState.get('POINT_Y'),
+        size: nextDetailOfState.get('SIZE')
+      })
+    }));
+
     const returnStateNextDetail = world(state, nextDetail(I));
 
-    expect(returnStateNextDetail.equals(stateNextDetail)).toBe(true);
+    expect(returnStateNextDetail.get('info'))
+      .toEqual(stateNextDetail.get('info'));
   });
 
   it('world() and rotateDetail() handle ROTATE_DETAIL', () => {

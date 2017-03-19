@@ -9,7 +9,7 @@ import store from './store/index';
   + 2. move very fast detail, when keydown press key 'down'
   2.1 add test
   + 3. next and current detail
-  3.1 next detail
+  + 3.1 next detail
   4. panels
   5. count score
   6. multicolor detail?
