@@ -25,7 +25,7 @@ export const rotateDetail = (world) => {
     .getIn(['info', 'currentDetail'])
     .toJS();
 
-  if (kind === 'O') return world;
+  if (kind === 'O' || pointY + size > 24) return world;
 
   const extracted = extractDetail(world.get('map'), pointX, pointY, size);
 
