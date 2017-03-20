@@ -20,6 +20,8 @@ class AppContainer extends Component {
   }
 
   componentDidMount() {
+    window.addEventListener('keydown', this.handleKeyDown);
+    window.addEventListener('keyup', this.handleKeyUp);
     this.handleStartGame();
   }
 
@@ -114,8 +116,6 @@ class AppContainer extends Component {
 
   handleStartGame() {
     this.handleOverGame();
-    window.addEventListener('keydown', this.handleKeyDown);
-    window.addEventListener('keyup', this.handleKeyUp);
     this.props.actions.runStartGame();
     this.props.actions.nextDetail(getRandomDetails());
     this.playGame = setInterval(this.handleCycle, this.props.speed);
@@ -128,9 +128,7 @@ class AppContainer extends Component {
 
   handleOverGame() {
     this.props.actions.runOverGame();
-    clearInterval(this.playGame);
-    window.removeEventListener('keydown', this.handleKeyDown);
-    window.removeEventListener('keyup', this.handleKeyUp);
+    if (this.playGame) clearInterval(this.playGame);
   }
 
   render() {
