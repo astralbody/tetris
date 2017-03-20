@@ -16,12 +16,10 @@ class AppContainer extends Component {
     this.handleStartGame = this.handleStartGame.bind(this);
     this.handleCycle = this.handleCycle.bind(this);
     this.handleOverGame = this.handleOverGame.bind(this);
-    this.handleRestore = this.handleRestore.bind(this);
+    this.handleUpdate = this.handleUpdate.bind(this);
   }
 
   componentDidMount() {
-    window.addEventListener('keydown', this.handleKeyDown);
-    window.addEventListener('keyup', this.handleKeyUp);
     this.handleStartGame();
   }
 
@@ -30,7 +28,7 @@ class AppContainer extends Component {
     case 83:
     case 40:
         this.props.actions.lowSpeed();
-        this.handleRestore();
+        this.handleUpdate();
         break;
     default:
         break;
@@ -61,7 +59,7 @@ class AppContainer extends Component {
     case 83:
     case 40:
         this.props.actions.upSpeed();
-        this.handleRestore();
+        this.handleUpdate();
         break;
     default:
         break;
@@ -114,20 +112,25 @@ class AppContainer extends Component {
     if (nextStep.gameOver) this.handleOverGame();
   }
 
-  handleStartGame(e) {
+  handleStartGame() {
+    this.handleOverGame();
+    window.addEventListener('keydown', this.handleKeyDown);
+    window.addEventListener('keyup', this.handleKeyUp);
     this.props.actions.runStartGame();
     this.props.actions.nextDetail(getRandomDetails());
     this.playGame = setInterval(this.handleCycle, this.props.speed);
   }
 
-  handleRestore(e) {
+  handleUpdate(e) {
     clearInterval(this.playGame);
     this.playGame = setInterval(this.handleCycle, this.props.speed);
   }
 
-  handleOverGame(e) {
+  handleOverGame() {
     this.props.actions.runOverGame();
     clearInterval(this.playGame);
+    window.removeEventListener('keydown', this.handleKeyDown);
+    window.removeEventListener('keyup', this.handleKeyUp);
   }
 
   render() {
