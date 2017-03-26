@@ -1,8 +1,9 @@
+// refactoring
 const shiftDownBlock = (state) => {
   const flags = new Array(10).fill(false);
 
   return state
-    .set('map', state.get('map').map((row, y) => row.set(
+    .set('world', state.get('world').map((row, y) => row.set(
       'blocks',
       row.get('blocks').map((block, x) => {
         const prevFlag = flags[x];
@@ -14,8 +15,8 @@ const shiftDownBlock = (state) => {
       })
     )))
     .setIn(
-      ['info', 'currentDetail', 'pointY'],
-      state.getIn(['info', 'currentDetail', 'pointY']) + 1
+      ['currentDetail', 'pointY'],
+      state.getIn(['currentDetail', 'pointY']) + 1
     );
 };
 

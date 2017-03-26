@@ -16,7 +16,7 @@ export const getRandomItemOfList = (list) => {
 
   return detail.set('BODY', fromJS(callRepeat(
     repeatRotate,
-    a => zip(a).map(row => row.reverse()),
+    body => zip(body).map(row => row.reverse()),
     detail.get('BODY').toJS()
   )));
 };

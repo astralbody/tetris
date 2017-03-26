@@ -1,6 +1,7 @@
 import {fromJS} from 'immutable';
 import counter from './counter';
 import {getRandomDetails} from './getRandomDetails';
+import {SPEED} from '../constants/config';
 
 export const initialRow = (x, fRowID = Math.random, fBlockID = Math.random) => ({
   blocks: Array.from({length: x}, block => ({
@@ -16,11 +17,27 @@ export const initialWorld = (y = 24, x = 10) => {
   const randomDetails = getRandomDetails();
 
   return fromJS({
-    map: Array.from(
+    world: Array.from( // rename map
       {length: y},
       row => initialRow(x, counterRow, counterBlock)
     ),
-    info: {
+    currentDetail: {
+      kind: 'kind',
+      pointX: 0,
+      pointY: 0,
+      size: 0
+    },
+    nextDetail: {
+      kind: randomDetails.get('KIND'),
+      pointX: randomDetails.get('POINT_X'),
+      pointY: randomDetails.get('POINT_Y'),
+      size: randomDetails.get('SIZE')
+    },
+    score: 0,
+    hiScore: 0, // localStorage
+    time: new Date(),
+    speed: SPEED
+/*  info: {
       currentDetail: {
         kind: 'kind',
         pointX: 0,
@@ -32,7 +49,10 @@ export const initialWorld = (y = 24, x = 10) => {
         pointX: randomDetails.get('POINT_X'),
         pointY: randomDetails.get('POINT_Y'),
         size: randomDetails.get('SIZE')
-      }
-    }
+      },
+      score: 0,
+      hiScore: 0, // localStorage
+      time: new Date()
+    }*/
   });
 };

@@ -10,7 +10,7 @@ const Game = ({world}) => (
         blocks={row.get('blocks')}
         key={row.get('id')}
       />
-    )}
+  )}
   </div>
 );
 

@@ -20,27 +20,25 @@ export const destructArr = rows => rows.reduce((dest, row) => {
   return dest;
 }, []);
 
-export const rotateDetail = (world) => {
-  const {pointX, pointY, size, kind} = world
-    .getIn(['info', 'currentDetail'])
+export const rotateDetail = (state) => {
+  const {pointX, pointY, size, kind} = state
+    .get('currentDetail')
     .toJS();
 
-  if (kind === 'O' || pointY + size > 24) return world;
+  if (kind === 'O' || pointY + size > 24) return state; // import constants
 
-  const extracted = extractDetail(world.get('map'), pointX, pointY, size);
+  const extracted = extractDetail(state.get('world'), pointX, pointY, size);
 
   if (!extracted.every(row => row.every(value => value === 2 || value === 0))
-    || extracted[0].length < size) {
-    return world;
-  }
+    || extracted[0].length < size) return state;
 
-  return world.set('map',
+  return state.set('world',
     insertDetail(
-      world.get('map'),
+      state.get('world'),
       pointX,
       pointY,
       size,
-      destructArr(zip(extracted).map(row => row.reverse()))
+      destructArr(zip(extracted).map(row => row.reverse())) // in separete variable
     )
   );
 };

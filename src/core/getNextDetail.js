@@ -3,15 +3,15 @@ import {Map} from 'immutable';
 const getNextDetail = (state, action) => {
   const rangeFilter = (start, size) => x => !(start <= x && x < start + size);
 
-  const nextState = state.setIn(['info', 'nextDetail'], action.detail);
-  const currentDetail = state.getIn(['info', 'nextDetail']);
+  const nextState = state.setIn(['nextDetail'], action.detail);
+  const currentDetail = state.getIn(['nextDetail']);
 
   const rangeFilterDetail = rangeFilter(
     currentDetail.get('POINT_X'),
     currentDetail.get('SIZE')
   );
 
-  const shadow = state.get('map').filter((row, y) => row.get('id') < 0);
+  const shadow = state.get('world').filter((row, y) => row.get('id') < 0);
 
   const shadowWithDetail = shadow.map((row, y) => {
     let nextSizeDetail = 0;
@@ -31,8 +31,8 @@ const getNextDetail = (state, action) => {
   });
 
   return nextState
-    .set('map', state.get('map').merge(shadowWithDetail))
-    .setIn(['info', 'currentDetail'], Map({
+    .set('world', state.get('world').merge(shadowWithDetail))
+    .set('currentDetail', Map({
       kind: currentDetail.get('KIND'),
       pointX: currentDetail.get('POINT_X'),
       pointY: currentDetail.get('POINT_Y'),

@@ -1,4 +1,4 @@
-import {SPEED, MAX_SPEED} from '../constants/config';
+/* import {SPEED, MAX_SPEED} from '../constants/config';
 import {UP_SPEED, LOW_SPEED} from '../constants/ActionTypes';
 
 const speed = (state = SPEED, action) => {
@@ -13,3 +13,4 @@ const speed = (state = SPEED, action) => {
 };
 
 export default speed;
+*/

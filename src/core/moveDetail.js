@@ -1,4 +1,5 @@
 import {checkAroundDetail, echo, inc, dec} from '../core/checkAroundDetail';
+// refactoring
 
 const decoratorTernaryUnary = (condition, onTrue, onFalse) =>
   arg => condition(arg) ? onTrue(arg) : onFalse ? onFalse(arg) : null;
@@ -48,9 +49,9 @@ const updateX = (lastX, moveDetail) => {
 
 
 const getStateMoveDetail = (moveDetail, state) => {
-  const p = state.getIn(['info', 'currentDetail', 'pointY']);
-  const r = p + state.getIn(['info', 'currentDetail', 'size']);
-  const rowsDetail = state.get('map').filter((row, y) => y >= p && r > y);
+  const p = state.getIn(['currentDetail', 'pointY']);
+  const r = p + state.getIn(['currentDetail', 'size']);
+  const rowsDetail = state.get('world').filter((row, y) => y >= p && r > y);
 
   const nextRowsDetail = moveDetail(rowsDetail);
 
@@ -58,19 +59,19 @@ const getStateMoveDetail = (moveDetail, state) => {
 
   const optionsMerge = {
     nextRows: nextRowsDetail,
-    nextMap: state.get('map')
+    nextMap: state.get('world')
   };
 
-  const nextState = state.get('map').reduce((opt, row, y) => {
+  const nextState = state.get('world').reduce((opt, row, y) => {
     if (!(y >= p && r > y)) return opt;
     opt.nextMap = opt.nextMap.set(y, opt.nextRows.first());
     opt.nextRows = opt.nextRows.shift();
     return opt;
   }, optionsMerge);
 
-  return state.set('map', nextState.nextMap).setIn(
-    ['info', 'currentDetail', 'pointX'],
-    updateX(state.getIn(['info', 'currentDetail', 'pointX']), moveDetail)
+  return state.set('world', nextState.nextMap).setIn(
+    ['currentDetail', 'pointX'],
+    updateX(state.getIn(['currentDetail', 'pointX']), moveDetail)
   );
 };
 

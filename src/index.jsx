@@ -17,6 +17,7 @@ import store from './store/index';
   + 7. readme
   + 8. up scale display
   9. test event?
+  10. reduce deep store
 */
 
 render(
