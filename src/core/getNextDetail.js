@@ -22,10 +22,7 @@ const getNextDetail = (state, action) => {
 
       return block.set(
         'value',
-        currentDetail
-          .get('BODY')
-          .get(y)
-          .get(nextSizeDetail++)
+        currentDetail.getIn(['BODY', y, nextSizeDetail++])
       );
     }));
   });

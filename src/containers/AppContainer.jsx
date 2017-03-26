@@ -132,7 +132,7 @@ class AppContainer extends Component {
   }
 
   render() {
-    return <App world={this.props.world} />;
+    return <App world={this.props.world} score={this.props.score} />;
   }
 }
 
@@ -144,7 +144,8 @@ AppContainer.propTypes = {
 
 const mapStateToProps = state => ({
   world: state.get('world'),
-  speed: state.get('speed')
+  speed: state.get('speed'),
+  score: state.get('score')
 });
 
 const mapDispatchToProps = dispatch => ({

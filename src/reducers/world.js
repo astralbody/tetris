@@ -34,9 +34,11 @@ const world = (state = initialWorld(), action) => {
   case ROTATE_DETAIL:
     return rotateDetail(state);           // fix, refact
   case COMPLETE_ROW:
-    return state.set('world', completeRow(state.get('world'), action)); // refact
+    return completeRow(state, action); // refact
   case OVER_GAME:
-    return state.set('world', fillWorldMap(state.get('world'), 0)); // refact
+    return state
+      .set('world', fillWorldMap(state.get('world'), 0))
+      .set('score', 0); // refact
   case START_GAME:
     return state;
   case UP_SPEED:
