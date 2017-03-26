@@ -9,7 +9,7 @@ import {initialWorld} from '../core/initialWorld';
 
 describe('<Block />', () => {
   const propBlock = initialWorld(1, 1)
-    .get('map')
+    .get('world')
     .get(0)
     .get('blocks')
     .get(0);

@@ -10,15 +10,16 @@ import {
   UP_SPEED,
   LOW_SPEED
 } from '../constants/ActionTypes';
+import {SPEED, MAX_SPEED} from '../constants/config';
 import {initialWorld} from '../core/initialWorld';
 import getNextDetail from '../core/getNextDetail';
 import shiftDownBlock from '../core/shiftDownBlock';
 import transformBlock from '../core/transformBlock';
-import moveDetail from './moveDetail';
 import completeRow from '../core/completeRow';
 import {rotateDetail} from '../core/rotateDetail';
 import fillWorldMap from '../core/fillWorldMap';
-import {SPEED, MAX_SPEED} from '../constants/config';
+import moveDetail from './moveDetail';
+
 
 const world = (state = initialWorld(), action) => {
   switch (action.type) {

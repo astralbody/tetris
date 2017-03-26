@@ -18,7 +18,7 @@ import setRowsInWorldMap from '../core/setRowsInWorldMap';
 /* eslint no-undef: 0 */
 
 test('setRowsInWorldMap() test support function', () => {
-  const worldMap = initialWorld().get('map');
+  const worldMap = initialWorld().get('world');
   const row = fromJS([{
     id: 2,
     blocks: [
@@ -45,10 +45,10 @@ describe('reducer world()', () => {
     const state = initialWorld();
     const returnState = world(undefined, {});
 
-    expect(returnState.setIn(
-      ['info', 'nextDetail'],
-      state.getIn(['info', 'nextDetail'])
-    )).toEqual(state);
+    expect(returnState.set(
+      'nextDetail',
+      state.get('nextDetail')
+    ).set('time', state.get('time'))).toEqual(state);
   });
 
   it('world() handle START_GAME', () => {
@@ -68,8 +68,8 @@ describe('reducer world()', () => {
     const numCompleteRow = 23;
 
     const stateComplete = state.setIn(
-      ['map', numCompleteRow, 'blocks'],
-      state.getIn(['map', numCompleteRow, 'blocks'])
+      ['world', numCompleteRow, 'blocks'],
+      state.getIn(['world', numCompleteRow, 'blocks'])
         .map(block => block.set('value', 1))
     );
     const returnStateComplete = world(
@@ -83,22 +83,23 @@ describe('reducer world()', () => {
   it('world() and getNextDetail() handle NEXT_DETAIL', () => {
     const state = initialWorld();
 
-    const nextDetailOfState = state.getIn(['info', 'nextDetail']);
+    const nextDetailOfState = state.get('nextDetail');
 
-    const stateNextDetail = state.set('info', fromJS({
-      nextDetail: I,
-      currentDetail: fromJS({
+    const stateNextDetail = state
+      .set('nextDetail', I)
+      .set('currentDetail', fromJS({
         kind: nextDetailOfState.get('KIND'),
         pointX: nextDetailOfState.get('POINT_X'),
         pointY: nextDetailOfState.get('POINT_Y'),
         size: nextDetailOfState.get('SIZE')
-      })
-    }));
+      }));
 
     const returnStateNextDetail = world(state, nextDetail(I));
 
-    expect(returnStateNextDetail.get('info'))
-      .toEqual(stateNextDetail.get('info'));
+    expect(returnStateNextDetail.get('nextDetail'))
+      .toEqual(stateNextDetail.get('nextDetail'));
+    expect(returnStateNextDetail.get('currentDetail'))
+      .toEqual(stateNextDetail.get('currentDetail'));
   });
 
   it('world() and rotateDetail() handle ROTATE_DETAIL', () => {
@@ -220,16 +221,16 @@ describe('reducer world()', () => {
     }]);
 
     const stateDetail = state
-      .set('map', setRowsInWorldMap(state.get('map'), 4, rowsDetail))
-      .setIn(['info', 'currentDetail'], fromJS({
+      .set('world', setRowsInWorldMap(state.get('world'), 4, rowsDetail))
+      .set('currentDetail', fromJS({
         kind: I.get('KIND'),
         pointX: I.get('POINT_X'),
         pointY: 4,
         size: I.get('SIZE')
       }));
     const stateRotate = state
-      .set('map', setRowsInWorldMap(state.get('map'), 4, rowsRotateDetail))
-      .setIn(['info', 'currentDetail'], fromJS({
+      .set('world', setRowsInWorldMap(state.get('world'), 4, rowsRotateDetail))
+      .set('currentDetail', fromJS({
         kind: I.get('KIND'),
         pointX: I.get('POINT_X'),
         pointY: 4,
@@ -292,24 +293,24 @@ describe('reducer world()', () => {
       }]);
 
       const stateDetail = state
-        .set('map', setRowsInWorldMap(state.get('map'), 5, rowDetail))
-        .setIn(['info', 'currentDetail'], fromJS({
+        .set('world', setRowsInWorldMap(state.get('world'), 5, rowDetail))
+        .set('currentDetail', fromJS({
           kind: I.get('KIND'),
           pointX: I.get('POINT_X'),
           pointY: 4,
           size: I.get('SIZE')
         }));
       const stateMoveLeft = state
-        .set('map', setRowsInWorldMap(state.get('map'), 5, rowMoveLeft))
-        .setIn(['info', 'currentDetail'], fromJS({
+        .set('world', setRowsInWorldMap(state.get('world'), 5, rowMoveLeft))
+        .set('currentDetail', fromJS({
           kind: I.get('KIND'),
           pointX: I.get('POINT_X') - 1,
           pointY: 4,
           size: I.get('SIZE')
         }));
       const stateMoveRight = state
-        .set('map', setRowsInWorldMap(state.get('map'), 5, rowMoveRight))
-        .setIn(['info', 'currentDetail'], fromJS({
+        .set('world', setRowsInWorldMap(state.get('world'), 5, rowMoveRight))
+        .set('currentDetail', fromJS({
           kind: I.get('KIND'),
           pointX: I.get('POINT_X') + 1,
           pointY: 4,
@@ -365,12 +366,12 @@ describe('reducer world()', () => {
     }]);
 
     const stateDetail = state.set(
-      'map',
-      setRowsInWorldMap(state.get('map'), 5, rowDetail)
+      'world',
+      setRowsInWorldMap(state.get('world'), 5, rowDetail)
     );
     const stateTransform = state.set(
-      'map',
-      setRowsInWorldMap(state.get('map'), 5, rowTransform)
+      'world',
+      setRowsInWorldMap(state.get('world'), 5, rowTransform)
     );
 
     const returnState = world(stateDetail, transformBlock({from: 2, to: 1}));
@@ -413,16 +414,16 @@ describe('reducer world()', () => {
     }]);
 
     const stateDetail = state
-      .set('map', setRowsInWorldMap(state.get('map'), 5, rowDetail))
-      .setIn(['info', 'currentDetail'], fromJS({
+      .set('world', setRowsInWorldMap(state.get('world'), 5, rowDetail))
+      .set('currentDetail', fromJS({
         kind: I.get('KIND'),
         pointX: I.get('POINT_X') - 1,
         pointY: 4,
         size: I.get('SIZE')
       }));
     const stateDownDetail = state
-      .set('map', setRowsInWorldMap(state.get('map'), 6, rowDownDetail))
-      .setIn(['info', 'currentDetail'], fromJS({
+      .set('world', setRowsInWorldMap(state.get('world'), 6, rowDownDetail))
+      .set('currentDetail', fromJS({
         kind: I.get('KIND'),
         pointX: I.get('POINT_X') - 1,
         pointY: 5,

@@ -8,11 +8,11 @@ import App from './App';
 import Game from './Game';
 import {initialWorld} from '../core/initialWorld';
 
-const world = initialWorld();
+const state = initialWorld();
 
 test('<App />', () =>
   expect(
-    shallow(<App world={world.get('map')} />)
-      .contains(<Game world={world.get('map')} />)
+    shallow(<App world={state.get('world')} />)
+      .contains(<Game world={state.get('world')} />)
   ).toBe(true)
 );

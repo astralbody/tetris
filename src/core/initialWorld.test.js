@@ -2,7 +2,7 @@ import {initialWorld} from './initialWorld';
 /* eslint no-undef: 0 */
 
 describe('initialWorld()', () => {
-  const answer = initialWorld(10, 30).get('map');
+  const answer = initialWorld(10, 30).get('world');
 
   it('Size', () => {
     expect(answer.size).toBe(10);

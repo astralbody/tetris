@@ -11,14 +11,14 @@ import {initialWorld} from '../core/initialWorld';
 describe('<Game />', () => {
   const x = 10;
   const z = 24;
-  const world = initialWorld(z, x);
-  const wrapper = shallow(<Game world={world.get('map')} />);
+  const state = initialWorld(z, x);
+  const wrapper = shallow(<Game world={state.get('world')} />);
 
   it('render without throwing an error', () => {
     expect(wrapper.contains(
       <Row
-        blocks={world.get('map').get(5).get('blocks')}
-        key={world.get('map').get(5).get('id')}
+        blocks={state.get('world').get(5).get('blocks')}
+        key={state.get('world').get(5).get('id')}
       />
     )).toBe(true);
   });
