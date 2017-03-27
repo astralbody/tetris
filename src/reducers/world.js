@@ -8,7 +8,9 @@ import {
   OVER_GAME,
   START_GAME,
   UP_SPEED,
-  LOW_SPEED
+  LOW_SPEED,
+  SET_STOPWATCH,
+  TICK_STOPWATCH
 } from '../constants/ActionTypes';
 import {SPEED, MAX_SPEED} from '../constants/config';
 import {initialWorld} from '../core/initialWorld';
@@ -19,6 +21,7 @@ import completeRow from '../core/completeRow';
 import {rotateDetail} from '../core/rotateDetail';
 import fillWorldMap from '../core/fillWorldMap';
 import moveDetail from './moveDetail';
+import tick from '../core/tick';
 
 
 const world = (state = initialWorld(), action) => {
@@ -45,6 +48,10 @@ const world = (state = initialWorld(), action) => {
     return state.set('speed', MAX_SPEED);
   case LOW_SPEED:
     return state.set('speed', SPEED);
+  case SET_STOPWATCH:
+    return state.set('stopwatch', action.time);
+  case TICK_STOPWATCH:
+    return state.set('stopwatch', tick(state.get('stopwatch')));
   default:
     return state;
   }

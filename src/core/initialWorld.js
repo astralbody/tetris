@@ -1,4 +1,4 @@
-import {fromJS} from 'immutable';
+import {fromJS, List} from 'immutable';
 import counter from './counter';
 import {getRandomDetails} from './getRandomDetails';
 import {SPEED} from '../constants/config';
@@ -35,7 +35,7 @@ export const initialWorld = (y = 24, x = 10) => {
     },
     score: 0,
     hiScore: 0, // localStorage
-    time: new Date(),
+    stopwatch: List([0, 0, 0]),
     speed: SPEED
 /*  info: {
       currentDetail: {
