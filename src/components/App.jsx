@@ -21,7 +21,7 @@ App.propTypes = {
   score: PropTypes.number.isRequired,
   hiScore: PropTypes.number.isRequired,
   nextDetail: PropTypes.instanceOf(Map).isRequired,
-  stopwatch: PropTypes.instanceOf(List).isRequired
+  stopwatch: PropTypes.string.isRequired
 };
 
 export default App;

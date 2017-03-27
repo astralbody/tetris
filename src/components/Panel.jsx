@@ -1,12 +1,12 @@
 import React, {PropTypes} from 'react';
-import {Map, List} from 'immutable';
+import {Map} from 'immutable';
 import Row from './Row';
 import counter from '../core/counter';
 import styles from './Panel.css';
 
 const Panel = ({score, hiScore, nextDetail, stopwatch}) => {
   const counterRow = counter(300);
-  const counterBlock = counter(305);
+  const counterBlock = counter(310);
 
   return (
     <div className={styles.container}>
@@ -17,9 +17,8 @@ const Panel = ({score, hiScore, nextDetail, stopwatch}) => {
         {nextDetail.has('BODY') ? nextDetail.get('BODY').map(row =>
           <Row
             key={counterRow()}
-            blocks={row.map(value => Map({value, kay: counterBlock()}))}
-          />) :
-          null
+            blocks={row.map(value => Map({value, id: counterBlock()}))}
+          />) : null
         }
       </div>
     </div>
@@ -30,7 +29,7 @@ Panel.propTypes = {
   score: PropTypes.number.isRequired,
   hiScore: PropTypes.number.isRequired,
   nextDetail: PropTypes.instanceOf(Map).isRequired,
-  stopwatch: PropTypes.instanceOf(List).isRequired
+  stopwatch: PropTypes.string.isRequired
 };
 
 export default Panel;
