@@ -1,7 +1,7 @@
 import React, {Component, PropTypes} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
-import {list} from 'react-immutable-proptypes';
+import {Map, List} from 'immutable';
 import App from '../components/App';
 import * as TetrisActions from '../actions/index';
 import * as sides from '../constants/MoveSide';
@@ -132,20 +132,32 @@ class AppContainer extends Component {
   }
 
   render() {
-    return <App world={this.props.world} score={this.props.score} />;
+    return (
+      <App
+        world={this.props.world}
+        score={this.props.score}
+        hiScore={this.props.hiScore}
+        nextDetail={this.props.nextDetail}
+      />
+    );
   }
 }
 
 AppContainer.propTypes = {
   actions: PropTypes.objectOf(PropTypes.func.isRequired).isRequired,
-  world: list.isRequired,
-  speed: PropTypes.number.isRequired
+  world: PropTypes.instanceOf(List).isRequired,
+  speed: PropTypes.number.isRequired,
+  score: PropTypes.number.isRequired,
+  hiScore: PropTypes.number.isRequired,
+  nextDetail: PropTypes.instanceOf(Map).isRequired
 };
 
 const mapStateToProps = state => ({
   world: state.get('world'),
   speed: state.get('speed'),
-  score: state.get('score')
+  score: state.get('score'),
+  hiScore: state.get('hiScore'),
+  nextDetail: state.get('nextDetail')
 });
 
 const mapDispatchToProps = dispatch => ({

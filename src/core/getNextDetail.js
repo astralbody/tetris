@@ -2,9 +2,8 @@ import {Map} from 'immutable';
 
 const getNextDetail = (state, action) => {
   const rangeFilter = (start, size) => x => !(start <= x && x < start + size);
-
-  const nextState = state.setIn(['nextDetail'], action.detail);
-  const currentDetail = state.getIn(['nextDetail']);
+  const nextState = state.set('nextDetail', action.detail);
+  const currentDetail = state.get('nextDetail');
 
   const rangeFilterDetail = rangeFilter(
     currentDetail.get('POINT_X'),
