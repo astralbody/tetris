@@ -1,9 +1,9 @@
 import React, {PropTypes} from 'react';
-import './Block.css';
+import styles from './Block.css';
 
 const Block = prop =>
   <div
-    className={`block ${prop.value ? 'black' : 'white'}`}
+    className={`${styles.block} ${prop.value ? styles.black : styles.white}`}
   />;
 
 Block.propTypes = {

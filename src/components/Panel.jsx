@@ -1,18 +1,19 @@
 import React, {PropTypes} from 'react';
-import {Map} from 'immutable';
+import {Map, List} from 'immutable';
 import Row from './Row';
 import counter from '../core/counter';
-import './Panel.css';
+import styles from './Panel.css';
 
-const Panel = ({score, hiScore, nextDetail}) => {
+const Panel = ({score, hiScore, nextDetail, stopwatch}) => {
   const counterRow = counter(300);
   const counterBlock = counter(305);
 
   return (
-    <div className="panel__container">
-      <div className="panel__score">{score}</div>
-      <div className="panel__hi-score">{hiScore}</div>
-      <div>
+    <div className={styles.container}>
+      <div className={styles.score}>{score}</div>
+      <div className={styles.hiScore}>{hiScore}</div>
+      <div className={styles.stopwatch}>{stopwatch}</div>
+      <div className={styles.nextDetail}>
         {nextDetail.has('BODY') ? nextDetail.get('BODY').map(row =>
           <Row
             key={counterRow()}
@@ -28,8 +29,8 @@ const Panel = ({score, hiScore, nextDetail}) => {
 Panel.propTypes = {
   score: PropTypes.number.isRequired,
   hiScore: PropTypes.number.isRequired,
-  nextDetail: PropTypes.instanceOf(Map).isRequired
-  // time: PropTypes.instanceOf(Date).isRequired
+  nextDetail: PropTypes.instanceOf(Map).isRequired,
+  stopwatch: PropTypes.instanceOf(List).isRequired
 };
 
 export default Panel;

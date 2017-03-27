@@ -9,3 +9,5 @@ export const COMPLETE_ROW = 'COMPLETE_ROW';
 export const OVER_GAME = 'OVER_GAME';
 export const UP_SPEED = 'UP_SPEED';
 export const LOW_SPEED = 'LOW_SPEED';
+export const SET_STOPWATCH = 'SET_STOPWATCH';
+export const TICK_STOPWATCH = 'TICK_STOPWATCH';

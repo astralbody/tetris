@@ -1,10 +1,10 @@
-import React from 'react';
-import {list} from 'react-immutable-proptypes';
+import React, {PropTypes} from 'react';
+import {List} from 'immutable';
 import Block from './Block';
-import './Row.css';
+import styles from './Row.css';
 
 const Row = ({blocks}) => (
-  <div className="row">
+  <div className={styles.row}>
     {blocks.map(block =>
       <Block
         value={block.get('value')}
@@ -15,7 +15,7 @@ const Row = ({blocks}) => (
 );
 
 Row.propTypes = {
-  blocks: list.isRequired
+  blocks: PropTypes.instanceOf(List).isRequired
 };
 
 export default Row;

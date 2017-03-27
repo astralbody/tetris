@@ -1,10 +1,10 @@
 import React from 'react';
 import {list} from 'react-immutable-proptypes';
 import Row from './Row';
-import './Game.css';
+import styles from './Game.css';
 
 const Game = ({world}) => (
-  <div className="game">
+  <div className={styles.game}>
     {world.filter((row, z) => row.get('id') >= 0).map(row =>
       <Row
         blocks={row.get('blocks')}

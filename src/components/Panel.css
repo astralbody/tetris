@@ -1,21 +1,24 @@
-.panel__container {
-  position: absolute;
-  top: 10px;
-  left: 10px;
+.container {
+  margin: 10px 0px 0px 10px;
 }
 
-.panel__score {
+.score {
   position: absolute;
   top: 150px;
 }
-.panel__score::before {
-  content: 'Score: '
-}
 
-.panel__hi-score {
+.hiScore {
   position: absolute;
   top: 170px;
 }
-.panel__hi-score::before {
-  content: 'Hi-Score: '
+
+.stopwatch {
+  position: absolute;
+  top: 190px;
+}
+
+.nextDetail {
+  position: absolute;
+  top: 10px;
+  left: 10px;
 }

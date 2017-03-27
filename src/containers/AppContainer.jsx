@@ -7,6 +7,7 @@ import * as TetrisActions from '../actions/index';
 import * as sides from '../constants/MoveSide';
 import {getRandomDetails} from '../core/getRandomDetails';
 import {checkAroundDetail, inc, echo} from '../core/checkAroundDetail';
+import formatStopwatch from '../core/formatStopwatch';
 
 class AppContainer extends Component {
   constructor(props) {
@@ -17,6 +18,10 @@ class AppContainer extends Component {
     this.handleCycle = this.handleCycle.bind(this);
     this.handleOverGame = this.handleOverGame.bind(this);
     this.handleUpdate = this.handleUpdate.bind(this);
+    this.handleOffStopwatch = this.handleOffStopwatch.bind(this);
+    this.handleOnStopwatch = this.handleOnStopwatch.bind(this);
+    this.handleTickStopwatch = this.handleTickStopwatch.bind(this);
+    this.handleSetStopwatch = this.handleSetStopwatch.bind(this);
   }
 
   componentDidMount() {
@@ -116,9 +121,29 @@ class AppContainer extends Component {
 
   handleStartGame() {
     this.handleOverGame();
+    this.handleOnStopwatch();
     this.props.actions.runStartGame();
     this.props.actions.nextDetail(getRandomDetails());
     this.playGame = setInterval(this.handleCycle, this.props.speed);
+  }
+
+  handleOnStopwatch() {
+    this.handleSetStopwatch();
+    this.handleTickStopwatch();
+  }
+
+  handleSetStopwatch() {
+    this.props.actions.setStopwatch(List([0, 0, 0]));
+  }
+
+  handleOffStopwatch() {
+    this.handleSetStopwatch();
+    clearTimeout(this.stopwatch);
+  }
+
+  handleTickStopwatch() {
+    this.stopwatch = setTimeout(this.handleTickStopwatch, 1000);
+    this.props.actions.tickStopwatch();
   }
 
   handleUpdate(e) {
@@ -128,6 +153,7 @@ class AppContainer extends Component {
 
   handleOverGame() {
     this.props.actions.runOverGame();
+    this.handleOffStopwatch();
     if (this.playGame) clearInterval(this.playGame);
   }
 
@@ -138,6 +164,7 @@ class AppContainer extends Component {
         score={this.props.score}
         hiScore={this.props.hiScore}
         nextDetail={this.props.nextDetail}
+        stopwatch={formatStopwatch(this.props.stopwatch)}
       />
     );
   }
@@ -149,7 +176,8 @@ AppContainer.propTypes = {
   speed: PropTypes.number.isRequired,
   score: PropTypes.number.isRequired,
   hiScore: PropTypes.number.isRequired,
-  nextDetail: PropTypes.instanceOf(Map).isRequired
+  nextDetail: PropTypes.instanceOf(Map).isRequired,
+  stopwatch: PropTypes.instanceOf(List).isRequired
 };
 
 const mapStateToProps = state => ({
@@ -157,7 +185,8 @@ const mapStateToProps = state => ({
   speed: state.get('speed'),
   score: state.get('score'),
   hiScore: state.get('hiScore'),
-  nextDetail: state.get('nextDetail')
+  nextDetail: state.get('nextDetail'),
+  stopwatch: state.get('stopwatch')
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -23,7 +23,15 @@ module.exports = {
         exclude: /node_modules/,
         use: [
           'style-loader',
-          'css-loader'
+          {
+            loader: 'css-loader',
+            options: {
+              modules: true,
+              localIdentName: '[path][name]__[local]--[hash:base64:5]',
+              getLocalIdent: (context, localIdentName, localName, options) =>
+                localName
+            }
+          }
         ]
       }, {
         test: /\.(js|jsx)$/,
