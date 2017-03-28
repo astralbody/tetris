@@ -10,8 +10,8 @@ const Panel = ({score, hiScore, nextDetail, stopwatch}) => {
 
   return (
     <div className={styles.container}>
-      <div className={styles.score}>{score}</div>
-      <div className={styles.hiScore}>{hiScore}</div>
+      <div className={styles.score}>Score: {score}</div>
+      <div className={styles.hiScore}>Hi-Score: {hiScore}</div>
       <div className={styles.stopwatch}>{stopwatch}</div>
       <div className={styles.nextDetail}>
         {nextDetail.has('BODY') ? nextDetail.get('BODY').map(row =>

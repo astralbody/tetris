@@ -17,6 +17,7 @@ import store from './store/index';
   + 8. up scale display
   + 10. reduce deep store
   11. refactoring code (last)
+  12. add toggle flag to speed up
 */
 
 render(

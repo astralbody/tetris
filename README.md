@@ -7,7 +7,7 @@ DHTML game. React + Redux.
 0. `$ git clone https://github.com/magicwantabstract/tetris.git`
 1. `$ cd tetris`
 2. `$ npm i`
-3. `$ npm run dev`
+3. `$ npm run start`
 4. open `http://localhost:9000`
 
 ### Control

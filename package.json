@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "dev": "./node_modules/.bin/webpack-dev-server -d"
+    "dev": "./node_modules/.bin/webpack-dev-server -d",
+    "start": "node ./server/server.js"
   },
   "repository": {
     "type": "git",
@@ -13,19 +14,20 @@
   },
   "keywords": [],
   "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/magicwantabstract/tetris/issues"
   },
   "homepage": "https://github.com/magicwantabstract/tetris#readme",
   "dependencies": {
+    "enzyme": "^2.7.1",
+    "express": "^4.15.2",
     "immutable": "^3.8.1",
     "react": "^15.4.2",
     "react-dom": "^15.4.2",
-    "react-redux": "^5.0.2",
-    "redux": "^3.6.0",
     "react-immutable-proptypes": "^2.1.0",
-    "enzyme": "^2.7.1"
+    "react-redux": "^5.0.2",
+    "redux": "^3.6.0"
   },
   "devDependencies": {
     "babel-core": "^6.22.1",
