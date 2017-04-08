@@ -47,8 +47,9 @@ export const setDisplay = filter => ({
   filter
 });
 
-export const runOverGame = () => ({
-  type: OVER_GAME
+export const runOverGame = hiScore => ({
+  type: OVER_GAME,
+  hiScore
 });
 
 export const runStartGame = () => ({

@@ -29,7 +29,10 @@ const world = (state = initialWorld(), action) => {
   case DOWN_BLOCK:
     return shiftDownBlock(state, action); // fix, refact
   case TRANSFORM_BLOCK:
-    return state.set('world', transformBlock(state.get('world'), action.options)); // refact, rename
+    return state.set(
+      'world',
+      transformBlock(state.get('world'), action.options)
+    ); // refact, rename
   case MOVE_DETAIL:
     return moveDetail(state, action);     // fix, refact
   case NEXT_DETAIL:
@@ -37,11 +40,12 @@ const world = (state = initialWorld(), action) => {
   case ROTATE_DETAIL:
     return rotateDetail(state);           // fix, refact
   case COMPLETE_ROW:
-    return completeRow(state, action); // refact
+    return completeRow(state, action);    // refact
   case OVER_GAME:
     return state
       .set('world', fillWorldMap(state.get('world'), 0))
-      .set('score', 0); // refact
+      .set('score', 0)
+      .set('hiScore', action.hiScore); // refact
   case START_GAME:
     return state;
   case UP_SPEED:

@@ -8,6 +8,7 @@ import * as sides from '../constants/MoveSide';
 import {getRandomDetails} from '../core/getRandomDetails';
 import {checkAroundDetail, inc, echo} from '../core/checkAroundDetail';
 import formatStopwatch from '../core/formatStopwatch';
+import getHiScore from '../core/getHiScore';
 
 class AppContainer extends Component {
   constructor(props) {
@@ -80,7 +81,6 @@ class AppContainer extends Component {
       gameOver: false
     };
 
-
     this.props.world.forEach((row, y) => {
       nextStep.completeRow = true;
 
@@ -120,10 +120,12 @@ class AppContainer extends Component {
   }
 
   handleStartGame() {
+    const {runStartGame, nextDetail} = this.props.actions;
+
     this.handleOverGame();
     this.handleOnStopwatch();
-    this.props.actions.runStartGame();
-    this.props.actions.nextDetail(getRandomDetails());
+    runStartGame();
+    nextDetail(getRandomDetails());
     this.playGame = setInterval(this.handleCycle, this.props.speed);
   }
 
@@ -152,7 +154,10 @@ class AppContainer extends Component {
   }
 
   handleOverGame() {
-    this.props.actions.runOverGame();
+    const {score, actions: {runOverGame}, hiScore} = this.props;
+    if (score > hiScore) localStorage.setItem('hiScore', score);
+
+    runOverGame(getHiScore(localStorage.getItem('hiScore')));
     this.handleOffStopwatch();
     if (this.playGame) clearInterval(this.playGame);
   }

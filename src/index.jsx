@@ -10,7 +10,7 @@ import store from './store/index';
   + 3. next and current detail
   + 3.1 next detail
   4. panels
-  5. count score
+  + 5. count score
   9. test event? test next detail?
   6. multicolor detail?
   + 7. readme

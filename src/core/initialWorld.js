@@ -2,6 +2,7 @@ import {fromJS, List} from 'immutable';
 import counter from './counter';
 import {getRandomDetails} from './getRandomDetails';
 import {SPEED} from '../constants/config';
+import getHiScore from './getHiScore';
 
 export const initialRow = (x, fRowID = Math.random, fBlockID = Math.random) => ({
   blocks: Array.from({length: x}, block => ({
@@ -34,7 +35,7 @@ export const initialWorld = (y = 24, x = 10) => {
       size: randomDetails.get('SIZE')
     },
     score: 0,
-    hiScore: 0, // localStorage
+    hiScore: getHiScore(localStorage.getItem('hiScore')),
     stopwatch: List([0, 0, 0]),
     speed: SPEED
 /*  info: {
