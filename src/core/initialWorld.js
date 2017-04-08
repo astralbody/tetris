@@ -38,22 +38,5 @@ export const initialWorld = (y = 24, x = 10) => {
     hiScore: getHiScore(localStorage.getItem('hiScore')),
     stopwatch: List([0, 0, 0]),
     speed: SPEED
-/*  info: {
-      currentDetail: {
-        kind: 'kind',
-        pointX: 0,
-        pointY: 0,
-        size: 0
-      },
-      nextDetail: {
-        kind: randomDetails.get('KIND'),
-        pointX: randomDetails.get('POINT_X'),
-        pointY: randomDetails.get('POINT_Y'),
-        size: randomDetails.get('SIZE')
-      },
-      score: 0,
-      hiScore: 0, // localStorage
-      time: new Date()
-    }*/
   });
 };

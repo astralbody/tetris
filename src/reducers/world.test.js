@@ -14,11 +14,15 @@ import {
 import {MOVE_LEFT, MOVE_RIGHT} from '../constants/MoveSide';
 import {I} from '../constants/ShapeDetail';
 import setRowsInWorldMap from '../core/setRowsInWorldMap';
+import localStorage from '../__mocks__/localStorage';
+import getHiScore from '../core/getHiScore';
 
+
+Object.defineProperty(global, 'localStorage', {value: localStorage()});
 /* eslint no-undef: 0 */
 
 test('setRowsInWorldMap() test support function', () => {
-  const worldMap = initialWorld().get('world');
+  const stateWorld = initialWorld().get('world');
   const row = fromJS([{
     id: 2,
     blocks: [
@@ -34,10 +38,9 @@ test('setRowsInWorldMap() test support function', () => {
       {value: 0, id: 69}
     ]
   }]);
+  const returnWorld = setRowsInWorldMap(stateWorld, 6, row);
 
-  const returnWorldMap = setRowsInWorldMap(worldMap, 6, row);
-
-  return expect(returnWorldMap.equals(worldMap)).toBe(true);
+  return expect(returnWorld.equals(stateWorld)).toBe(true);
 });
 
 describe('reducer world()', () => {
@@ -45,10 +48,8 @@ describe('reducer world()', () => {
     const state = initialWorld();
     const returnState = world(undefined, {});
 
-    expect(returnState.set(
-      'nextDetail',
-      state.get('nextDetail')
-    ).set('time', state.get('time'))).toEqual(state);
+    expect(returnState.set('nextDetail', state.get('nextDetail')))
+      .toEqual(state);
   });
 
   it('world() handle START_GAME', () => {
@@ -59,7 +60,7 @@ describe('reducer world()', () => {
 
   it('world() and fillWorldMap() handle OVER_GAME', () => {
     const state = initialWorld();
-    const returnStateGameOver = world(state, runOverGame());
+    const returnStateGameOver = world(state, runOverGame(getHiScore('')));
     expect(returnStateGameOver).toEqual(state);
   });
 
@@ -77,7 +78,7 @@ describe('reducer world()', () => {
       completeRow(numCompleteRow)
     );
 
-    expect(returnStateComplete).toEqual(state);
+    expect(returnStateComplete).toEqual(state.set('score', 10));
   });
 
   it('world() and getNextDetail() handle NEXT_DETAIL', () => {

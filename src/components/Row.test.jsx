@@ -7,6 +7,9 @@ import {shallow} from 'enzyme';
 import Row from './Row';
 import Block from './Block';
 import {initialWorld} from '../core/initialWorld';
+import localStorage from '../__mocks__/localStorage';
+
+Object.defineProperty(global, 'localStorage', {value: localStorage()});
 
 describe('<Row />', () => {
   const x = 10;

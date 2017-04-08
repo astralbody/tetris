@@ -1,5 +1,8 @@
 import {initialWorld} from './initialWorld';
+import localStorage from '../__mocks__/localStorage';
+
 /* eslint no-undef: 0 */
+Object.defineProperty(global, 'localStorage', {value: localStorage()});
 
 describe('initialWorld()', () => {
   const answer = initialWorld(10, 30).get('world');

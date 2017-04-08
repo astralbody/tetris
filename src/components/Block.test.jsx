@@ -1,12 +1,12 @@
-/* eslint
-  no-undef: 0,
-  no-unused-vars: 0
-*/
 import React from 'react';
 import {shallow} from 'enzyme';
 import Block from './Block';
 import {initialWorld} from '../core/initialWorld';
+import localStorage from '../__mocks__/localStorage';
 
+Object.defineProperty(global, 'localStorage', {value: localStorage()});
+
+/* eslint no-undef: 0, no-unused-vars: 0 */
 describe('<Block />', () => {
   const propBlock = initialWorld(1, 1)
     .get('world')
