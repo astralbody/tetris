@@ -1,5 +1,5 @@
 import {fromJS} from 'immutable';
-import world from './world';
+import rootReducer from './index';
 import {initialWorld} from '../core/initialWorld';
 import {
   runStartGame,
@@ -43,28 +43,28 @@ test('setRowsInWorldMap() test support function', () => {
   return expect(returnWorld.equals(stateWorld)).toBe(true);
 });
 
-describe('reducer world()', () => {
-  it('world() create and return state', () => {
+describe('reducer rootReducer()', () => {
+  it('rootReducer() create and return state', () => {
     const state = initialWorld();
-    const returnState = world(undefined, {});
+    const returnState = rootReducer(undefined, {});
 
     expect(returnState.set('nextDetail', state.get('nextDetail')))
       .toEqual(state);
   });
 
-  it('world() handle START_GAME', () => {
+  it('rootReducer() handle START_GAME', () => {
     const state = initialWorld();
-    const returnStateGameStart = world(state, runStartGame());
+    const returnStateGameStart = rootReducer(state, runStartGame());
     expect(returnStateGameStart).toEqual(state);
   });
 
-  it('world() and fillWorldMap() handle OVER_GAME', () => {
+  it('rootReducer() and fillWorldMap() handle OVER_GAME', () => {
     const state = initialWorld();
-    const returnStateGameOver = world(state, runOverGame(getHiScore('')));
+    const returnStateGameOver = rootReducer(state, runOverGame(getHiScore('')));
     expect(returnStateGameOver).toEqual(state);
   });
 
-  it('world() and completeRow() handle COMPLETE_ROW', () => {
+  it('rootReducer() and completeRow() handle COMPLETE_ROW', () => {
     const state = initialWorld();
     const numCompleteRow = 23;
 
@@ -73,7 +73,7 @@ describe('reducer world()', () => {
       state.getIn(['world', numCompleteRow, 'blocks'])
         .map(block => block.set('value', 1))
     );
-    const returnStateComplete = world(
+    const returnStateComplete = rootReducer(
       stateComplete,
       completeRow(numCompleteRow)
     );
@@ -81,7 +81,7 @@ describe('reducer world()', () => {
     expect(returnStateComplete).toEqual(state.set('score', 10));
   });
 
-  it('world() and getNextDetail() handle NEXT_DETAIL', () => {
+  it('rootReducer() and getNextDetail() handle NEXT_DETAIL', () => {
     const state = initialWorld();
 
     const nextDetailOfState = state.get('nextDetail');
@@ -95,7 +95,7 @@ describe('reducer world()', () => {
         size: nextDetailOfState.get('SIZE')
       }));
 
-    const returnStateNextDetail = world(state, nextDetail(I));
+    const returnStateNextDetail = rootReducer(state, nextDetail(I));
 
     expect(returnStateNextDetail.get('nextDetail'))
       .toEqual(stateNextDetail.get('nextDetail'));
@@ -103,7 +103,7 @@ describe('reducer world()', () => {
       .toEqual(stateNextDetail.get('currentDetail'));
   });
 
-  it('world() and rotateDetail() handle ROTATE_DETAIL', () => {
+  it('rootReducer() and rotateDetail() handle ROTATE_DETAIL', () => {
     const state = initialWorld();
 
     const rowsDetail = fromJS([{
@@ -238,12 +238,12 @@ describe('reducer world()', () => {
         size: I.get('SIZE')
       }));
 
-    const returnStateRotate = world(stateDetail, rotateDetail());
+    const returnStateRotate = rootReducer(stateDetail, rotateDetail());
     expect(returnStateRotate).toEqual(stateRotate);
   });
 
   it(
-    'world() and moveDetail(), getStateMoveLeftDetail(), getStateMoveRightDetail() handle MOVE_DETAIL',
+    'rootReducer() and moveDetail(), getStateMoveLeftDetail(), getStateMoveRightDetail() handle MOVE_DETAIL',
     () => {
       const state = initialWorld();
 
@@ -318,11 +318,11 @@ describe('reducer world()', () => {
           size: I.get('SIZE')
         }));
 
-      const returnStateMoveLeft = world(
+      const returnStateMoveLeft = rootReducer(
         stateDetail,
         moveDetail(MOVE_LEFT)
       );
-      const returnStateMoveRight = world(
+      const returnStateMoveRight = rootReducer(
         stateDetail,
         moveDetail(MOVE_RIGHT)
       );
@@ -332,7 +332,7 @@ describe('reducer world()', () => {
     }
   );
 
-  it('world() and transformBlock() handle TRANSFORM_BLOCK', () => {
+  it('rootReducer() and transformBlock() handle TRANSFORM_BLOCK', () => {
     const state = initialWorld();
 
     const rowDetail = fromJS([{
@@ -375,12 +375,12 @@ describe('reducer world()', () => {
       setRowsInWorldMap(state.get('world'), 5, rowTransform)
     );
 
-    const returnState = world(stateDetail, transformBlock({from: 2, to: 1}));
+    const returnState = rootReducer(stateDetail, transformBlock({from: 2, to: 1}));
 
     expect(returnState).toEqual(stateTransform);
   });
 
-  it('world() and shiftDownBlock() handle DOWN_BLOCK', () => {
+  it('rootReducer() and shiftDownBlock() handle DOWN_BLOCK', () => {
     const state = initialWorld();
 
     const rowDetail = fromJS([{
@@ -431,7 +431,7 @@ describe('reducer world()', () => {
         size: I.get('SIZE')
       }));
 
-    const returnState = world(stateDetail, downBlock());
+    const returnState = rootReducer(stateDetail, downBlock());
 
     expect(stateDownDetail.equals(returnState)).toBe(true);
   });

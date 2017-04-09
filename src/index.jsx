@@ -9,19 +9,20 @@ import store from './store/index';
   + 2. move very fast detail, when keydown press key 'down'
   + 3. next and current detail
   + 3.1 next detail
-  4. panels
+  ? 4. panels
   + 5. count score
   9. test event? test next detail?
-  6. multicolor detail?
+  ? 6. multicolor detail
   + 7. readme
   + 8. up scale display
   + 10. reduce deep store
   11. refactoring code (last)
-  12. add toggle flag to speed up
+  - 12. add toggle flag to speed up
+  ? 13. pause
 */
 
-render(
-  (<Provider store={store}>
+render((
+  <Provider store={store}>
     <AppContainer />
   </Provider>),
   document.getElementById('root')
