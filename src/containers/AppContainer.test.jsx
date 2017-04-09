@@ -2,7 +2,6 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import {Provider} from 'react-redux';
 import {createStore} from 'redux';
-
 import AppContainer from './AppContainer';
 import world from '../reducers/index';
 import localStorage from '../__mocks__/localStorage';

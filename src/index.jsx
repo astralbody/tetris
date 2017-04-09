@@ -11,7 +11,7 @@ import store from './store/index';
   + 3.1 next detail
   ? 4. panels
   + 5. count score
-  9. test event? test next detail?
+  + 9. test event? test next detail?
   ? 6. multicolor detail
   + 7. readme
   + 8. up scale display
@@ -19,6 +19,13 @@ import store from './store/index';
   11. refactoring code (last)
   - 12. add toggle flag to speed up
   ? 13. pause
+*/
+
+/* Possible improvements:
+  [TEST]
+  1. Try snapshot
+  2. Deep test <AppContainer />
+  3. ...
 */
 
 render((
