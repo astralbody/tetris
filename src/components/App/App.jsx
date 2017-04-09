@@ -1,7 +1,7 @@
 import React, {PropTypes} from 'react';
 import {List, Map} from 'immutable';
-import Game from './Game';
-import Panel from './Panel';
+import Game from '../Game/Game';
+import Panel from '../Panel/Panel';
 import styles from './App.css';
 
 const App = ({world, score, hiScore, nextDetail, stopwatch}) => (

@@ -1,6 +1,6 @@
 import React, {PropTypes} from 'react';
 import {List} from 'immutable';
-import Block from './Block';
+import Block from '../Block/Block';
 import styles from './Row.css';
 
 const Row = ({blocks}) => (

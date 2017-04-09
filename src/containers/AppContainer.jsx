@@ -2,7 +2,7 @@ import React, {Component, PropTypes} from 'react';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {Map, List} from 'immutable';
-import App from '../components/App';
+import App from '../components/App/App';
 import * as TetrisActions from '../actions/index';
 import * as sides from '../constants/MoveSide';
 import {getRandomDetails} from '../core/getRandomDetails';

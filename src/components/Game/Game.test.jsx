@@ -1,30 +1,25 @@
-/* eslint
-  no-undef: 0,
-  no-unused-vars: 0
-*/
 import React from 'react';
 import {shallow} from 'enzyme';
 import Game from './Game';
-import Row from './Row';
-import {initialWorld} from '../core/initialWorld';
-import localStorage from '../__mocks__/localStorage';
+import Row from '../Row/Row';
+import {initialWorld} from '../../core/initialWorld';
+import localStorage from '../../__mocks__/localStorage';
 
 Object.defineProperty(global, 'localStorage', {value: localStorage()});
 
+/* eslint no-undef: 0 */
 describe('<Game />', () => {
   const x = 10;
   const z = 24;
   const state = initialWorld(z, x);
   const wrapper = shallow(<Game world={state.get('world')} />);
 
-  it('render without throwing an error', () => {
-    expect(wrapper.contains(
-      <Row
-        blocks={state.get('world').get(5).get('blocks')}
-        key={state.get('world').get(5).get('id')}
-      />
-    )).toBe(true);
-  });
+  it('render without throwing an error', () => expect(wrapper.contains(
+    <Row
+      blocks={state.getIn(['world', 5, 'blocks'])}
+      key={state.getIn(['world', 5, 'id'])}
+    />
+  )).toBe(true));
 
   it('render className', () => {
     wrapper.find('.game', {}, result => expect(result.length).toBe(1));

@@ -1,6 +1,6 @@
-import React from 'react';
-import {list} from 'react-immutable-proptypes';
-import Row from './Row';
+import React, {PropTypes} from 'react';
+import {List} from 'immutable';
+import Row from '../Row/Row';
 import styles from './Game.css';
 
 const Game = ({world}) => (
@@ -10,12 +10,10 @@ const Game = ({world}) => (
         blocks={row.get('blocks')}
         key={row.get('id')}
       />
-  )}
+    )}
   </div>
 );
 
-Game.propTypes = {
-  world: list.isRequired
-};
+Game.propTypes = {world: PropTypes.instanceOf(List).isRequired};
 
 export default Game;
