@@ -23,6 +23,9 @@ class AppContainer extends Component {
     this.handleOnStopwatch = this.handleOnStopwatch.bind(this);
     this.handleTickStopwatch = this.handleTickStopwatch.bind(this);
     this.handleSetStopwatch = this.handleSetStopwatch.bind(this);
+    this.handlePause = this.handlePause.bind(this);
+    this.handleOffCycle = this.handleOffCycle.bind(this);
+    this.handleOnCycle = this.handleOnCycle.bind(this);
   }
 
   componentDidMount() {
@@ -68,6 +71,9 @@ class AppContainer extends Component {
     case 40:
         this.props.actions.upSpeed();
         this.handleUpdate();
+        break;
+    case 77:
+        this.handlePause();
         break;
     default:
         break;
@@ -126,20 +132,41 @@ class AppContainer extends Component {
     this.handleOnStopwatch();
     runStartGame();
     nextDetail(getRandomDetails());
+    this.handleOnCycle();
+  }
+
+  handleOnCycle() {
+    if (this.playGame) return;
     this.playGame = setInterval(this.handleCycle, this.props.speed);
   }
 
-  handleOnStopwatch() {
-    this.handleSetStopwatch();
+  handleOffCycle() {
+    if (!this.playGame) return;
+    clearInterval(this.playGame);
+    this.playGame = null;
+  }
+
+  handlePause() {
+    if (this.playGame) {
+      this.handleOffCycle();
+      this.handleOffStopwatch(this.props.stopwatch);
+    } else {
+      this.handleOnCycle();
+      this.handleOnStopwatch(this.props.stopwatch);
+    }
+  }
+
+  handleOnStopwatch(time = List([0, 0, 0])) {
+    this.handleSetStopwatch(time);
     this.handleTickStopwatch();
   }
 
-  handleSetStopwatch() {
-    this.props.actions.setStopwatch(List([0, 0, 0]));
+  handleSetStopwatch(time) {
+    this.props.actions.setStopwatch(time);
   }
 
-  handleOffStopwatch() {
-    this.handleSetStopwatch();
+  handleOffStopwatch(time = List([0, 0, 0])) {
+    this.handleSetStopwatch(time);
     clearTimeout(this.stopwatch);
   }
 
@@ -159,7 +186,7 @@ class AppContainer extends Component {
 
     runOverGame(getHiScore(localStorage.getItem('hiScore')));
     this.handleOffStopwatch();
-    if (this.playGame) clearInterval(this.playGame);
+    this.handleOffCycle();
   }
 
   render() {

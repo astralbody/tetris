@@ -15,6 +15,7 @@ DHTML game. React + Redux.
 |------------|----------------|
 | Exit       | Escape         |
 | Play       | P              |
+| Pause      | M              |
 | Move right | Arrow Right, D |
 | Move left  | Arrow Left, A  |
 | Rotate     | Enter, Space   |

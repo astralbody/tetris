@@ -18,14 +18,14 @@ import store from './store/index';
   + 10. reduce deep store
   11. refactoring code (last)
   - 12. add toggle flag to speed up
-  ? 13. pause
+  + 13. pause
 */
 
 /* Possible improvements:
   [TEST]
   1. Try snapshot
   2. Deep test <AppContainer />
-  3. ...
+  3. Mocks across Jest
 */
 
 render((
