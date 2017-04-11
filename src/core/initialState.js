@@ -4,23 +4,27 @@ import {getRandomDetails} from './getRandomDetails';
 import {SPEED} from '../constants/config';
 import getHiScore from './getHiScore';
 
-export const initialRow = (x, fRowID = Math.random, fBlockID = Math.random) => ({
+export const initialRow = (
+  x,
+  getRowId = Math.random,
+  getBlockId = Math.random
+) => ({
   blocks: Array.from({length: x}, block => ({
-    id: fBlockID(),
+    id: getBlockId(),
     value: 0
   })),
-  id: fRowID()
+  id: getRowId()
 });
 
-export const initialWorld = (y = 24, x = 10) => {
-  const counterRow = counter(-4);
-  const counterBlock = counter(0);
+export const initialState = (y = 24, x = 10) => {
+  const countRow = counter(-4);
+  const countBlock = counter(0);
   const randomDetails = getRandomDetails();
 
   return fromJS({
-    world: Array.from( // rename map
+    world: Array.from(
       {length: y},
-      row => initialRow(x, counterRow, counterBlock)
+      row => initialRow(x, countRow, countBlock)
     ),
     currentDetail: {
       kind: 'kind',

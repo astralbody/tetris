@@ -5,20 +5,21 @@
   "main": "index.js",
   "scripts": {
     "test": "jest",
-    "dev": "./node_modules/.bin/webpack-dev-server -d",
-    "start": "node ./server/server.js"
+    "dev": "npm run prod > /dev/null && ./node_modules/.bin/webpack-dev-server -d",
+    "start": "node ./server/server.js",
+    "prod": "./node_modules/.bin/webpack --config webpack.config.prod.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/magicwantabstract/tetris.git"
+    "url": "git+https://github.com/abstractmagicalwand/tetris.git"
   },
   "keywords": [],
   "author": "",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/magicwantabstract/tetris/issues"
+    "url": "https://github.com/abstractmagicalwand/tetris/issues"
   },
-  "homepage": "https://github.com/magicwantabstract/tetris#readme",
+  "homepage": "https://github.com/abstractmagicalwand/tetris#readme",
   "dependencies": {
     "express": "^4.15.2",
     "immutable": "^3.8.1",
@@ -29,34 +30,39 @@
   },
   "devDependencies": {
     "babel-core": "^6.22.1",
+    "babel-eslint": "^7.2.2",
     "babel-jest": "^18.0.0",
     "babel-loader": "^6.2.10",
     "babel-plugin-react": "^1.0.0",
     "babel-polyfill": "^6.22.0",
     "babel-preset-es2015": "^6.22.0",
     "babel-preset-react": "^6.22.0",
-    "babel-preset-stage-3": "^6.24.1",
+    "babel-preset-stage-0": "^6.24.1",
     "css-loader": "^0.26.1",
-    "enzyme": "^2.7.1",
+    "enzyme": "^2.8.2",
     "eslint": "^3.15.0",
     "eslint-config-airbnb": "^14.1.0",
     "eslint-loader": "^1.6.1",
+    "eslint-plugin-babel": "^4.1.1",
     "eslint-plugin-import": "^2.2.0",
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-react": "^6.9.0",
-    "file-loader": "^0.10.0",
+    "file-loader": "^0.10.1",
     "jest": "^18.1.0",
+    "normalize.css": "^6.0.0",
+    "postcss": "^5.2.17",
+    "postcss-loader": "^1.3.3",
     "react-addons-test-utils": "^15.4.2",
-    "react-dom": "^15.4.2",
+    "react-css-modules": "^4.2.0",
     "react-hot-loader": "^3.0.0-beta.6",
     "style-loader": "^0.13.1",
-    "url-loader": "^0.5.7",
     "webpack": "^2.2.1",
     "webpack-dev-server": "^2.3.0"
   },
   "jest": {
     "moduleNameMapper": {
-      "\\.css$": "identity-obj-proxy"
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "identity-obj-proxy",
+      "\\.(css|less)$": "identity-obj-proxy"
     },
     "transform": {
       "^.+\\.jsx?$": "babel-jest"

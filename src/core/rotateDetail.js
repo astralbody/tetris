@@ -1,4 +1,7 @@
+import {O} from '../constants/ShapeDetail';
+
 export const zip = rows => rows[0].map((_, c) => rows.map(row => row[c]));
+export const destruct = rows => rows.reduce((r, row) => r.concat(...row), []);
 
 export const extractDetail = (worldMap, pointX, pointY, size) =>
   worldMap.filter((row, y) => y >= pointY && y < pointY + size).map((row, y) =>
@@ -15,17 +18,9 @@ export const insertDetail = (worldMap, pointX, pointY, size, nextPos) =>
     )) : row
   );
 
-export const destructArr = rows => rows.reduce((dest, row) => {
-  dest.push(...row);
-  return dest;
-}, []);
-
 export const rotateDetail = (state) => {
-  const {pointX, pointY, size, kind} = state
-    .get('currentDetail')
-    .toJS();
-
-  if (kind === 'O' || pointY + size > 24) return state; // import constants
+  const {pointX, pointY, size, kind} = state.get('currentDetail').toJS();
+  if (kind === O.get('KIND') || pointY + size > 24) return state;
 
   const extracted = extractDetail(state.get('world'), pointX, pointY, size);
 
@@ -38,7 +33,7 @@ export const rotateDetail = (state) => {
       pointX,
       pointY,
       size,
-      destructArr(zip(extracted).map(row => row.reverse())) // in separete variable
+      destruct(zip(extracted).map(row => row.reverse())) // in separete variable
     )
   );
 };

@@ -1,38 +1,58 @@
 import React, {PropTypes} from 'react';
 import {Map} from 'immutable';
 import Row from '../Row/Row';
-import counter from '../../core/counter';
-import styles from './Panel.css';
+import s from './Panel.css';
+import {PRICE} from '../../constants/config';
+import pausePng from './pause.png';
 
-const Panel = ({score, hiScore, nextDetail, stopwatch}) => {
-  const counterRow = counter(300);
-  const counterBlock = counter(310);
-
-  return (
-    <div className={styles.container}>
-      <div className={styles.score}>Score: {score}</div>
-      <div className={styles.hiScore}>Hi-Score: {hiScore}</div>
-      <div className={styles.stopwatch}>{stopwatch}</div>
-      <div className={styles.nextDetail}>
+const Panel = ({score, hiScore, nextDetail, stopwatch, pause, test}) => (
+  <div className={s.container}>
+    <div className={s.containerNextDetail}>
+      <div className={s.nextDetail}>
         {nextDetail.has('BODY')
-          ? nextDetail.get('BODY').map(row =>
+          ? nextDetail.get('BODY').map((row, idx) => (
             <Row
-              key={counterRow()}
-              blocks={row.map(value => Map({value, id: counterBlock()}))}
+              key={idx}
+              blocks={row.map((value, idx) => Map({value, id: idx}))}
             />
-          )
+          ))
           : null
         }
       </div>
     </div>
-  );
-};
+    <div className={s.info}>
+      <span className={s.score}>Score:</span>
+      <span>{score}</span>
+      <span className={s.hiScore}>Hi-Score:</span>
+      <span>{hiScore}</span>
+      <span>Rows:</span>
+      <span>{score / PRICE}</span>
+      <span>Stopwatch:</span>
+      <span className={s.stopwatch}>{stopwatch}</span>
+    </div>
+    <div className={s.containerPause}>
+      {test ? [] : (
+        <img
+          alt="pause"
+          className={`${s.pause} ${pause ? s.on : s.off}`}
+          src={pausePng}
+        />
+      )}
+    </div>
+  </div>
+);
 
 Panel.propTypes = {
   score: PropTypes.number.isRequired,
   hiScore: PropTypes.number.isRequired,
   nextDetail: PropTypes.instanceOf(Map).isRequired,
-  stopwatch: PropTypes.string.isRequired
+  stopwatch: PropTypes.string.isRequired,
+  pause: PropTypes.bool.isRequired,
+  test: PropTypes.bool
+};
+
+Panel.defaultProps = {
+  test: false
 };
 
 export default Panel;

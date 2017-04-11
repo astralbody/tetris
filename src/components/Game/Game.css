@@ -1,6 +1,10 @@
+@value config: "../../constants/config.css";
+@value app-height, app-border from config;
+
 .game {
   width: 300px;
-  display: block;
-  height: 600px;
-  margin: auto;
+  height: app-height;
+  border: app-border;
+  flex-direction: row;
+  display: inline-block;
 }

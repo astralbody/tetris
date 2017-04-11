@@ -13,18 +13,18 @@ import {
   TICK_STOPWATCH
 } from '../constants/ActionTypes';
 import {SPEED, MAX_SPEED} from '../constants/config';
-import {initialWorld} from '../core/initialWorld';
+import {initialState} from '../core/initialState';
 import getNextDetail from '../core/getNextDetail';
 import shiftDownBlock from '../core/shiftDownBlock';
 import transformBlock from '../core/transformBlock';
 import completeRow from '../core/completeRow';
 import {rotateDetail} from '../core/rotateDetail';
-import fillWorldMap from '../core/fillWorldMap';
+import fillWorld from '../core/fillWorld';
 import moveDetail from './moveDetail';
 import tick from '../core/tick';
 
 
-const rootReducer = (state = initialWorld(), action) => {
+const rootReducer = (state = initialState(), action) => {
   switch (action.type) {
   case DOWN_BLOCK:
     return shiftDownBlock(state, action); // fix, refact
@@ -43,7 +43,7 @@ const rootReducer = (state = initialWorld(), action) => {
     return completeRow(state, action);    // refact
   case OVER_GAME:
     return state
-      .set('world', fillWorldMap(state.get('world'), 0))
+      .set('world', fillWorld(state.get('world'), 0))
       .set('score', 0)
       .set('hiScore', action.hiScore); // refact
   case START_GAME:

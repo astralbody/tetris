@@ -1,6 +1,6 @@
 import {fromJS} from 'immutable';
 import rootReducer from './index';
-import {initialWorld} from '../core/initialWorld';
+import {initialState} from '../core/initialState';
 import {
   runStartGame,
   runOverGame,
@@ -13,16 +13,14 @@ import {
 } from '../actions/index';
 import {MOVE_LEFT, MOVE_RIGHT} from '../constants/MoveSide';
 import {I} from '../constants/ShapeDetail';
-import setRowsInWorldMap from '../core/setRowsInWorldMap';
+import setRows from '../core/setRows';
 import localStorage from '../__mocks__/localStorage';
 import getHiScore from '../core/getHiScore';
 
-
 Object.defineProperty(global, 'localStorage', {value: localStorage()});
-/* eslint no-undef: 0 */
 
-test('setRowsInWorldMap() test support function', () => {
-  const stateWorld = initialWorld().get('world');
+test('setRows() test support function', () => {
+  const stateWorld = initialState().get('world');
   const row = fromJS([{
     id: 2,
     blocks: [
@@ -38,14 +36,14 @@ test('setRowsInWorldMap() test support function', () => {
       {value: 0, id: 69}
     ]
   }]);
-  const returnWorld = setRowsInWorldMap(stateWorld, 6, row);
+  const returnWorld = setRows(stateWorld, 6, row);
 
   return expect(returnWorld.equals(stateWorld)).toBe(true);
 });
 
 describe('reducer rootReducer()', () => {
   it('rootReducer() create and return state', () => {
-    const state = initialWorld();
+    const state = initialState();
     const returnState = rootReducer(undefined, {});
 
     expect(returnState.set('nextDetail', state.get('nextDetail')))
@@ -53,19 +51,19 @@ describe('reducer rootReducer()', () => {
   });
 
   it('rootReducer() handle START_GAME', () => {
-    const state = initialWorld();
+    const state = initialState();
     const returnStateGameStart = rootReducer(state, runStartGame());
     expect(returnStateGameStart).toEqual(state);
   });
 
-  it('rootReducer() and fillWorldMap() handle OVER_GAME', () => {
-    const state = initialWorld();
+  it('rootReducer() and fillWorld() handle OVER_GAME', () => {
+    const state = initialState();
     const returnStateGameOver = rootReducer(state, runOverGame(getHiScore('')));
     expect(returnStateGameOver).toEqual(state);
   });
 
   it('rootReducer() and completeRow() handle COMPLETE_ROW', () => {
-    const state = initialWorld();
+    const state = initialState();
     const numCompleteRow = 23;
 
     const stateComplete = state.setIn(
@@ -82,7 +80,7 @@ describe('reducer rootReducer()', () => {
   });
 
   it('rootReducer() and getNextDetail() handle NEXT_DETAIL', () => {
-    const state = initialWorld();
+    const state = initialState();
 
     const nextDetailOfState = state.get('nextDetail');
 
@@ -104,7 +102,7 @@ describe('reducer rootReducer()', () => {
   });
 
   it('rootReducer() and rotateDetail() handle ROTATE_DETAIL', () => {
-    const state = initialWorld();
+    const state = initialState();
 
     const rowsDetail = fromJS([{
       id: 0,
@@ -222,7 +220,7 @@ describe('reducer rootReducer()', () => {
     }]);
 
     const stateDetail = state
-      .set('world', setRowsInWorldMap(state.get('world'), 4, rowsDetail))
+      .set('world', setRows(state.get('world'), 4, rowsDetail))
       .set('currentDetail', fromJS({
         kind: I.get('KIND'),
         pointX: I.get('POINT_X'),
@@ -230,7 +228,7 @@ describe('reducer rootReducer()', () => {
         size: I.get('SIZE')
       }));
     const stateRotate = state
-      .set('world', setRowsInWorldMap(state.get('world'), 4, rowsRotateDetail))
+      .set('world', setRows(state.get('world'), 4, rowsRotateDetail))
       .set('currentDetail', fromJS({
         kind: I.get('KIND'),
         pointX: I.get('POINT_X'),
@@ -245,7 +243,7 @@ describe('reducer rootReducer()', () => {
   it(
     'rootReducer() and moveDetail(), getStateMoveLeftDetail(), getStateMoveRightDetail() handle MOVE_DETAIL',
     () => {
-      const state = initialWorld();
+      const state = initialState();
 
       const rowDetail = fromJS([{
         id: 1,
@@ -294,7 +292,7 @@ describe('reducer rootReducer()', () => {
       }]);
 
       const stateDetail = state
-        .set('world', setRowsInWorldMap(state.get('world'), 5, rowDetail))
+        .set('world', setRows(state.get('world'), 5, rowDetail))
         .set('currentDetail', fromJS({
           kind: I.get('KIND'),
           pointX: I.get('POINT_X'),
@@ -302,7 +300,7 @@ describe('reducer rootReducer()', () => {
           size: I.get('SIZE')
         }));
       const stateMoveLeft = state
-        .set('world', setRowsInWorldMap(state.get('world'), 5, rowMoveLeft))
+        .set('world', setRows(state.get('world'), 5, rowMoveLeft))
         .set('currentDetail', fromJS({
           kind: I.get('KIND'),
           pointX: I.get('POINT_X') - 1,
@@ -310,7 +308,7 @@ describe('reducer rootReducer()', () => {
           size: I.get('SIZE')
         }));
       const stateMoveRight = state
-        .set('world', setRowsInWorldMap(state.get('world'), 5, rowMoveRight))
+        .set('world', setRows(state.get('world'), 5, rowMoveRight))
         .set('currentDetail', fromJS({
           kind: I.get('KIND'),
           pointX: I.get('POINT_X') + 1,
@@ -333,7 +331,7 @@ describe('reducer rootReducer()', () => {
   );
 
   it('rootReducer() and transformBlock() handle TRANSFORM_BLOCK', () => {
-    const state = initialWorld();
+    const state = initialState();
 
     const rowDetail = fromJS([{
       id: 1,
@@ -368,11 +366,11 @@ describe('reducer rootReducer()', () => {
 
     const stateDetail = state.set(
       'world',
-      setRowsInWorldMap(state.get('world'), 5, rowDetail)
+      setRows(state.get('world'), 5, rowDetail)
     );
     const stateTransform = state.set(
       'world',
-      setRowsInWorldMap(state.get('world'), 5, rowTransform)
+      setRows(state.get('world'), 5, rowTransform)
     );
 
     const returnState = rootReducer(stateDetail, transformBlock({from: 2, to: 1}));
@@ -381,7 +379,7 @@ describe('reducer rootReducer()', () => {
   });
 
   it('rootReducer() and shiftDownBlock() handle DOWN_BLOCK', () => {
-    const state = initialWorld();
+    const state = initialState();
 
     const rowDetail = fromJS([{
       id: 1,
@@ -415,7 +413,7 @@ describe('reducer rootReducer()', () => {
     }]);
 
     const stateDetail = state
-      .set('world', setRowsInWorldMap(state.get('world'), 5, rowDetail))
+      .set('world', setRows(state.get('world'), 5, rowDetail))
       .set('currentDetail', fromJS({
         kind: I.get('KIND'),
         pointX: I.get('POINT_X') - 1,
@@ -423,7 +421,7 @@ describe('reducer rootReducer()', () => {
         size: I.get('SIZE')
       }));
     const stateDownDetail = state
-      .set('world', setRowsInWorldMap(state.get('world'), 6, rowDownDetail))
+      .set('world', setRows(state.get('world'), 6, rowDownDetail))
       .set('currentDetail', fromJS({
         kind: I.get('KIND'),
         pointX: I.get('POINT_X') - 1,

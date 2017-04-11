@@ -1,6 +1,5 @@
 import * as types from '../constants/ActionTypes';
 import * as sides from '../constants/MoveSide';
-import * as filters from '../constants/DisplayFilters';
 import * as actions from './index';
 /* eslint no-undef: 0 */
 
@@ -49,13 +48,6 @@ describe('actions', () => {
     expect(actions.completeRow(3)).toEqual({
       type: types.COMPLETE_ROW,
       y: 3
-    });
-  });
-
-  it('setDisplay should create SET_DISPLAY', () => {
-    expect(actions.setDisplay(filters.SHOW_AFTER_GAME)).toEqual({
-      type: types.SET_DISPLAY,
-      filter: filters.SHOW_AFTER_GAME
     });
   });
 

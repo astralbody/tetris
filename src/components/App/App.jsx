@@ -2,17 +2,14 @@ import React, {PropTypes} from 'react';
 import {List, Map} from 'immutable';
 import Game from '../Game/Game';
 import Panel from '../Panel/Panel';
-import styles from './App.css';
+import {container, app} from './App.css';
 
-const App = ({world, score, hiScore, nextDetail, stopwatch}) => (
-  <div className={styles.main}>
-    <Game world={world} />
-    <Panel
-      score={score}
-      hiScore={hiScore}
-      nextDetail={nextDetail}
-      stopwatch={stopwatch}
-    />
+const App = ({world, ...props}) => (
+  <div className={container}>
+    <div className={app}>
+      <Game world={world} />
+      <Panel {...props} />
+    </div>
   </div>
 );
 
@@ -21,7 +18,8 @@ App.propTypes = {
   score: PropTypes.number.isRequired,
   hiScore: PropTypes.number.isRequired,
   nextDetail: PropTypes.instanceOf(Map).isRequired,
-  stopwatch: PropTypes.string.isRequired
+  stopwatch: PropTypes.string.isRequired,
+  pause: PropTypes.bool.isRequired
 };
 
 export default App;

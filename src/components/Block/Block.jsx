@@ -1,10 +1,9 @@
 import React, {PropTypes} from 'react';
-import styles from './Block.css';
+import {block, front, back} from './Block.css';
 
-const Block = prop =>
-  <div
-    className={`${styles.block} ${prop.value ? styles.black : styles.white}`}
-  />;
+const Block = ({value}) => (
+  <div className={`${block} ${value ? front : back}`} />
+);
 
 Block.propTypes = {
   value: PropTypes.number.isRequired

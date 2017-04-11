@@ -1,33 +1,45 @@
-import {Map} from 'immutable';
+import {Map, List} from 'immutable';
 
 const getNextDetail = (state, action) => {
   const rangeFilter = (start, size) => x => !(start <= x && x < start + size);
+
   const nextState = state.set('nextDetail', action.detail);
   const currentDetail = state.get('nextDetail');
-
   const rangeFilterDetail = rangeFilter(
     currentDetail.get('POINT_X'),
     currentDetail.get('SIZE')
   );
 
-  const shadow = state.get('world').filter((row, y) => row.get('id') < 0);
+  const shadowRows = state.get('world').filter((row, y) => row.get('id') < 0);
 
-  const shadowWithDetail = shadow.map((row, y) => {
-    let nextSizeDetail = 0;
-    if (y >= currentDetail.get('SIZE')) return row;
+  const nextShadowRows = shadowRows.reduce((acc, row, y) => {
+    if (y >= currentDetail.get('SIZE')) {
+      return {
+        nextSizeDetail: 0,
+        rows: acc.rows.push(row)
+      };
+    }
 
-    return row.set('blocks', row.get('blocks').map((block, x) => {
-      if (rangeFilterDetail(x)) return block;
+    return {
+      nextSizeDetail: 0,
+      rows: acc.rows.push(
+        row.set('blocks', row.get('blocks').map((block, x) => {
+          if (rangeFilterDetail(x)) return block;
 
-      return block.set(
-        'value',
-        currentDetail.getIn(['BODY', y, nextSizeDetail++])
-      );
-    }));
-  });
+          return block.set(
+            'value',
+            currentDetail.getIn(['BODY', y, acc.nextSizeDetail++])
+          );
+        }))
+      )
+    };
+  }, {
+    nextSizeDetail: 0,
+    rows: List()
+  }).rows;
 
   return nextState
-    .set('world', state.get('world').merge(shadowWithDetail))
+    .set('world', state.get('world').merge(nextShadowRows))
     .set('currentDetail', Map({
       kind: currentDetail.get('KIND'),
       pointX: currentDetail.get('POINT_X'),

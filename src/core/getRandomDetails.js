@@ -25,5 +25,3 @@ export const getRandomDetails = getRandomItemOfList.bind(
   null,
   getOfObjectToList(details)
 );
-
-export const getDetail = kind => details[kind];

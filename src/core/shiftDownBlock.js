@@ -1,4 +1,3 @@
-// refactoring
 const shiftDownBlock = (state) => {
   const flags = new Array(10).fill(false);
 

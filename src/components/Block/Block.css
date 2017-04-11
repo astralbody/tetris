@@ -1,13 +1,20 @@
+@value config: "../../constants/config.css";
+@value back-size, app-bg-color, front-size from config;
+
 .block {
-  height: 30px;
-  width: 30px;
   display: inline-block;
 }
 
-.white {
-  background-color: black;
+.back {
+  height: back-size;
+  width: back-size;
+  background-color: app-bg-color;
 }
 
-.black {
-  background-color: white;
+.front {
+  /* 4px = 2px */
+  height: front-size;
+  width: front-size;
+  border: 4px outset #5ca3ff;
+  background-color: #00A1FF;
 }

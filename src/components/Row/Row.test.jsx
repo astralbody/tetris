@@ -2,7 +2,7 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import Row from './Row';
 import Block from '../Block/Block';
-import {initialWorld} from '../../core/initialWorld';
+import {initialState} from '../../core/initialState';
 import localStorage from '../../__mocks__/localStorage';
 
 Object.defineProperty(global, 'localStorage', {value: localStorage()});
@@ -10,7 +10,7 @@ Object.defineProperty(global, 'localStorage', {value: localStorage()});
 /* eslint no-undef: 0 */
 describe('<Row />', () => {
   const x = 10;
-  const propRow = initialWorld(1, 10).get('world').get(0);
+  const propRow = initialState(1, 10).get('world').get(0);
   const block = propRow.get('blocks').get(0);
   const wrapper = shallow(
     <Row key={propRow.get('id')} blocks={propRow.get('blocks')} />

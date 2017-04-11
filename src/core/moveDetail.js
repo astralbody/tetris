@@ -1,8 +1,7 @@
 import {checkAroundDetail, echo, inc, dec} from '../core/checkAroundDetail';
-// refactoring
 
-const decoratorTernaryUnary = (condition, onTrue, onFalse) =>
-  arg => condition(arg) ? onTrue(arg) : onFalse ? onFalse(arg) : null;
+const decorCheckRun = (condition, onTrue) =>
+  arg => condition(arg) ? onTrue(arg) : null;
 
 const hasFreeSpace = (fx, fy, rows) => rows.reduce((result, row, y) =>
   row.get('blocks').reduce(
@@ -18,7 +17,6 @@ const hasFreeSpace = (fx, fy, rows) => rows.reduce((result, row, y) =>
 const hasLeftFreeSpace = hasFreeSpace.bind(null, dec, echo);
 const hasRightFreeSpace = hasFreeSpace.bind(null, inc, echo);
 
-
 const move = (method, crement) => rows => rows[method]((newRows, row, y) =>
   row.get('blocks')[method]((_newRows, block, x) =>
     block.get('value') === 2
@@ -33,8 +31,8 @@ const move = (method, crement) => rows => rows[method]((newRows, row, y) =>
 
 const moveRight = move('reduceRight', inc);
 const moveLeft = move('reduce', dec);
-const moveLeftDetail = decoratorTernaryUnary(hasLeftFreeSpace, moveLeft);
-const moveRightDetail = decoratorTernaryUnary(hasRightFreeSpace, moveRight);
+const moveLeftDetail = decorCheckRun(hasLeftFreeSpace, moveLeft);
+const moveRightDetail = decorCheckRun(hasRightFreeSpace, moveRight);
 
 const updateX = (lastX, moveDetail) => {
   switch (moveDetail) {
@@ -46,7 +44,6 @@ const updateX = (lastX, moveDetail) => {
     return lastX;
   }
 };
-
 
 const getStateMoveDetail = (moveDetail, state) => {
   const p = state.getIn(['currentDetail', 'pointY']);
@@ -77,7 +74,6 @@ const getStateMoveDetail = (moveDetail, state) => {
 
 const getStateMoveLeftDetail = getStateMoveDetail.bind(null, moveLeftDetail);
 const getStateMoveRightDetail = getStateMoveDetail.bind(null, moveRightDetail);
-
 
 export {
   getStateMoveLeftDetail,

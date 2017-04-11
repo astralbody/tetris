@@ -1,6 +1,6 @@
 const getHiScore = (hiScore) => {
-  const numHiScore = parseInt(hiScore, 10);
-  return isNaN(numHiScore) ? 0 : numHiScore;
+  const intHiScore = parseInt(hiScore, 10);
+  return isNaN(intHiScore) ? 0 : intHiScore;
 };
 
 export default getHiScore;

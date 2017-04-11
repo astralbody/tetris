@@ -1,3 +1,4 @@
-.row {
-  height: 30px;
-}
+@value config: "../../constants/config.css";
+@value back-size from config;
+
+.row { height: back-size; }

@@ -24,18 +24,14 @@ export const nextDetail = detail => ({
   detail
 });
 
-export const downBlock = () => ({
-  type: DOWN_BLOCK
-});
+export const downBlock = () => ({type: DOWN_BLOCK});
 
 export const moveDetail = side => ({
   type: MOVE_DETAIL,
   side
 });
 
-export const rotateDetail = () => ({
-  type: ROTATE_DETAIL
-});
+export const rotateDetail = () => ({type: ROTATE_DETAIL});
 
 export const completeRow = y => ({
   type: COMPLETE_ROW,
@@ -52,23 +48,15 @@ export const runOverGame = hiScore => ({
   hiScore
 });
 
-export const runStartGame = () => ({
-  type: START_GAME
-});
+export const runStartGame = () => ({type: START_GAME});
 
-export const upSpeed = () => ({
-  type: UP_SPEED
-});
+export const upSpeed = () => ({type: UP_SPEED});
 
-export const lowSpeed = () => ({
-  type: LOW_SPEED
-});
+export const lowSpeed = () => ({type: LOW_SPEED});
 
 export const setStopwatch = time => ({
   type: SET_STOPWATCH,
   time
 });
 
-export const tickStopwatch = () => ({
-  type: TICK_STOPWATCH
-});
+export const tickStopwatch = () => ({type: TICK_STOPWATCH});

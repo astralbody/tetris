@@ -1,24 +1,60 @@
+@import url('https://fonts.googleapis.com/css?family=Press+Start+2P');
+@value config: "../../constants/config.css";
+@value app-height, app-border, app-bg-color, pause-width, pause-height from config;
+
 .container {
-  margin: 10px 0px 0px 10px;
+  height: app-height;
+  width: 150px;
+  border: app-border;
+  border-left: 0px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 14px;
+  color: #000;
+  background: app-bg-color;
 }
 
-.score {
-  position: absolute;
-  top: 150px;
+.containerNextDetail {
+  width: 150px;
+  height: 150px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: app-bg-color;
+  border-bottom: app-border;
 }
 
-.hiScore {
-  position: absolute;
-  top: 170px;
+.info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  flex-basis: 2.5;
+  padding: 5px;
 }
 
-.stopwatch {
-  position: absolute;
-  top: 190px;
+.info > span {
+  margin-bottom: 20px;
+  margin-left: 10px;
 }
 
-.nextDetail {
-  position: absolute;
-  top: 10px;
-  left: 10px;
+.containerPause {
+  width: pause-width;
+  height: pause-height;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 10px;
+
 }
+
+.pause {
+  height: pause-height;
+  width: pause-width;
+  align-items: center;
+}
+
+.on { opacity: 1 }
+.off { opacity: 0.2 }
