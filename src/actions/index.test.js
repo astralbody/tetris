@@ -7,12 +7,12 @@ describe('actions', () => {
   it('transformBlock should create TRANSFORM_BLOCK action', () => {
     const options = {
       to: 1,
-      from: 0
+      from: 0,
     };
 
     expect(actions.transformBlock(options)).toEqual({
       type: types.TRANSFORM_BLOCK,
-      options
+      options,
     });
   });
 
@@ -21,45 +21,45 @@ describe('actions', () => {
 
     expect(actions.nextDetail(detail)).toEqual({
       type: types.NEXT_DETAIL,
-      detail
+      detail,
     });
   });
 
   it('downBlock should create DOWN_BLOCK', () =>
     expect(actions.downBlock()).toEqual({
-      type: types.DOWN_BLOCK
+      type: types.DOWN_BLOCK,
     })
   );
 
   it('moveDetail should create MOVE_DETAIL', () => {
     expect(actions.moveDetail(sides.MOVE_LEFT)).toEqual({
       type: types.MOVE_DETAIL,
-      side: sides.MOVE_LEFT
+      side: sides.MOVE_LEFT,
     });
   });
 
   it('rotateDetail should create ROTATE_DETAIL', () => {
     expect(actions.rotateDetail()).toEqual({
-      type: types.ROTATE_DETAIL
+      type: types.ROTATE_DETAIL,
     });
   });
 
   it('completeRow should create COMPLETE_ROW', () => {
     expect(actions.completeRow(3)).toEqual({
       type: types.COMPLETE_ROW,
-      y: 3
+      y: 3,
     });
   });
 
   it('runGameOver should create OVER_GAME', () => {
     expect(actions.runOverGame()).toEqual({
-      type: types.OVER_GAME
+      type: types.OVER_GAME,
     });
   });
 
   it('runGameStart should create GAME_START', () => {
     expect(actions.runStartGame()).toEqual({
-      type: types.START_GAME
+      type: types.START_GAME,
     });
   });
 });

@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {List, Map} from 'immutable';
 import Game from '../Game/Game';
 import Panel from '../Panel/Panel';
@@ -19,7 +20,7 @@ App.propTypes = {
   hiScore: PropTypes.number.isRequired,
   nextDetail: PropTypes.instanceOf(Map).isRequired,
   stopwatch: PropTypes.string.isRequired,
-  pause: PropTypes.bool.isRequired
+  pause: PropTypes.bool.isRequired,
 };
 
 export default App;

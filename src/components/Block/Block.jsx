@@ -1,4 +1,5 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {block, front, back} from './Block.css';
 
 const Block = ({value}) => (
@@ -6,7 +7,7 @@ const Block = ({value}) => (
 );
 
 Block.propTypes = {
-  value: PropTypes.number.isRequired
+  value: PropTypes.number.isRequired,
 };
 
 export default Block;

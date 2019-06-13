@@ -4,10 +4,10 @@ import * as details from '../constants/ShapeDetail';
 import {zip} from './rotateDetail';
 
 export const callRepeat = (n, f, a) =>
-  new Array(n).fill(null).reduce(res => f(res), a);
+  new Array(n).fill(null).reduce((res) => f(res), a);
 
-export const getOfObjectToList = object =>
-  List(Object.keys(object).map(kind => object[kind]));
+export const getOfObjectToList = (object) =>
+  new List(Object.keys(object).map((kind) => object[kind]));
 
 export const getRandomItemOfList = (list) => {
   const repeatRotate = getRandomInt(0, 3);
@@ -15,13 +15,13 @@ export const getRandomItemOfList = (list) => {
   const detail = list.get(idxDetail);
 
   return detail.set('BODY', fromJS(callRepeat(
-    repeatRotate,
-    body => zip(body).map(row => row.reverse()),
-    detail.get('BODY').toJS()
+      repeatRotate,
+      (body) => zip(body).map((row) => row.reverse()),
+      detail.get('BODY').toJS()
   )));
 };
 
 export const getRandomDetails = getRandomItemOfList.bind(
-  null,
-  getOfObjectToList(details)
+    null,
+    getOfObjectToList(details)
 );

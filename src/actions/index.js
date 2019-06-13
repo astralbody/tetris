@@ -11,41 +11,41 @@ import {
   UP_SPEED,
   LOW_SPEED,
   SET_STOPWATCH,
-  TICK_STOPWATCH
+  TICK_STOPWATCH,
 } from '../constants/ActionTypes';
 
-export const transformBlock = options => ({
+export const transformBlock = (options) => ({
   type: TRANSFORM_BLOCK,
-  options
+  options,
 });
 
-export const nextDetail = detail => ({
+export const nextDetail = (detail) => ({
   type: NEXT_DETAIL,
-  detail
+  detail,
 });
 
 export const downBlock = () => ({type: DOWN_BLOCK});
 
-export const moveDetail = side => ({
+export const moveDetail = (side) => ({
   type: MOVE_DETAIL,
-  side
+  side,
 });
 
 export const rotateDetail = () => ({type: ROTATE_DETAIL});
 
-export const completeRow = y => ({
+export const completeRow = (y) => ({
   type: COMPLETE_ROW,
-  y
+  y,
 });
 
-export const setDisplay = filter => ({
+export const setDisplay = (filter) => ({
   type: SET_DISPLAY,
-  filter
+  filter,
 });
 
-export const runOverGame = hiScore => ({
+export const runOverGame = (hiScore) => ({
   type: OVER_GAME,
-  hiScore
+  hiScore,
 });
 
 export const runStartGame = () => ({type: START_GAME});
@@ -54,9 +54,9 @@ export const upSpeed = () => ({type: UP_SPEED});
 
 export const lowSpeed = () => ({type: LOW_SPEED});
 
-export const setStopwatch = time => ({
+export const setStopwatch = (time) => ({
   type: SET_STOPWATCH,
-  time
+  time,
 });
 
 export const tickStopwatch = () => ({type: TICK_STOPWATCH});

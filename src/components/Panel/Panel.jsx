@@ -1,9 +1,9 @@
-import React, {PropTypes} from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import {Map} from 'immutable';
 import Row from '../Row/Row';
 import s from './Panel.css';
 import {PRICE} from '../../constants/config';
-import pausePng from './pause.png';
 
 const Panel = ({score, hiScore, nextDetail, stopwatch, pause, test}) => (
   <div className={s.container}>
@@ -13,7 +13,7 @@ const Panel = ({score, hiScore, nextDetail, stopwatch, pause, test}) => (
           ? nextDetail.get('BODY').map((row, idx) => (
             <Row
               key={idx}
-              blocks={row.map((value, idx) => Map({value, id: idx}))}
+              blocks={row.map((value, idx) => new Map({value, id: idx}))}
             />
           ))
           : null
@@ -35,7 +35,7 @@ const Panel = ({score, hiScore, nextDetail, stopwatch, pause, test}) => (
         <img
           alt="pause"
           className={`${s.pause} ${pause ? s.on : s.off}`}
-          src={pausePng}
+          src="/pause.png"
         />
       )}
     </div>
@@ -48,11 +48,11 @@ Panel.propTypes = {
   nextDetail: PropTypes.instanceOf(Map).isRequired,
   stopwatch: PropTypes.string.isRequired,
   pause: PropTypes.bool.isRequired,
-  test: PropTypes.bool
+  test: PropTypes.bool,
 };
 
 Panel.defaultProps = {
-  test: false
+  test: false,
 };
 
 export default Panel;

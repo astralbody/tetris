@@ -9,7 +9,7 @@ import {
   rotateDetail,
   moveDetail,
   transformBlock,
-  downBlock
+  downBlock,
 } from '../actions/index';
 import {MOVE_LEFT, MOVE_RIGHT} from '../constants/MoveSide';
 import {I} from '../constants/ShapeDetail';
@@ -33,8 +33,8 @@ test('setRows() test support function', () => {
       {value: 0, id: 66},
       {value: 0, id: 67},
       {value: 0, id: 68},
-      {value: 0, id: 69}
-    ]
+      {value: 0, id: 69},
+    ],
   }]);
   const returnWorld = setRows(stateWorld, 6, row);
 
@@ -47,7 +47,7 @@ describe('reducer rootReducer()', () => {
     const returnState = rootReducer(undefined, {});
 
     expect(returnState.set('nextDetail', state.get('nextDetail')))
-      .toEqual(state);
+        .toEqual(state);
   });
 
   it('rootReducer() handle START_GAME', () => {
@@ -67,13 +67,13 @@ describe('reducer rootReducer()', () => {
     const numCompleteRow = 23;
 
     const stateComplete = state.setIn(
-      ['world', numCompleteRow, 'blocks'],
-      state.getIn(['world', numCompleteRow, 'blocks'])
-        .map(block => block.set('value', 1))
+        ['world', numCompleteRow, 'blocks'],
+        state.getIn(['world', numCompleteRow, 'blocks'])
+            .map((block) => block.set('value', 1))
     );
     const returnStateComplete = rootReducer(
-      stateComplete,
-      completeRow(numCompleteRow)
+        stateComplete,
+        completeRow(numCompleteRow)
     );
 
     expect(returnStateComplete).toEqual(state.set('score', 10));
@@ -85,20 +85,20 @@ describe('reducer rootReducer()', () => {
     const nextDetailOfState = state.get('nextDetail');
 
     const stateNextDetail = state
-      .set('nextDetail', I)
-      .set('currentDetail', fromJS({
-        kind: nextDetailOfState.get('KIND'),
-        pointX: nextDetailOfState.get('POINT_X'),
-        pointY: nextDetailOfState.get('POINT_Y'),
-        size: nextDetailOfState.get('SIZE')
-      }));
+        .set('nextDetail', I)
+        .set('currentDetail', fromJS({
+          kind: nextDetailOfState.get('KIND'),
+          pointX: nextDetailOfState.get('POINT_X'),
+          pointY: nextDetailOfState.get('POINT_Y'),
+          size: nextDetailOfState.get('SIZE'),
+        }));
 
     const returnStateNextDetail = rootReducer(state, nextDetail(I));
 
     expect(returnStateNextDetail.get('nextDetail'))
-      .toEqual(stateNextDetail.get('nextDetail'));
+        .toEqual(stateNextDetail.get('nextDetail'));
     expect(returnStateNextDetail.get('currentDetail'))
-      .toEqual(stateNextDetail.get('currentDetail'));
+        .toEqual(stateNextDetail.get('currentDetail'));
   });
 
   it('rootReducer() and rotateDetail() handle ROTATE_DETAIL', () => {
@@ -116,8 +116,8 @@ describe('reducer rootReducer()', () => {
         {value: 0, id: 46},
         {value: 0, id: 47},
         {value: 0, id: 48},
-        {value: 0, id: 49}
-      ]
+        {value: 0, id: 49},
+      ],
     }, {
       id: 1,
       blocks: [
@@ -130,8 +130,8 @@ describe('reducer rootReducer()', () => {
         {value: 2, id: 56},
         {value: 0, id: 57},
         {value: 0, id: 58},
-        {value: 0, id: 59}
-      ]
+        {value: 0, id: 59},
+      ],
     }, {
       id: 2,
       blocks: [
@@ -144,8 +144,8 @@ describe('reducer rootReducer()', () => {
         {value: 0, id: 66},
         {value: 0, id: 67},
         {value: 0, id: 68},
-        {value: 0, id: 69}
-      ]
+        {value: 0, id: 69},
+      ],
     }, {
       id: 3,
       blocks: [
@@ -158,8 +158,8 @@ describe('reducer rootReducer()', () => {
         {value: 0, id: 66},
         {value: 0, id: 67},
         {value: 0, id: 68},
-        {value: 0, id: 69}
-      ]
+        {value: 0, id: 69},
+      ],
     }]);
     const rowsRotateDetail = fromJS([{
       id: 0,
@@ -173,8 +173,8 @@ describe('reducer rootReducer()', () => {
         {value: 0, id: 46},
         {value: 0, id: 47},
         {value: 0, id: 48},
-        {value: 0, id: 49}
-      ]
+        {value: 0, id: 49},
+      ],
     }, {
       id: 1,
       blocks: [
@@ -187,8 +187,8 @@ describe('reducer rootReducer()', () => {
         {value: 0, id: 56},
         {value: 0, id: 57},
         {value: 0, id: 58},
-        {value: 0, id: 59}
-      ]
+        {value: 0, id: 59},
+      ],
     }, {
       id: 2,
       blocks: [
@@ -201,8 +201,8 @@ describe('reducer rootReducer()', () => {
         {value: 0, id: 66},
         {value: 0, id: 67},
         {value: 0, id: 68},
-        {value: 0, id: 69}
-      ]
+        {value: 0, id: 69},
+      ],
     }, {
       id: 3,
       blocks: [
@@ -215,119 +215,119 @@ describe('reducer rootReducer()', () => {
         {value: 0, id: 66},
         {value: 0, id: 67},
         {value: 0, id: 68},
-        {value: 0, id: 69}
-      ]
+        {value: 0, id: 69},
+      ],
     }]);
 
     const stateDetail = state
-      .set('world', setRows(state.get('world'), 4, rowsDetail))
-      .set('currentDetail', fromJS({
-        kind: I.get('KIND'),
-        pointX: I.get('POINT_X'),
-        pointY: 4,
-        size: I.get('SIZE')
-      }));
+        .set('world', setRows(state.get('world'), 4, rowsDetail))
+        .set('currentDetail', fromJS({
+          kind: I.get('KIND'),
+          pointX: I.get('POINT_X'),
+          pointY: 4,
+          size: I.get('SIZE'),
+        }));
     const stateRotate = state
-      .set('world', setRows(state.get('world'), 4, rowsRotateDetail))
-      .set('currentDetail', fromJS({
-        kind: I.get('KIND'),
-        pointX: I.get('POINT_X'),
-        pointY: 4,
-        size: I.get('SIZE')
-      }));
+        .set('world', setRows(state.get('world'), 4, rowsRotateDetail))
+        .set('currentDetail', fromJS({
+          kind: I.get('KIND'),
+          pointX: I.get('POINT_X'),
+          pointY: 4,
+          size: I.get('SIZE'),
+        }));
 
     const returnStateRotate = rootReducer(stateDetail, rotateDetail());
     expect(returnStateRotate).toEqual(stateRotate);
   });
 
   it(
-    'rootReducer() and moveDetail(), getStateMoveLeftDetail(), getStateMoveRightDetail() handle MOVE_DETAIL',
-    () => {
-      const state = initialState();
+      'rootReducer() and moveDetail(), getStateMoveLeftDetail(), getStateMoveRightDetail() handle MOVE_DETAIL',
+      () => {
+        const state = initialState();
 
-      const rowDetail = fromJS([{
-        id: 1,
-        blocks: [
-          {value: 0, id: 50},
-          {value: 0, id: 51},
-          {value: 0, id: 52},
-          {value: 2, id: 53},
-          {value: 2, id: 54},
-          {value: 2, id: 55},
-          {value: 2, id: 56},
-          {value: 0, id: 57},
-          {value: 0, id: 58},
-          {value: 0, id: 59}
-        ]
-      }]);
-      const rowMoveRight = fromJS([{
-        id: 1,
-        blocks: [
-          {value: 0, id: 50},
-          {value: 0, id: 51},
-          {value: 0, id: 52},
-          {value: 0, id: 53},
-          {value: 2, id: 54},
-          {value: 2, id: 55},
-          {value: 2, id: 56},
-          {value: 2, id: 57},
-          {value: 0, id: 58},
-          {value: 0, id: 59}
-        ]
-      }]);
-      const rowMoveLeft = fromJS([{
-        id: 1,
-        blocks: [
-          {value: 0, id: 50},
-          {value: 0, id: 51},
-          {value: 2, id: 52},
-          {value: 2, id: 53},
-          {value: 2, id: 54},
-          {value: 2, id: 55},
-          {value: 0, id: 56},
-          {value: 0, id: 57},
-          {value: 0, id: 58},
-          {value: 0, id: 59}
-        ]
-      }]);
+        const rowDetail = fromJS([{
+          id: 1,
+          blocks: [
+            {value: 0, id: 50},
+            {value: 0, id: 51},
+            {value: 0, id: 52},
+            {value: 2, id: 53},
+            {value: 2, id: 54},
+            {value: 2, id: 55},
+            {value: 2, id: 56},
+            {value: 0, id: 57},
+            {value: 0, id: 58},
+            {value: 0, id: 59},
+          ],
+        }]);
+        const rowMoveRight = fromJS([{
+          id: 1,
+          blocks: [
+            {value: 0, id: 50},
+            {value: 0, id: 51},
+            {value: 0, id: 52},
+            {value: 0, id: 53},
+            {value: 2, id: 54},
+            {value: 2, id: 55},
+            {value: 2, id: 56},
+            {value: 2, id: 57},
+            {value: 0, id: 58},
+            {value: 0, id: 59},
+          ],
+        }]);
+        const rowMoveLeft = fromJS([{
+          id: 1,
+          blocks: [
+            {value: 0, id: 50},
+            {value: 0, id: 51},
+            {value: 2, id: 52},
+            {value: 2, id: 53},
+            {value: 2, id: 54},
+            {value: 2, id: 55},
+            {value: 0, id: 56},
+            {value: 0, id: 57},
+            {value: 0, id: 58},
+            {value: 0, id: 59},
+          ],
+        }]);
 
-      const stateDetail = state
-        .set('world', setRows(state.get('world'), 5, rowDetail))
-        .set('currentDetail', fromJS({
-          kind: I.get('KIND'),
-          pointX: I.get('POINT_X'),
-          pointY: 4,
-          size: I.get('SIZE')
-        }));
-      const stateMoveLeft = state
-        .set('world', setRows(state.get('world'), 5, rowMoveLeft))
-        .set('currentDetail', fromJS({
-          kind: I.get('KIND'),
-          pointX: I.get('POINT_X') - 1,
-          pointY: 4,
-          size: I.get('SIZE')
-        }));
-      const stateMoveRight = state
-        .set('world', setRows(state.get('world'), 5, rowMoveRight))
-        .set('currentDetail', fromJS({
-          kind: I.get('KIND'),
-          pointX: I.get('POINT_X') + 1,
-          pointY: 4,
-          size: I.get('SIZE')
-        }));
+        const stateDetail = state
+            .set('world', setRows(state.get('world'), 5, rowDetail))
+            .set('currentDetail', fromJS({
+              kind: I.get('KIND'),
+              pointX: I.get('POINT_X'),
+              pointY: 4,
+              size: I.get('SIZE'),
+            }));
+        const stateMoveLeft = state
+            .set('world', setRows(state.get('world'), 5, rowMoveLeft))
+            .set('currentDetail', fromJS({
+              kind: I.get('KIND'),
+              pointX: I.get('POINT_X') - 1,
+              pointY: 4,
+              size: I.get('SIZE'),
+            }));
+        const stateMoveRight = state
+            .set('world', setRows(state.get('world'), 5, rowMoveRight))
+            .set('currentDetail', fromJS({
+              kind: I.get('KIND'),
+              pointX: I.get('POINT_X') + 1,
+              pointY: 4,
+              size: I.get('SIZE'),
+            }));
 
-      const returnStateMoveLeft = rootReducer(
-        stateDetail,
-        moveDetail(MOVE_LEFT)
-      );
-      const returnStateMoveRight = rootReducer(
-        stateDetail,
-        moveDetail(MOVE_RIGHT)
-      );
+        const returnStateMoveLeft = rootReducer(
+            stateDetail,
+            moveDetail(MOVE_LEFT)
+        );
+        const returnStateMoveRight = rootReducer(
+            stateDetail,
+            moveDetail(MOVE_RIGHT)
+        );
 
-      expect(returnStateMoveLeft).toEqual(stateMoveLeft);
-      expect(returnStateMoveRight).toEqual(stateMoveRight);
-    }
+        expect(returnStateMoveLeft).toEqual(stateMoveLeft);
+        expect(returnStateMoveRight).toEqual(stateMoveRight);
+      }
   );
 
   it('rootReducer() and transformBlock() handle TRANSFORM_BLOCK', () => {
@@ -345,8 +345,8 @@ describe('reducer rootReducer()', () => {
         {value: 2, id: 56},
         {value: 0, id: 57},
         {value: 0, id: 58},
-        {value: 0, id: 59}
-      ]
+        {value: 0, id: 59},
+      ],
     }]);
     const rowTransform = fromJS([{
       id: 1,
@@ -360,17 +360,17 @@ describe('reducer rootReducer()', () => {
         {value: 1, id: 56},
         {value: 0, id: 57},
         {value: 0, id: 58},
-        {value: 0, id: 59}
-      ]
+        {value: 0, id: 59},
+      ],
     }]);
 
     const stateDetail = state.set(
-      'world',
-      setRows(state.get('world'), 5, rowDetail)
+        'world',
+        setRows(state.get('world'), 5, rowDetail)
     );
     const stateTransform = state.set(
-      'world',
-      setRows(state.get('world'), 5, rowTransform)
+        'world',
+        setRows(state.get('world'), 5, rowTransform)
     );
 
     const returnState = rootReducer(stateDetail, transformBlock({from: 2, to: 1}));
@@ -393,8 +393,8 @@ describe('reducer rootReducer()', () => {
         {value: 2, id: 56},
         {value: 0, id: 57},
         {value: 0, id: 58},
-        {value: 0, id: 59}
-      ]
+        {value: 0, id: 59},
+      ],
     }]);
     const rowDownDetail = fromJS([{
       id: 2,
@@ -408,26 +408,26 @@ describe('reducer rootReducer()', () => {
         {value: 2, id: 66},
         {value: 0, id: 67},
         {value: 0, id: 68},
-        {value: 0, id: 69}
-      ]
+        {value: 0, id: 69},
+      ],
     }]);
 
     const stateDetail = state
-      .set('world', setRows(state.get('world'), 5, rowDetail))
-      .set('currentDetail', fromJS({
-        kind: I.get('KIND'),
-        pointX: I.get('POINT_X') - 1,
-        pointY: 4,
-        size: I.get('SIZE')
-      }));
+        .set('world', setRows(state.get('world'), 5, rowDetail))
+        .set('currentDetail', fromJS({
+          kind: I.get('KIND'),
+          pointX: I.get('POINT_X') - 1,
+          pointY: 4,
+          size: I.get('SIZE'),
+        }));
     const stateDownDetail = state
-      .set('world', setRows(state.get('world'), 6, rowDownDetail))
-      .set('currentDetail', fromJS({
-        kind: I.get('KIND'),
-        pointX: I.get('POINT_X') - 1,
-        pointY: 5,
-        size: I.get('SIZE')
-      }));
+        .set('world', setRows(state.get('world'), 6, rowDownDetail))
+        .set('currentDetail', fromJS({
+          kind: I.get('KIND'),
+          pointX: I.get('POINT_X') - 1,
+          pointY: 5,
+          size: I.get('SIZE'),
+        }));
 
     const returnState = rootReducer(stateDetail, downBlock());
 

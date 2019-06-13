@@ -10,7 +10,7 @@ import {
   UP_SPEED,
   LOW_SPEED,
   SET_STOPWATCH,
-  TICK_STOPWATCH
+  TICK_STOPWATCH,
 } from '../constants/ActionTypes';
 import {SPEED, MAX_SPEED} from '../constants/config';
 import {initialState} from '../core/initialState';
@@ -26,38 +26,38 @@ import tick from '../core/tick';
 
 const rootReducer = (state = initialState(), action) => {
   switch (action.type) {
-  case DOWN_BLOCK:
-    return shiftDownBlock(state, action); // fix, refact
-  case TRANSFORM_BLOCK:
-    return state.set(
-      'world',
-      transformBlock(state.get('world'), action.options)
-    ); // refact, rename
-  case MOVE_DETAIL:
-    return moveDetail(state, action);     // fix, refact
-  case NEXT_DETAIL:
-    return getNextDetail(state, action);  // fix, refact
-  case ROTATE_DETAIL:
-    return rotateDetail(state);           // fix, refact
-  case COMPLETE_ROW:
-    return completeRow(state, action);    // refact
-  case OVER_GAME:
-    return state
-      .set('world', fillWorld(state.get('world'), 0))
-      .set('score', 0)
-      .set('hiScore', action.hiScore); // refact
-  case START_GAME:
-    return state;
-  case UP_SPEED:
-    return state.set('speed', MAX_SPEED);
-  case LOW_SPEED:
-    return state.set('speed', SPEED);
-  case SET_STOPWATCH:
-    return state.set('stopwatch', action.time);
-  case TICK_STOPWATCH:
-    return state.set('stopwatch', tick(state.get('stopwatch')));
-  default:
-    return state;
+    case DOWN_BLOCK:
+      return shiftDownBlock(state, action); // fix, refact
+    case TRANSFORM_BLOCK:
+      return state.set(
+          'world',
+          transformBlock(state.get('world'), action.options)
+      ); // refact, rename
+    case MOVE_DETAIL:
+      return moveDetail(state, action); // fix, refact
+    case NEXT_DETAIL:
+      return getNextDetail(state, action); // fix, refact
+    case ROTATE_DETAIL:
+      return rotateDetail(state); // fix, refact
+    case COMPLETE_ROW:
+      return completeRow(state, action); // refact
+    case OVER_GAME:
+      return state
+          .set('world', fillWorld(state.get('world'), 0))
+          .set('score', 0)
+          .set('hiScore', action.hiScore); // refact
+    case START_GAME:
+      return state;
+    case UP_SPEED:
+      return state.set('speed', MAX_SPEED);
+    case LOW_SPEED:
+      return state.set('speed', SPEED);
+    case SET_STOPWATCH:
+      return state.set('stopwatch', action.time);
+    case TICK_STOPWATCH:
+      return state.set('stopwatch', tick(state.get('stopwatch')));
+    default:
+      return state;
   }
 };
 

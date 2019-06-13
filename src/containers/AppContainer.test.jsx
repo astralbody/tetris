@@ -11,7 +11,7 @@ const store = createStore(world);
 
 /* eslint no-undef: 0 */
 test('render <AppContainer />', () => expect(shallow(
-  <Provider store={store}>
-    <AppContainer />
-  </Provider>
+    <Provider store={store}>
+      <AppContainer />
+    </Provider>
 ).contains(<AppContainer />)).toBe(true));

@@ -9,8 +9,8 @@ export const I = fromJS({
     [0, 0, 0, 0],
     [2, 2, 2, 2],
     [0, 0, 0, 0],
-    [0, 0, 0, 0]
-  ]
+    [0, 0, 0, 0],
+  ],
 });
 
 export const T = fromJS({
@@ -21,8 +21,8 @@ export const T = fromJS({
   BODY: [
     [0, 0, 0],
     [2, 2, 2],
-    [0, 2, 0]
-  ]
+    [0, 2, 0],
+  ],
 });
 
 export const L = fromJS({
@@ -33,8 +33,8 @@ export const L = fromJS({
   BODY: [
     [0, 0, 0],
     [2, 2, 2],
-    [2, 0, 0]
-  ]
+    [2, 0, 0],
+  ],
 });
 
 export const J = fromJS({
@@ -45,8 +45,8 @@ export const J = fromJS({
   BODY: [
     [0, 0, 0],
     [2, 2, 2],
-    [0, 0, 2]
-  ]
+    [0, 0, 2],
+  ],
 });
 
 export const S = fromJS({
@@ -57,8 +57,8 @@ export const S = fromJS({
   BODY: [
     [0, 0, 0],
     [0, 2, 2],
-    [2, 2, 0]
-  ]
+    [2, 2, 0],
+  ],
 });
 
 export const Z = fromJS({
@@ -69,8 +69,8 @@ export const Z = fromJS({
   BODY: [
     [0, 0, 0],
     [2, 2, 0],
-    [0, 2, 2]
-  ]
+    [0, 2, 2],
+  ],
 });
 
 export const O = fromJS({
@@ -80,6 +80,6 @@ export const O = fromJS({
   SIZE: 2,
   BODY: [
     [2, 2],
-    [2, 2]
-  ]
+    [2, 2],
+  ],
 });

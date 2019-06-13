@@ -23,8 +23,8 @@ describe('checkAroundDetail', () => {
       map: [
         {blocks: [{value: 2}, {value: 2}, {value: 0}, {value: 0}, {value: 0}]},
         {blocks: [{value: 0}, {value: 1}, {value: 0}, {value: 0}, {value: 0}]},
-        {blocks: [{value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}]}
-      ]
+        {blocks: [{value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}]},
+      ],
     });
     expect(checkAroundDetail(world.get('map'), 0, 3, echo, inc)).toBe(false);
     expect(checkAroundDetail(world.get('map'), 1, 0, echo, inc)).toBe(false);
@@ -35,8 +35,8 @@ describe('checkAroundDetail', () => {
       map: [
         {blocks: [{value: 2}, {value: 2}, {value: 0}, {value: 0}, {value: 0}]},
         {blocks: [{value: 0}, {value: 1}, {value: 0}, {value: 0}, {value: 0}]},
-        {blocks: [{value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}]}
-      ]
+        {blocks: [{value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}]},
+      ],
     });
     expect(checkAroundDetail(world.get('map'), 0, 0, echo, inc)).toBe(true);
   });

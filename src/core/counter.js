@@ -1,3 +1,3 @@
-const counter = num => () => num++;
+const counter = (num) => () => num++;
 
 export default counter;

@@ -10,12 +10,12 @@ Object.defineProperty(global, 'localStorage', {value: localStorage()});
 const state = initialState();
 
 test('<App />', () => expect(shallow(
-  <App
-    world={state.get('world')}
-    score={state.get('score')}
-    hiScore={state.get('hiScore')}
-    nextDetail={state.get('nextDetail')}
-    stopwatch={formatStopwatch(state.get('stopwatch'))}
-    pause={false}
-  />
+    <App
+      world={state.get('world')}
+      score={state.get('score')}
+      hiScore={state.get('hiScore')}
+      nextDetail={state.get('nextDetail')}
+      stopwatch={formatStopwatch(state.get('stopwatch'))}
+      pause={false}
+    />
 ).contains(<Game world={state.get('world')} />)).toBe(true));

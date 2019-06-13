@@ -1,7 +1,9 @@
-import React, {Component, PropTypes} from 'react';
+import React, {Component} from 'react';
+import PropTypes from 'prop-types';
 import {bindActionCreators} from 'redux';
 import {connect} from 'react-redux';
 import {Map, List} from 'immutable';
+import {hot} from 'react-hot-loader/root';
 
 import App from '../components/App/App';
 import {MOVE_LEFT, MOVE_RIGHT} from '../constants/MoveSide';
@@ -12,17 +14,17 @@ import {checkAroundDetail, inc, echo} from '../core/checkAroundDetail';
 import formatStopwatch from '../core/formatStopwatch';
 import getHiScore from '../core/getHiScore';
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state) => ({
   world: state.get('world'),
   speed: state.get('speed'),
   score: state.get('score'),
   hiScore: state.get('hiScore'),
   nextDetail: state.get('nextDetail'),
-  stopwatch: state.get('stopwatch')
+  stopwatch: state.get('stopwatch'),
 });
 
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(tetrisActions, dispatch)
+const mapDispatchToProps = (dispatch) => ({
+  actions: bindActionCreators(tetrisActions, dispatch),
 });
 
 class AppContainer extends Component {
@@ -33,11 +35,11 @@ class AppContainer extends Component {
     score: PropTypes.number.isRequired,
     hiScore: PropTypes.number.isRequired,
     nextDetail: PropTypes.instanceOf(Map).isRequired,
-    stopwatch: PropTypes.instanceOf(List).isRequired
+    stopwatch: PropTypes.instanceOf(List).isRequired,
   }
 
   state = {
-    pause: false
+    pause: false,
   }
 
   componentDidMount = () => {
@@ -52,13 +54,13 @@ class AppContainer extends Component {
     if (pause) return;
 
     switch (keyCode) {
-    case 83:
-    case 40:
-      lowSpeed();
-      this.handleUpdate();
-      break;
-    default:
-      break;
+      case 83:
+      case 40:
+        lowSpeed();
+        this.handleUpdate();
+        break;
+      default:
+        break;
     }
   }
 
@@ -69,34 +71,34 @@ class AppContainer extends Component {
     if (pause && keyCode !== 77) return;
 
     switch (keyCode) {
-    case 37:
-    case 65:
-      moveDetail(MOVE_LEFT);
-      break;
-    case 39:
-    case 68:
-      moveDetail(MOVE_RIGHT);
-      break;
-    case 13:
-    case 32:
-      rotateDetail();
-      break;
-    case 80:
-      this.handleStartGame();
-      break;
-    case 27:
-      this.handleOverGame();
-      break;
-    case 83:
-    case 40:
-      upSpeed();
-      this.handleUpdate();
-      break;
-    case 77:
-      this.handlePause();
-      break;
-    default:
-      break;
+      case 37:
+      case 65:
+        moveDetail(MOVE_LEFT);
+        break;
+      case 39:
+      case 68:
+        moveDetail(MOVE_RIGHT);
+        break;
+      case 13:
+      case 32:
+        rotateDetail();
+        break;
+      case 80:
+        this.handleStartGame();
+        break;
+      case 27:
+        this.handleOverGame();
+        break;
+      case 83:
+      case 40:
+        upSpeed();
+        this.handleUpdate();
+        break;
+      case 77:
+        this.handlePause();
+        break;
+      default:
+        break;
     }
   }
 
@@ -107,13 +109,13 @@ class AppContainer extends Component {
         completeRow,
         downBlock,
         transformBlock,
-        nextDetail
-      }
+        nextDetail,
+      },
     } = this.props;
     const nextStep = {
       nextDetail: true,
       moveDown: null,
-      gameOver: false
+      gameOver: false,
     };
 
     world.forEach((row, y) => {
@@ -135,14 +137,14 @@ class AppContainer extends Component {
     });
 
     switch (nextStep.moveDown) {
-    case true:
-      downBlock();
-      break;
-    case false:
-      transformBlock({from: 2, to: 1});
-      break;
-    default:
-      break;
+      case true:
+        downBlock();
+        break;
+      case false:
+        transformBlock({from: 2, to: 1});
+        break;
+      default:
+        break;
     }
     if (nextStep.nextDetail) nextDetail(getRandomDetails());
     if (nextStep.gameOver) this.handleOverGame();
@@ -186,7 +188,7 @@ class AppContainer extends Component {
     }
   }
 
-  handleOnStopwatch = (time = List([0, 0, 0])) => {
+  handleOnStopwatch = (time = new List([0, 0, 0])) => {
     this.handleSetStopwatch(time);
     this.handleTickStopwatch();
   }
@@ -196,7 +198,7 @@ class AppContainer extends Component {
     setStopwatch(time);
   }
 
-  handleOffStopwatch = (time = List([0, 0, 0])) => {
+  handleOffStopwatch = (time = new List([0, 0, 0])) => {
     this.handleSetStopwatch(time);
     clearTimeout(this.stopwatch);
   }
@@ -233,4 +235,4 @@ class AppContainer extends Component {
   )
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AppContainer);
+export default hot(connect(mapStateToProps, mapDispatchToProps)(AppContainer));

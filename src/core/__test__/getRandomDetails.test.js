@@ -5,7 +5,7 @@ import * as details from '../../constants/ShapeDetail';
 /* eslint no-undef: 0 */
 describe('getDetail()', () => {
   it('getOfObjectToList(), return list of object', () => {
-    const total = List(Object.keys(details).map(detail => details[detail]));
+    const total = new List(Object.keys(details).map((detail) => details[detail]));
     expect(test.getOfObjectToList(details)).toEqual(total);
   });
 
