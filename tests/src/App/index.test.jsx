@@ -3,8 +3,8 @@ import {shallow} from 'enzyme';
 import {Provider} from 'react-redux';
 import {createStore} from 'redux';
 import AppContainer from './AppContainer';
-import world from '../reducers/index';
-import localStorage from '../__mocks__/localStorage';
+import world from '../../../src/reducers/index';
+import localStorage from '../../../src/__mocks__';
 
 Object.defineProperty(global, 'localStorage', {value: localStorage()});
 const store = createStore(world);
@@ -13,5 +13,5 @@ const store = createStore(world);
 test('render <AppContainer />', () => expect(shallow(
     <Provider store={store}>
       <AppContainer />
-    </Provider>
+    </Provider>,
 ).contains(<AppContainer />)).toBe(true));
