@@ -108,41 +108,53 @@ class AppContainer extends Component {
     this.handleUpdate();
   }
 
-  handleCycle = (e) => {
-    const {
-      world,
-      actions: {
-        completeRow,
-        downBlock,
-        transformBlock,
-        nextDetail,
-      },
-    } = this.props;
-    const nextStep = {
+  initNextStep = () => {
+    this.nextStep = {
       nextDetail: true,
       moveDown: null,
       gameOver: false,
     };
+  }
+
+  scanRow = (row, y) => {
+    const {world} = this.props;
+
+    row.get('blocks').forEach((block, x) => {
+      const value = block.get('value');
+
+      if (this.nextStep.nextDetail && value === 2) {
+        this.nextStep.nextDetail = false;
+      }
+      if (value === 1 && y < 4) {
+        this.nextStep.gameOver = true;
+      }
+      if (value !== 1) {
+        this.nextStep.completeRow = false;
+      }
+      if (value === 2 && this.nextStep.moveDown !== false) {
+        this.nextStep.moveDown = checkAroundDetail(world, x, y, echo, inc);
+      }
+    });
+  }
+
+  scanWord = () => {
+    const {world, actions: {completeRow}} = this.props;
 
     world.forEach((row, y) => {
-      nextStep.completeRow = true;
+      this.nextStep.completeRow = true;
 
-      row.get('blocks').forEach((block, x) => {
-        const value = block.get('value');
+      this.scanRow(row, y);
 
-        if (nextStep.nextDetail && value === 2) nextStep.nextDetail = false;
-        if (value === 1 && y < 4) nextStep.gameOver = true;
-        if (value !== 1) nextStep.completeRow = false;
-
-        if (value === 2 && nextStep.moveDown !== false) {
-          nextStep.moveDown = checkAroundDetail(world, x, y, echo, inc);
-        }
-      });
-
-      if (nextStep.completeRow) completeRow(y);
+      if (this.nextStep.completeRow) {
+        completeRow(y);
+      };
     });
+  }
 
-    switch (nextStep.moveDown) {
+  transformDetail() {
+    const {actions: {downBlock, transformBlock}} = this.props;
+
+    switch (this.nextStep.moveDown) {
       case true:
         downBlock();
         break;
@@ -152,60 +164,92 @@ class AppContainer extends Component {
       default:
         break;
     }
-    if (nextStep.nextDetail) nextDetail(getRandomDetails());
-    if (nextStep.gameOver) this.handleOverGame();
+  }
+
+  makeStep() {
+    this.transformDetail();
+
+    if (this.nextStep.nextDetail) {
+      this.addNextDetail();
+    };
+    if (this.nextStep.gameOver) {
+      this.handleOverGame();
+    };
+  }
+
+  addNextDetail = () => {
+    const {nextDetail} = this.props.actions;
+    nextDetail(getRandomDetails());
   }
 
   handleStartGame = () => {
-    const {runStartGame, nextDetail} = this.props.actions;
+    const {runStartGame} = this.props.actions;
 
     this.handleOverGame();
     this.handleOnStopwatch();
     runStartGame();
-    nextDetail(getRandomDetails());
-    this.handleOnCycle();
+    this.addNextDetail();
+    this.startGame();
   }
 
-  handleOnCycle = () => {
-    if (this.playGame) return;
+  stopGame = () => {
+    if (!this.currentGame) {
+      return;
+    }
+
+    clearInterval(this.currentGame);
+    this.currentGame = null;
+  }
+
+  tick = () => {
+    this.initNextStep();
+    this.scanWord();
+    this.makeStep();
+  }
+
+  startGame = () => {
     const {speed} = this.props;
 
-    this.playGame = setInterval(this.handleCycle, speed);
+    if (this.currentGame) {
+      return;
+    }
+
+    this.currentGame = setInterval(this.tick, speed);
   }
 
-  handleOffCycle = () => {
-    if (!this.playGame) return;
+  startPause() {
+    const {stopwatch} = this.props;
+    this.setState({pause: true});
+    this.stopGame();
+    this.handleOffStopwatch(stopwatch);
+  }
 
-    clearInterval(this.playGame);
-    this.playGame = null;
+  stopPause() {
+    const {stopwatch} = this.props;
+    this.setState({pause: false});
+    this.startGame();
+    this.handleOnStopwatch(stopwatch);
   }
 
   handlePause = () => {
-    const {stopwatch} = this.props;
-
-    if (this.playGame) {
-      this.setState({pause: true});
-      this.handleOffCycle();
-      this.handleOffStopwatch(stopwatch);
+    if (this.currentGame) {
+      this.startPause();
     } else {
-      this.setState({pause: false});
-      this.handleOnCycle();
-      this.handleOnStopwatch(stopwatch);
+      this.stopPause();
     }
   }
 
   handleOnStopwatch = (time = new List([0, 0, 0])) => {
-    this.handleSetStopwatch(time);
+    const {setStopwatch} = this.props.actions;
+
+    setStopwatch(time);
     this.handleTickStopwatch();
   }
 
-  handleSetStopwatch = (time) => {
-    const {setStopwatch} = this.props.actions;
-    setStopwatch(time);
-  }
-
   handleOffStopwatch = (time = new List([0, 0, 0])) => {
-    this.handleSetStopwatch(time);
+    const {setStopwatch} = this.props.actions;
+
+    setStopwatch(time);
     clearTimeout(this.stopwatch);
   }
 
@@ -217,10 +261,8 @@ class AppContainer extends Component {
   }
 
   handleUpdate = (e) => {
-    const {speed} = this.props;
-
-    clearInterval(this.playGame);
-    this.playGame = setInterval(this.handleCycle, speed);
+    this.stopGame();
+    this.startGame();
   }
 
   handleOverGame = () => {
@@ -229,7 +271,7 @@ class AppContainer extends Component {
 
     runOverGame(getHiScore(localStorage.getItem('hiScore')));
     this.handleOffStopwatch();
-    this.handleOffCycle();
+    this.stopGame();
   }
 
   render = () => (
