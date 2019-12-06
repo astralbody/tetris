@@ -6,7 +6,6 @@ import {Map, List} from 'immutable';
 import {hot} from 'react-hot-loader/root';
 
 import App from '../components/App/App';
-import {MOVE_LEFT, MOVE_RIGHT} from '../constants/MoveSide';
 import * as tetrisActions from '../actions/index';
 
 import {getRandomDetails} from '../core/getRandomDetails';
@@ -65,19 +64,21 @@ class AppContainer extends Component {
   }
 
   handleKeyDown = ({keyCode}) => {
-    const {moveDetail, rotateDetail, upSpeed} = this.props.actions;
+    const {moveRight, moveLeft, rotateDetail} = this.props.actions;
     const {pause} = this.state;
 
-    if (pause && keyCode !== 77) return;
+    if (pause && keyCode !== 77) {
+      return;
+    };
 
     switch (keyCode) {
       case 37:
       case 65:
-        moveDetail(MOVE_LEFT);
+        moveLeft();
         break;
       case 39:
       case 68:
-        moveDetail(MOVE_RIGHT);
+        moveRight();
         break;
       case 13:
       case 32:
@@ -91,8 +92,7 @@ class AppContainer extends Component {
         break;
       case 83:
       case 40:
-        upSpeed();
-        this.handleUpdate();
+        this.moveDown();
         break;
       case 77:
         this.handlePause();
@@ -100,6 +100,12 @@ class AppContainer extends Component {
       default:
         break;
     }
+  }
+
+  moveDown = () => {
+    const {upSpeed} = this.props.actions;
+    upSpeed();
+    this.handleUpdate();
   }
 
   handleCycle = (e) => {

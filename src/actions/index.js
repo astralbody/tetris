@@ -13,6 +13,7 @@ import {
   SET_STOPWATCH,
   TICK_STOPWATCH,
 } from '../constants/ActionTypes';
+import {MOVE_LEFT, MOVE_RIGHT} from '../constants/MoveSide';
 
 export const transformBlock = (options) => ({
   type: TRANSFORM_BLOCK,
@@ -30,6 +31,9 @@ export const moveDetail = (side) => ({
   type: MOVE_DETAIL,
   side,
 });
+
+export const moveLeft = () => moveDetail(MOVE_LEFT);
+export const moveRight = () => moveDetail(MOVE_RIGHT);
 
 export const rotateDetail = () => ({type: ROTATE_DETAIL});
 
