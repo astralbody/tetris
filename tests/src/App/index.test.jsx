@@ -2,9 +2,9 @@ import React from 'react';
 import {shallow} from 'enzyme';
 import {Provider} from 'react-redux';
 import {createStore} from 'redux';
-import AppContainer from './AppContainer';
+import AppContainer from '../../../src/App';
 import world from '../../../src/reducers/index';
-import localStorage from '../../../src/__mocks__';
+import localStorage from '../../../src/__mocks__/localStorage';
 
 Object.defineProperty(global, 'localStorage', {value: localStorage()});
 const store = createStore(world);
