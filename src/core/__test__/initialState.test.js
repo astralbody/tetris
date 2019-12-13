@@ -1,8 +1,6 @@
 import {initialState} from './../initialState';
-import localStorage from '../../__mocks__/localStorage';
 
 /* eslint no-undef: 0 */
-Object.defineProperty(global, 'localStorage', {value: localStorage()});
 
 describe('initialState()', () => {
   it('Size', () => {

@@ -14,10 +14,8 @@ import {
 import {MOVE_LEFT, MOVE_RIGHT} from '../constants/MoveSide';
 import {I} from '../constants/ShapeDetail';
 import setRows from '../core/setRows';
-import localStorage from '../__mocks__/localStorage';
 import getHiScore from '../core/getHiScore';
 
-Object.defineProperty(global, 'localStorage', {value: localStorage()});
 
 test('setRows() test support function', () => {
   const stateWorld = initialState().get('world');
@@ -69,11 +67,11 @@ describe('reducer rootReducer()', () => {
     const stateComplete = state.setIn(
         ['world', numCompleteRow, 'blocks'],
         state.getIn(['world', numCompleteRow, 'blocks'])
-            .map((block) => block.set('value', 1))
+            .map((block) => block.set('value', 1)),
     );
     const returnStateComplete = rootReducer(
         stateComplete,
-        completeRow(numCompleteRow)
+        completeRow(numCompleteRow),
     );
 
     expect(returnStateComplete).toEqual(state.set('score', 10));
@@ -318,16 +316,16 @@ describe('reducer rootReducer()', () => {
 
         const returnStateMoveLeft = rootReducer(
             stateDetail,
-            moveDetail(MOVE_LEFT)
+            moveDetail(MOVE_LEFT),
         );
         const returnStateMoveRight = rootReducer(
             stateDetail,
-            moveDetail(MOVE_RIGHT)
+            moveDetail(MOVE_RIGHT),
         );
 
         expect(returnStateMoveLeft).toEqual(stateMoveLeft);
         expect(returnStateMoveRight).toEqual(stateMoveRight);
-      }
+      },
   );
 
   it('rootReducer() and transformBlock() handle TRANSFORM_BLOCK', () => {
@@ -366,11 +364,11 @@ describe('reducer rootReducer()', () => {
 
     const stateDetail = state.set(
         'world',
-        setRows(state.get('world'), 5, rowDetail)
+        setRows(state.get('world'), 5, rowDetail),
     );
     const stateTransform = state.set(
         'world',
-        setRows(state.get('world'), 5, rowTransform)
+        setRows(state.get('world'), 5, rowTransform),
     );
 
     const returnState = rootReducer(stateDetail, transformBlock({from: 2, to: 1}));

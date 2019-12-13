@@ -4,5 +4,5 @@ module.exports ={
       '<rootDir>/__mocks__/fileMock.js',
     '\\.(css|less)$': 'identity-obj-proxy',
   },
-  setupFiles: ['<rootDir>/setupEnzyme.js'],
+  setupFiles: ['<rootDir>/tests/setupEnzyme.js', '<rootDir>/tests/setupLocalStorage'],
 };

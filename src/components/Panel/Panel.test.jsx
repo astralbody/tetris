@@ -2,10 +2,8 @@ import React from 'react';
 import {mount, render} from 'enzyme';
 import Panel from './Panel';
 import {initialState} from '../../core/initialState';
-import localStorage from '../../__mocks__/localStorage';
 import {O} from '../../constants/ShapeDetail';
 
-Object.defineProperty(global, 'localStorage', {value: localStorage()});
 
 test('<Panel />', () => {
   const props = initialState();
@@ -18,7 +16,7 @@ test('<Panel />', () => {
         stopwatch={stopwatch}
         pause
         test
-      />
+      />,
   );
   const wrapperRender = render(
       <Panel
@@ -28,11 +26,11 @@ test('<Panel />', () => {
         stopwatch={stopwatch}
         pause
         test
-      />
+      />,
   );
 
   expect(wrapperRender.text()).toBe(
-      `Score:${props.get('score')}Hi-Score:${props.get('hiScore')}Rows:0Stopwatch:${stopwatch}`
+      `Score:${props.get('score')}Hi-Score:${props.get('hiScore')}Rows:0Stopwatch:${stopwatch}`,
   );
   expect(wrapperMount.props().score).toBe(props.get('score'));
   expect(wrapperMount.props().hiScore).toBe(props.get('hiScore'));

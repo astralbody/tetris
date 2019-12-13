@@ -3,9 +3,7 @@ import {shallow} from 'enzyme';
 import Game from './Game';
 import Row from '../Row/Row';
 import {initialState} from '../../core/initialState';
-import localStorage from '../../__mocks__/localStorage';
 
-Object.defineProperty(global, 'localStorage', {value: localStorage()});
 
 describe('<Game />', () => {
   const x = 10;
@@ -17,7 +15,7 @@ describe('<Game />', () => {
       <Row
         blocks={state.getIn(['world', 5, 'blocks'])}
         key={state.getIn(['world', 5, 'id'])}
-      />
+      />,
   )).toBe(true));
 
   it('render className', () => {
