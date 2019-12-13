@@ -4,7 +4,7 @@
   "description": "It is a tile-matching puzzle video game.",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --config=./tests/jest.config.js",
     "start": "webpack-dev-server",
     "build": "scripts/build.sh",
     "analyzer": "scripts/analyzer.sh",
