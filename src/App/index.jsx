@@ -63,11 +63,15 @@ class AppContainer extends Component {
     }
   }
 
+  checkAppIsPaused = (keyCode) => {
+    const {pause} = this.state;
+    return pause && keyCode !== 77;
+  }
+
   handleKeyDown = ({type, keyCode}) => {
     const {moveRight, moveLeft, rotateDetail} = this.props.actions;
-    const {pause} = this.state;
 
-    if (pause && keyCode !== 77) {
+    if (this.checkAppIsPaused(keyCode)) {
       return;
     };
 
@@ -114,37 +118,52 @@ class AppContainer extends Component {
     this.nextStep = Object.assign(this.nextStep, newNextStep);
   }
 
+  checkBlockShouldMove() {
+    const {value, moveDown} = this.nextStep;
+
+    return value === 2 && moveDown !== false;
+  }
+
   scanMoveDown = () => {
     const {world} = this.props;
-    const {value, moveDown, x, y} = this.nextStep;
+    const {x, y} = this.nextStep;
 
-    if (value === 2 && moveDown !== false) {
+    if (this.checkBlockShouldMove()) {
       this.updateNextStep({
         moveDown: checkAroundDetail({worldMap: world, x, y, fx: echo, fy: inc}),
       });
     }
   }
 
-  scanCompleteRow = () => {
+  checkBlockIsEmpty() {
     const {value} = this.nextStep;
+    return value !== 1;
+  }
 
-    if (value !== 1) {
+  scanCompleteRow = () => {
+    if (this.checkBlockIsEmpty()) {
       this.updateNextStep({completeRow: false});
     }
   }
 
-  scanGameOver = () => {
+  checkBlockIsOverlaped() {
     const {value, y} = this.nextStep;
+    return value === 1 && y < 4;
+  }
 
-    if (value === 1 && y < 4) {
+  scanGameOver = () => {
+    if (this.checkBlockIsOverlaped()) {
       this.updateNextStep({gameOver: true});
     }
   }
 
-  scanNextDetail = () => {
+  checkBlockIsPartOfNextDetail() {
     const {nextDetail, value} = this.nextStep;
+    return nextDetail && value === 2;
+  }
 
-    if (nextDetail && value === 2) {
+  scanNextDetail = () => {
+    if (this.checkBlockIsPartOfNextDetail()) {
       this.updateNextStep({nextDetail: false});
     }
   }
