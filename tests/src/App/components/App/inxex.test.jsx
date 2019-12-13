@@ -1,12 +1,10 @@
 import React from 'react';
 import {shallow} from 'enzyme';
-import App from './App';
-import Game from '../Game/Game';
-import {initialState} from '../../core/initialState';
-import localStorage from '../../__mocks__/localStorage';
-import formatStopwatch from '../../core/formatStopwatch';
+import App from '../../../../../src/App/components/App';
+import Game from '../../../../../src/components/Game/Game.jsx';
+import {initialState} from '../../../../../src/core/initialState';
+import formatStopwatch from '../../../../../src/core/formatStopwatch';
 
-Object.defineProperty(global, 'localStorage', {value: localStorage()});
 const state = initialState();
 
 test('<App />', () => expect(shallow(
@@ -17,5 +15,5 @@ test('<App />', () => expect(shallow(
       nextDetail={state.get('nextDetail')}
       stopwatch={formatStopwatch(state.get('stopwatch'))}
       pause={false}
-    />
+    />,
 ).contains(<Game world={state.get('world')} />)).toBe(true));

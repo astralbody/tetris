@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {List, Map} from 'immutable';
-import Game from '../Game/Game';
-import Panel from '../Panel/Panel';
-import {container, app} from './App.css';
+import Game from '../../../components/Game/Game';
+import Panel from '../../../components/Panel/Panel';
+import {container, app} from './index.css';
 
 const App = ({world, ...props}) => (
   <div className={container}>
