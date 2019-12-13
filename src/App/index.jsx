@@ -5,13 +5,13 @@ import {connect} from 'react-redux';
 import {Map, List} from 'immutable';
 import {hot} from 'react-hot-loader/root';
 
-import App from '../components/App/App';
+import App from './components/App';
 import * as tetrisActions from '../actions/index';
 
 import {getRandomDetails} from '../core/getRandomDetails';
 import {checkAroundDetail, inc, echo} from '../core/checkAroundDetail';
 import formatStopwatch from '../core/formatStopwatch';
-import getHiScore from '../core/getHiScore';
+import setHiScore from '../core/setHiScore';
 
 const mapStateToProps = (state) => ({
   world: state.get('world'),
@@ -46,24 +46,24 @@ class AppContainer extends Component {
     window.addEventListener('keyup', this.handleKeyUp);
   }
 
-  handleKeyUp = ({keyCode}) => {
-    const {lowSpeed} = this.props.actions;
+  handleKeyUp = ({type, keyCode}) => {
     const {pause} = this.state;
 
-    if (pause) return;
+    if (pause) {
+      return;
+    }
 
     switch (keyCode) {
       case 83:
       case 40:
-        lowSpeed();
-        this.handleUpdate();
+        this.moveDown(type);
         break;
       default:
         break;
     }
   }
 
-  handleKeyDown = ({keyCode}) => {
+  handleKeyDown = ({type, keyCode}) => {
     const {moveRight, moveLeft, rotateDetail} = this.props.actions;
     const {pause} = this.state;
 
@@ -92,7 +92,7 @@ class AppContainer extends Component {
         break;
       case 83:
       case 40:
-        this.moveDown();
+        this.moveDown(type);
         break;
       case 77:
         this.handlePause();
@@ -100,12 +100,6 @@ class AppContainer extends Component {
       default:
         break;
     }
-  }
-
-  moveDown = () => {
-    const {upSpeed} = this.props.actions;
-    upSpeed();
-    this.handleUpdate();
   }
 
   initNextStep = () => {
@@ -116,75 +110,117 @@ class AppContainer extends Component {
     };
   }
 
-  scanRow = (row, y) => {
-    const {world} = this.props;
-
-    row.get('blocks').forEach((block, x) => {
-      const value = block.get('value');
-
-      if (this.nextStep.nextDetail && value === 2) {
-        this.nextStep.nextDetail = false;
-      }
-      if (value === 1 && y < 4) {
-        this.nextStep.gameOver = true;
-      }
-      if (value !== 1) {
-        this.nextStep.completeRow = false;
-      }
-      if (value === 2 && this.nextStep.moveDown !== false) {
-        this.nextStep.moveDown = checkAroundDetail(world, x, y, echo, inc);
-      }
-    });
+  updateNextStep(newNextStep) {
+    this.nextStep = Object.assign(this.nextStep, newNextStep);
   }
 
-  scanWord = () => {
-    const {world, actions: {completeRow}} = this.props;
+  scanMoveDown = () => {
+    const {world} = this.props;
+    const {value, moveDown, x, y} = this.nextStep;
 
-    world.forEach((row, y) => {
-      this.nextStep.completeRow = true;
+    if (value === 2 && moveDown !== false) {
+      this.updateNextStep({
+        moveDown: checkAroundDetail({worldMap: world, x, y, fx: echo, fy: inc}),
+      });
+    }
+  }
 
-      this.scanRow(row, y);
+  scanCompleteRow = () => {
+    const {value} = this.nextStep;
 
-      if (this.nextStep.completeRow) {
-        completeRow(y);
-      };
+    if (value !== 1) {
+      this.updateNextStep({completeRow: false});
+    }
+  }
+
+  scanGameOver = () => {
+    const {value, y} = this.nextStep;
+
+    if (value === 1 && y < 4) {
+      this.updateNextStep({gameOver: true});
+    }
+  }
+
+  scanNextDetail = () => {
+    const {nextDetail, value} = this.nextStep;
+
+    if (nextDetail && value === 2) {
+      this.updateNextStep({nextDetail: false});
+    }
+  }
+
+  scanBlock = (block, x) => {
+    this.updateNextStep({
+      value: block.get('value'),
+      x,
     });
+
+    this.scanNextDetail();
+    this.scanGameOver();
+    this.scanCompleteRow();
+    this.scanMoveDown();
+  }
+
+  makeStepWhenRowScanned = () => {
+    const {completeRow} = this.props.actions;
+
+    if (this.nextStep.completeRow) {
+      completeRow(this.nextStep.y);
+    };
+  }
+
+  scanRow = (row, y) => {
+    this.updateNextStep({
+      y: y,
+      completeRow: true,
+    });
+
+    row.get('blocks').forEach(this.scanBlock);
+
+    this.makeStepWhenRowScanned();
   }
 
   transformDetail() {
     const {actions: {downBlock, transformBlock}} = this.props;
 
-    switch (this.nextStep.moveDown) {
-      case true:
-        downBlock();
-        break;
-      case false:
-        transformBlock({from: 2, to: 1});
-        break;
-      default:
-        break;
+    if (this.nextStep.moveDown) {
+      downBlock();
+    } else {
+      transformBlock({from: 2, to: 1});
     }
   }
 
-  makeStep() {
-    this.transformDetail();
+
+  addNextDetail = () => {
+    const {nextDetail} = this.props.actions;
 
     if (this.nextStep.nextDetail) {
-      this.addNextDetail();
+      nextDetail(getRandomDetails());
     };
+  }
+
+  makeStepWhenWordScanned() {
+    this.transformDetail();
+    this.addNextDetail();
+
     if (this.nextStep.gameOver) {
       this.handleOverGame();
     };
   }
 
-  addNextDetail = () => {
-    const {nextDetail} = this.props.actions;
-    nextDetail(getRandomDetails());
+  scanWord = () => {
+    const {world} = this.props;
+    this.initNextStep();
+
+    world.forEach(this.scanRow);
+
+    this.makeStepWhenWordScanned();
   }
+
 
   handleStartGame = () => {
     const {runStartGame} = this.props.actions;
-
+    this.initNextStep();
     this.handleOverGame();
     this.handleOnStopwatch();
     runStartGame();
@@ -201,12 +237,6 @@ class AppContainer extends Component {
     this.currentGame = null;
   }
 
-  tick = () => {
-    this.initNextStep();
-    this.scanWord();
-    this.makeStep();
-  }
-
   startGame = () => {
     const {speed} = this.props;
 
@@ -214,7 +244,7 @@ class AppContainer extends Component {
       return;
     }
 
-    this.currentGame = setInterval(this.tick, speed);
+    this.currentGame = setInterval(this.scanWord, speed);
   }
 
   startPause() {
@@ -260,16 +290,19 @@ class AppContainer extends Component {
     tickStopwatch();
   }
 
-  handleUpdate = (e) => {
+  moveDown = (eventType) => {
+    const {adjustMovementSpeed} = this.props.actions;
+
+    adjustMovementSpeed(eventType);
     this.stopGame();
     this.startGame();
   }
 
   handleOverGame = () => {
     const {score, actions: {runOverGame}, hiScore} = this.props;
-    if (score > hiScore) localStorage.setItem('hiScore', score);
 
-    runOverGame(getHiScore(localStorage.getItem('hiScore')));
+    setHiScore(score, hiScore);
+    runOverGame();
     this.handleOffStopwatch();
     this.stopGame();
   }

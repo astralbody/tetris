@@ -2,6 +2,9 @@ import getHiScore from '../getHiScore';
 
 /* eslint no-undef: 0 */
 test('getHiScore()', () => {
-  expect(getHiScore(undefined)).toBe(0);
-  expect(getHiScore('21312')).toBe(21312);
+  const key = 'hiScore';
+  global.localStorage.setItem(key, undefined);
+  expect(getHiScore()).toBe(0);
+  global.localStorage.setItem(key, '21312');
+  expect(getHiScore()).toBe(21312);
 });

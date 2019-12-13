@@ -14,6 +14,7 @@ import {
   TICK_STOPWATCH,
 } from '../constants/ActionTypes';
 import {MOVE_LEFT, MOVE_RIGHT} from '../constants/MoveSide';
+import getHiScore from '../core/getHiScore';
 
 export const transformBlock = (options) => ({
   type: TRANSFORM_BLOCK,
@@ -47,16 +48,20 @@ export const setDisplay = (filter) => ({
   filter,
 });
 
-export const runOverGame = (hiScore) => ({
+export const runOverGame = () => ({
   type: OVER_GAME,
-  hiScore,
+  hiScore: getHiScore(),
 });
 
 export const runStartGame = () => ({type: START_GAME});
 
-export const upSpeed = () => ({type: UP_SPEED});
-
-export const lowSpeed = () => ({type: LOW_SPEED});
+export const adjustMovementSpeed = (eventType) => {
+  if (eventType === 'keydown') {
+    return {type: UP_SPEED};
+  } else if (eventType === 'keyup') {
+    return {type: LOW_SPEED};
+  }
+};
 
 export const setStopwatch = (time) => ({
   type: SET_STOPWATCH,

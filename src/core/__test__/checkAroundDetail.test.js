@@ -26,8 +26,8 @@ describe('checkAroundDetail', () => {
         {blocks: [{value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}]},
       ],
     });
-    expect(checkAroundDetail(world.get('map'), 0, 3, echo, inc)).toBe(false);
-    expect(checkAroundDetail(world.get('map'), 1, 0, echo, inc)).toBe(false);
+    expect(checkAroundDetail({worldMap: world.get('map'), x: 0, y: 3, fx: echo, fy: inc})).toBe(false);
+    expect(checkAroundDetail({worldMap: world.get('map'), x: 1, y: 0, fx: echo, fy: inc})).toBe(false);
   });
 
   it('return true', () => {
@@ -38,6 +38,6 @@ describe('checkAroundDetail', () => {
         {blocks: [{value: 0}, {value: 0}, {value: 0}, {value: 0}, {value: 0}]},
       ],
     });
-    expect(checkAroundDetail(world.get('map'), 0, 0, echo, inc)).toBe(true);
+    expect(checkAroundDetail({worldMap: world.get('map'), x: 0, y: 0, fx: echo, fy: inc})).toBe(true);
   });
 });

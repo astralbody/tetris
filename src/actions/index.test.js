@@ -28,7 +28,7 @@ describe('actions', () => {
   it('downBlock should create DOWN_BLOCK', () =>
     expect(actions.downBlock()).toEqual({
       type: types.DOWN_BLOCK,
-    })
+    }),
   );
 
   it('moveDetail should create MOVE_DETAIL', () => {
@@ -54,6 +54,7 @@ describe('actions', () => {
   it('runGameOver should create OVER_GAME', () => {
     expect(actions.runOverGame()).toEqual({
       type: types.OVER_GAME,
+      hiScore: 0,
     });
   });
 

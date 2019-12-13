@@ -6,12 +6,12 @@ const decorCheckRun = (condition, onTrue) =>
 const hasFreeSpace = (fx, fy, rows) => rows.reduce((result, row, y) =>
   row.get('blocks').reduce(
       (_result, block, x) =>
-      _result !== false && block.get('value') === 2
-        ? checkAroundDetail(rows, x, y, fx, fy)
-        : _result,
-      result
+      _result !== false && block.get('value') === 2 ?
+        checkAroundDetail({worldMap: rows, x, y, fx, fy}) :
+        _result,
+      result,
   ),
-null
+null,
 );
 
 const hasLeftFreeSpace = hasFreeSpace.bind(null, dec, echo);
@@ -19,14 +19,14 @@ const hasRightFreeSpace = hasFreeSpace.bind(null, inc, echo);
 
 const move = (method, crement) => (rows) => rows[method]((newRows, row, y) =>
   row.get('blocks')[method]((_newRows, block, x) =>
-    block.get('value') === 2
-      ? _newRows
+    block.get('value') === 2 ?
+      _newRows
           .setIn([y, 'blocks', crement(x), 'value'], 2)
-          .setIn([y, 'blocks', x, 'value'], 0)
-      : _newRows,
-  newRows
+          .setIn([y, 'blocks', x, 'value'], 0) :
+      _newRows,
+  newRows,
   ),
-rows
+rows,
 );
 
 const moveRight = move('reduceRight', inc);
@@ -68,7 +68,7 @@ const getStateMoveDetail = (moveDetail, state) => {
 
   return state.set('world', nextState.nextMap).setIn(
       ['currentDetail', 'pointX'],
-      updateX(state.getIn(['currentDetail', 'pointX']), moveDetail)
+      updateX(state.getIn(['currentDetail', 'pointX']), moveDetail),
   );
 };
 
